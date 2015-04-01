@@ -1,0 +1,31 @@
+# Directories.
+auto-complete/
+auto-save-list/
+elpa/
+englishwords/
+eshell/
+roguel-ike-saves/
+semanticdb/
+server/
+timelog
+tutorial/
+url/
+
+# Compiled.
+*.elc
+
+# Backup.
+*.old
+
+# Temporary files.
+
+# Data.
+paradox-token.el
+ac-comphist.dat
+mthesaur.txt
+mthesaur.txt.cache
+my-wheatgrass-theme.elc
+network-security.data
+places
+recentf
+tramp

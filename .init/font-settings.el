@@ -23,6 +23,10 @@
 		    'symbol
 		    (font-spec :family "Symbola"))
 
+(set-fontset-font (frame-parameter nil 'font)
+		    '(#xe000 . #xfffe)
+		    (font-spec :family "STIX"))
+
 ;; (set-fontset-font (frame-parameter nil 'font)
 ;; 		  'ISO10646
 ;; 		  (font-spec :family "Symbola"))

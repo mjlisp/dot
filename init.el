@@ -147,7 +147,7 @@
     ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")))
  '(ps-print-header nil)
  '(ps-printer-name t)
- '(python-shell-interpreter "ipython2")
+ '(python-shell-interpreter "I:/Python27/Scripts/ipython.exe")
  '(python-shell-interpreter-args "-i")
  '(semantic-c-dependency-system-include-path
    (quote
@@ -157,7 +157,6 @@
     (global-semantic-decoration-mode global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode)))
  '(semantic-idle-work-update-headers-flag t)
  '(semantic-mode t)
- '(semantic-stickyfunc-indent-string " ")
  '(send-mail-function (quote smtpmail-send-it))
  '(server-window (quote switch-to-buffer-other-frame))
  '(sh-indentation 8)

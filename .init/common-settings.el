@@ -58,7 +58,6 @@
 
 (powerline-default-theme)
 
-
 (defun byte-compile-current-buffer ()
   "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
   (interactive)

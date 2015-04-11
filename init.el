@@ -30,9 +30,9 @@
     (name old-name general-category canonical-combining-class decomposition decimal-digit-value digit-value numeric-value mirrored iso-10646-comment uppercase lowercase titlecase)))
  '(disaster-cc "gcc")
  '(disaster-cflags
-   "-march=corei7-avx -Ofast -fomit-frame-pointer -funroll-loops -msse4.2 -mavx -std=c11")
+   "-march=corei7-avx -g3 -std=c11")
  '(disaster-cxxflags
-   "-march=corei7-avx -Ofast -fomit-frame-pointer -funroll-loops -msse4.2 -mavx -std=c++1y")
+   "-march=corei7-avx -g3 -std=c++1y")
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
  '(doc-view-ghostscript-program "gswin64c.exe")
@@ -53,7 +53,6 @@
  '(global-semantic-idle-scheduler-mode t)
  '(global-semantic-idle-summary-mode t)
  '(global-semantic-stickyfunc-mode nil)
- '(global-semanticdb-minor-mode t)
  '(gnuplot-process-name "pgnuplot")
  '(gnuplot-program "pgnuplot")
  '(gnutls-trustfiles (quote ("I:/msys64/usr/ssl/certs/ca-bundle.crt")))
@@ -157,6 +156,7 @@
     (global-semantic-decoration-mode global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode)))
  '(semantic-idle-work-update-headers-flag t)
  '(semantic-mode t)
+ '(semantic-stickyfunc-indent-string " ")
  '(send-mail-function (quote smtpmail-send-it))
  '(server-window (quote switch-to-buffer-other-frame))
  '(sh-indentation 8)
@@ -219,22 +219,22 @@
 (unless (daemonp)
   (server-start))
 
+;; 键绑定
+(load "~/.emacs.d/.init/my-key-bindings")
+
 ;; (profiler-start 'cpu)
 
 (package-initialize)
 
-(require 'cygwin-mount)
-(cygwin-mount-activate)
+(when (require 'cygwin-mount)
+  (cygwin-mount-activate))
 
-(require 'alpha)
-(transparency-set-value 85)
+(when (require 'alpha)
+  (transparency-set-value 85))
 
 (global-hl-line-mode)
 
 (prefer-coding-system 'utf-8-unix)
-
-;; 键绑定
-(load "~/.emacs.d/.init/my-key-bindings")
 
 ;; 一般的设置
 (load "~/.emacs.d/.init/common-settings")

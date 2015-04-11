@@ -30,9 +30,9 @@
 	     (define-key c-mode-base-map (kbd "<f9>")
 	       'gud-go)))
 
-(require 'disaster)
-(add-hook 'c-mode-common-hook
-	  '(lambda ()
-	     (define-key c-mode-base-map (kbd "C-c C-d")
-	       'disaster)))
+(when (require 'disaster)
+  (add-hook 'c-mode-common-hook
+	    '(lambda ()
+	       (define-key c-mode-base-map (kbd "C-c C-d")
+		 'disaster))))
  

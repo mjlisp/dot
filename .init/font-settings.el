@@ -3,7 +3,7 @@
 ;; 来自一个普雷斯顿网站上找到的网页的配置。。
 ;; Setting English Font
 (set-face-attribute
- 'default nil :font "Inconsolata 16") ;: height 130
+ 'default nil :font "Inconsolata 17") ;: height 130
 					  ;; DejaVu Sans
 					  ;; Inconsolata
 					  ;; Droid Sans Mono
@@ -23,7 +23,7 @@
 		    'symbol
 		    (font-spec :family "Symbola"))
 
-(set-fontset-font (frame-parameter nil 'font)
+(set-fontset-font t
 		    '(#xe000 . #xfffe)
 		    (font-spec :family "STIX"))
 

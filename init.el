@@ -29,10 +29,8 @@
    (quote
     (name old-name general-category canonical-combining-class decomposition decimal-digit-value digit-value numeric-value mirrored iso-10646-comment uppercase lowercase titlecase)))
  '(disaster-cc "gcc")
- '(disaster-cflags
-   "-march=corei7-avx -g3 -std=c11")
- '(disaster-cxxflags
-   "-march=corei7-avx -g3 -std=c++1y")
+ '(disaster-cflags "-march=corei7-avx -g3 -std=c11")
+ '(disaster-cxxflags "-march=corei7-avx -g3 -std=c++1y")
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
  '(doc-view-ghostscript-program "gswin64c.exe")
@@ -127,7 +125,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (srefactor async paradox powerline synonyms yaoddmuse yaml-mode weblogger vlf smart-compile rich-minority readline-complete rainbow-mode php-mode pandoc-mode outline-magic org2blog org-ac nlinum mew markdown-mode+ magit loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode ess dot-mode disaster dired-k dired+ cygwin-mount csv-mode company bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (srefactor powerline synonyms yaoddmuse yaml-mode weblogger vlf smart-compile rich-minority readline-complete rainbow-mode php-mode pandoc-mode outline-magic org2blog org-ac nlinum mew markdown-mode+ magit loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode ess dot-mode disaster dired-k dired+ cygwin-mount csv-mode company bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(paradox-automatically-star t)
  '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)

@@ -74,6 +74,7 @@
  '(linum-delay t)
  '(linum-eager nil)
  '(list-directory-verbose-switches "-l")
+ '(magit-last-seen-setup-instructions "1.4.0")
  '(magit-repo-dirs (quote ("~/repo")))
  '(make-backup-files nil)
  '(message-log-max 5000)

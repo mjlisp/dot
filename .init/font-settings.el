@@ -1,6 +1,5 @@
 ;; Font Settings
 
-;; 来自一个普雷斯顿网站上找到的网页的配置。。
 ;; Setting English Font
 (set-face-attribute
  'default nil :font "Inconsolata 17") ;: height 130
@@ -19,13 +18,20 @@
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
 
-(set-fontset-font t ;; (frame-parameter nil 'font)
-		    'symbol
-		    (font-spec :family "Symbola"))
+(set-fontset-font t 'unicode "Symbola" nil 'append)
+(set-fontset-font t 'unicode "Segoe UI Emoji" nil 'append)
+(set-fontset-font t 'unicode "STIX" nil 'append)
 
-(set-fontset-font t
-		    '(#xe000 . #xfffe)
-		    (font-spec :family "STIX"))
+;; (set-fontset-font t ;; (frame-parameter nil 'font)
+;; 		    'symbol
+;; 		    (font-spec :family "Symbola"))
+
+
+;; (set-fontset-font t 'unicode "Symbola" nil 'prepend)
+
+;; (set-fontset-font t
+;; 		    '(#x0300 . #x0306)
+;; 		    (font-spec :family "STIX"))
 
 ;; (set-fontset-font (frame-parameter nil 'font)
 ;; 		  'ISO10646
@@ -35,7 +41,6 @@
 ;; 		    '(#x1d4b6 . #x1d537)
 ;; 		    (font-spec :family "Symbola"))
 
-;; (set-fontset-font t 'unicode "Symbola" nil 'prepend)
 
 
 ;; (set-fontset-font (frame-parameter nil 'font)

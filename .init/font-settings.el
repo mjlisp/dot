@@ -8,19 +8,22 @@
 					  ;; Droid Sans Mono
 					  ;; Source Code Pro
 
+(set-fontset-font t 'symbol "Inconsolata" nil 'prepend)
+
+(set-fontset-font t 'symbol "Symbola" nil 'append)
+;; (set-fontset-font t 'unicode "Segoe UI Emoji" nil 'append)
+(set-fontset-font t 'unicode "STIX" nil 'append)
+
 ;; Chinese Font
-;symbol kana bopomofo cjk-misc gb18030 chinese-gbk
-(dolist (charset '(han gb18030 chinese-gbk bopomofo cjk-misc gb18030))
+; gb18030 chinese-gbk bopomofo cjk-misc symbol
+(dolist (charset '(han gb18030 chinese-gbk bopomofo cjk-misc))
   (set-fontset-font t ;; (frame-parameter nil 'font)
 		    charset
-		    (font-spec :family "冬青黑体简体中文 W3")))
+		    (font-spec :family "冬青黑体简体中文 W3") nil 'append))
+					; 微软雅黑
 					; 冬青黑体简体中文 W3
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
-
-(set-fontset-font t 'unicode "Symbola" nil 'append)
-(set-fontset-font t 'unicode "Segoe UI Emoji" nil 'append)
-(set-fontset-font t 'unicode "STIX" nil 'append)
 
 ;; (set-fontset-font t ;; (frame-parameter nil 'font)
 ;; 		    'symbol

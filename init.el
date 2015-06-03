@@ -20,6 +20,7 @@
  '(c-echo-syntactic-information-p t)
  '(calculator-2s-complement t)
  '(calculator-number-digits 16)
+ '(column-number-mode t)
  '(compile-command "gcc -Wall -Ofast -mavx ")
  '(custom-safe-themes
    (quote
@@ -33,6 +34,7 @@
  '(disaster-cxxflags "-march=corei7-avx -g3 -std=c++1y")
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
+ '(display-time-mode t)
  '(doc-view-ghostscript-program "gswin64c.exe")
  '(electric-pair-mode t)
  '(ess-directory-containing-R "E:")
@@ -68,15 +70,18 @@
     (("en_US-large" "[[:alpha:]]" "[^[:alpha:]]" "[']" t
       ("-d" "en_US-large")
       nil utf-8))))
+ '(js-indent-level 2)
  '(js2-basic-offset 8)
  '(js3-indent-level 8)
  '(js3-indent-tabs-mode t)
  '(linum-delay t)
  '(linum-eager nil)
  '(list-directory-verbose-switches "-l")
- '(magit-last-seen-setup-instructions "1.4.0")
+ '(magit-last-seen-setup-instructions "1.4.0" t)
  '(magit-repo-dirs (quote ("~/repo")))
  '(make-backup-files nil)
+ '(markdown-enable-math t)
+ '(markdown-link-space-sub-char "-")
  '(message-log-max 5000)
  '(minibuffer-prompt-properties
    (quote
@@ -126,7 +131,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (srefactor powerline synonyms yaoddmuse yaml-mode weblogger vlf smart-compile rich-minority readline-complete rainbow-mode php-mode pandoc-mode outline-magic org2blog org-ac nlinum mew markdown-mode+ magit loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode ess dot-mode disaster dired-k dired+ cygwin-mount csv-mode company bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (magit w32-browser srefactor synonyms yaoddmuse yaml-mode weblogger vlf smart-compile rich-minority readline-complete rainbow-mode outline-magic org2blog org-ac nlinum mew loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(paradox-automatically-star t)
  '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)
@@ -160,6 +165,7 @@
  '(server-window (quote switch-to-buffer-other-frame))
  '(sh-indentation 8)
  '(show-paren-mode t)
+ '(size-indication-mode t)
  '(smart-compile-alist
    (quote
     ((emacs-lisp-mode emacs-lisp-byte-compile)

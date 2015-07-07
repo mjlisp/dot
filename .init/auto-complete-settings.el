@@ -22,10 +22,7 @@
 (defun ac-english-candidates ()
   (apply 'append
 	 (mapcar 'ac-file-dictionary '("~/.emacs.d/englishwords/web2"
-					    "~/.emacs.d/englishwords/dict")
-		 )
-	 )
-  )
+					    "~/.emacs.d/englishwords/dict"))))
 
 (ac-define-source english-words
   '((candidates . ac-english-candidates)

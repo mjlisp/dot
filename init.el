@@ -18,8 +18,6 @@
  '(bidi-display-reordering nil t)
  '(bidi-paragraph-direction (quote left-to-right))
  '(c-echo-syntactic-information-p t)
- '(calculator-2s-complement t)
- '(calculator-number-digits 16)
  '(column-number-mode t)
  '(compile-command "gcc -Wall -Ofast -mavx ")
  '(custom-safe-themes
@@ -48,11 +46,13 @@
  '(global-prettify-symbols-mode t)
  '(global-semantic-decoration-mode t)
  '(global-semantic-highlight-func-mode t)
- '(global-semantic-idle-completions-mode nil nil (semantic/idle))
+ '(global-semantic-idle-completions-mode t nil (semantic/idle))
  '(global-semantic-idle-local-symbol-highlight-mode t nil (semantic/idle))
  '(global-semantic-idle-scheduler-mode t)
  '(global-semantic-idle-summary-mode t)
+ '(global-semantic-show-parser-state-mode t)
  '(global-semantic-stickyfunc-mode nil)
+ '(global-semanticdb-minor-mode t)
  '(gnuplot-process-name "pgnuplot")
  '(gnuplot-program "pgnuplot")
  '(gnutls-trustfiles (quote ("I:/msys64/usr/ssl/certs/ca-bundle.crt")))
@@ -131,7 +131,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (magit w32-browser srefactor synonyms yaoddmuse yaml-mode weblogger vlf smart-compile rich-minority readline-complete rainbow-mode outline-magic org2blog org-ac nlinum mew loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile rich-minority readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(paradox-automatically-star t)
  '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)
@@ -154,13 +154,18 @@
  '(python-shell-interpreter-args "-i")
  '(semantic-c-dependency-system-include-path
    (quote
-    ("/usr/include" "/mingw64/x86_64-w64-mingw32/include" "/mingw64/include")))
+    ("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include")))
+ '(semantic-decoration-styles
+   (quote
+    (("semantic-decoration-on-includes" . t)
+     ("semantic-decoration-on-protected-members")
+     ("semantic-decoration-on-private-members")
+     ("semantic-tag-boundary" . t))))
  '(semantic-default-submodes
    (quote
     (global-semantic-decoration-mode global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode)))
  '(semantic-idle-work-update-headers-flag t)
  '(semantic-mode t)
- '(semantic-stickyfunc-indent-string " ")
  '(send-mail-function (quote smtpmail-send-it))
  '(server-window (quote switch-to-buffer-other-frame))
  '(sh-indentation 8)
@@ -183,6 +188,7 @@
      ("\\.cron\\(tab\\)?\\'" . "crontab %f")
      ("\\.tex\\'" tex-file)
      ("\\.texi\\'" . "makeinfo %f")
+     ("\\.\\(md\\|markdown\\)\\'" . "pandoc %f -f markdown -o %n.docx")
      ("\\.mp\\'" . "mptopdf %f")
      ("\\.pl\\'" . "perl -cw %f")
      ("\\.rb\\'" . "ruby -cw %f"))))

@@ -121,7 +121,7 @@
 (global-set-key (kbd "H-o")
 		(quote run-octave))
 (global-set-key (kbd "H-q")
-		(quote quick-calc))
+		(quote calculator))
 
 (if (string-equal system-type "windows-nt")
     (setq w32-pass-lwindow-to-system nil

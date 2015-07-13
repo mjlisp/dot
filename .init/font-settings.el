@@ -24,7 +24,7 @@
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
 
-(set-fontset-font t 'symbol "Symbola" nil 'append)
+(set-fontset-font t 'unicode "Symbola" nil 'append)
 (set-fontset-font t '(#xE000 . #xF8FF) "STIX")
 (set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol")
 

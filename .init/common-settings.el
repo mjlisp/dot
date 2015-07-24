@@ -37,11 +37,10 @@
 (add-hook 'org-mode-hook
 	  (lambda ()(setq truncate-lines nil)))
 
-(if (string-equal system-type "windows-nt")
+(when (string-equal system-type "windows-nt")
   (require 'tex-site)
   (require 'tex-mik)
-  (require 'texmathp)
-  )
+  (require 'texmathp))
 
 (mapc (lambda (mode)
 	(add-hook 'LaTeX-mode-hook mode))

@@ -237,7 +237,8 @@
 
 (package-initialize)
 
-(when (require 'cygwin-mount)
+(when (and (string-equal system-type "windows-nt")
+	   (require 'cygwin-mount))
   (cygwin-mount-activate))
 
 (when (require 'alpha)

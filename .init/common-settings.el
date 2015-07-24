@@ -52,6 +52,9 @@
 (when (fboundp 'powerline-default-theme)
   (powerline-default-theme))
 
+(add-hook 'dired-load-hook
+	  (lambda () (require 'dired+)))
+
 (windmove-default-keybindings)
 
 (add-hook 'after-make-frame-functions

@@ -80,11 +80,8 @@
 (load-file "~/.emacs.d/SHELX-mode.el")
 
 (require 'SHELX-mode)
-(if (fboundp 'SHELX-mode)
-    (progn
-     (add-to-list 'auto-mode-alist '("\\.ins\\'" . SHELX-mode))
-     (add-to-list 'auto-mode-alist '("\\.res\\'" . SHELX-mode))
-     ))
+(add-to-list 'auto-mode-alist '("\\.ins\\'" . SHELX-mode))
+(add-to-list 'auto-mode-alist '("\\.res\\'" . SHELX-mode))
 
 (defun hexo-deploy (dir)
   "Deploy hexo site.

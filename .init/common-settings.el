@@ -106,6 +106,8 @@
   '(require 'ac-R)
   )
 
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 ;; hide horizontal bar
 
 ;; (when (fboundp 'horizontal-scroll-bar-mode)

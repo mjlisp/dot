@@ -189,11 +189,11 @@
 			    'js-load-file-and-go)
 	     ))
 
-(add-hook 'markdown-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "M-RET")
-			    'markdown-insert-header-dwim)
-	     ))
+;; (add-hook 'markdown-mode-hook
+;; 	  '(lambda ()
+;; 	     (local-set-key (kbd "M-RET")
+;; 			    'markdown-insert-header-dwim)
+;; 	     ))
 
 ; vi `.' command emulation
 (autoload 'dot-mode "dot-mode" nil t) 

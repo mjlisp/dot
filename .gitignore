@@ -1,8 +1,6 @@
 # Directories.
 auto-complete/
 auto-save-list/
-elpa/
-englishwords/
 eshell/
 roguel-ike-saves/
 semanticdb/
@@ -22,9 +20,6 @@ url/
 # Data.
 paradox-token.el
 ac-comphist.dat
-mthesaur.txt
-mthesaur.txt.cache
-my-wheatgrass-theme.elc
 network-security.data
 places
 recentf

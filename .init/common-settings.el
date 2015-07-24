@@ -37,40 +37,20 @@
 (add-hook 'org-mode-hook
 	  (lambda ()(setq truncate-lines nil)))
 
-(when (string-equal system-type "windows-nt")
-  (require 'tex-site)
-  (require 'tex-mik)
-  (require 'texmathp))
-
 (mapc (lambda (mode)
 	(add-hook 'LaTeX-mode-hook mode))
       (list 'auto-fill-mode
 	    'LaTeX-math-mode
 	    ;; 'turn-on-reftex
-	    )
-      )
+	    ))
 
 ;; use ibuffer
 (defalias 'list-buffers 'ibuffer)
 
 (defalias 'dabbrev-expand 'hippie-expand)
 
-(powerline-default-theme)
-
-(defun byte-compile-current-buffer ()
-  "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
-  (interactive)
-  (when (and (eq major-mode 'emacs-lisp-mode)
-	     (file-exists-p (byte-compile-dest-file buffer-file-name)))
-    (byte-compile-file buffer-file-name))
-  )
-
-(add-hook 'after-save-hook 'byte-compile-current-buffer)
-
-(add-hook 'dired-load-hook
-	  (lambda ()
-	    (require 'dired+)
-	    ))
+(when (fboundp 'powerline-default-theme)
+  (powerline-default-theme))
 
 (windmove-default-keybindings)
 
@@ -80,22 +60,7 @@
 	      (setq fullscreen (list (assq 'fullscreen (frame-parameters))))
 	      (select-frame new-frame)
 	      (modify-frame-parameters (selected-frame) fullscreen)
-	      (transparency-set-value 85)
-	      )
-	    )
-	  )
-
-(if (string-equal
-     system-type "windows-nt")
-    (mapc (lambda (mode-hook)
-	    (add-hook mode-hook
-		      '(lambda ()
-			 (set-buffer-process-coding-system
-			  'utf-8-unix 'utf-8-unix)
-			 )
-		      )
-	    )
-	  '(inferior-js-mode-hook)))
+	      (transparency-set-value 85))))
 
 ;; For Mew.
 (autoload 'mew "mew" nil t)
@@ -105,9 +70,10 @@
   '(require 'ac-R)
   )
 
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(when (fboundp 'rainbow-delimiters-mode)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-;; hide horizontal bar
-
-;; (when (fboundp 'horizontal-scroll-bar-mode)
-;;   (horizontal-scroll-bar-mode -1))
+(when (and (require 'auto-compile)
+	   (featurep 'auto-compile))
+  (auto-compile-on-load-mode 1)
+  (auto-compile-on-save-mode 1))

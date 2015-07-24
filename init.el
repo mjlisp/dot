@@ -6,9 +6,9 @@
  '(TeX-DVI-via-PDFTeX t)
  '(TeX-PDF-mode t)
  '(TeX-engine (quote xetex))
- '(TeX-print-command "start \"\" %f")
+ '(TeX-print-command "start \"\" %f" t)
  '(TeX-queue-command nil)
- '(TeX-shell "bash")
+ '(TeX-shell "bash" t)
  '(ac-auto-show-menu 0.1)
  '(ac-auto-start t)
  '(auto-save-file-name-transforms
@@ -33,9 +33,9 @@
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
  '(display-time-mode t)
- '(doc-view-ghostscript-program "gswin64c.exe")
+ '(doc-view-ghostscript-program "gswin64c.exe" t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:")
+ '(ess-directory-containing-R "E:" t)
  '(ess-eval-visibly (quote nowait))
  '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
  '(explicit-shell-file-name "bash")
@@ -77,6 +77,7 @@
  '(linum-delay t)
  '(linum-eager nil)
  '(list-directory-verbose-switches "-l")
+ '(load-prefer-newer t)
  '(magit-last-seen-setup-instructions "1.4.0" t)
  '(magit-repo-dirs (quote ("~/repo")))
  '(make-backup-files nil)
@@ -131,30 +132,30 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(paradox-automatically-star t)
  '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
  '(preview-fast-conversion nil)
- '(preview-gs-command "GSWIN64C.EXE")
+ '(preview-gs-command "GSWIN64C.EXE" t)
  '(preview-gs-options
    (quote
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
  '(preview-scale-function (quote preview-scale-from-face))
  '(ps-font-size (quote (9 . 10.5)))
- '(ps-lpr-command "gswin64c.exe")
+ '(ps-lpr-command "gswin64c.exe" t)
  '(ps-lpr-switches
    (quote
     ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")))
  '(ps-print-header nil)
  '(ps-printer-name t)
- '(python-shell-interpreter "I:/Python27/Scripts/ipython.exe")
+ '(python-shell-interpreter "I:/Python27/Scripts/ipython.exe" t)
  '(python-shell-interpreter-args "-i")
  '(semantic-c-dependency-system-include-path
    (quote
-    ("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include")))
+    ("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include")) t)
  '(semantic-decoration-styles
    (quote
     (("semantic-decoration-on-includes" . t)
@@ -204,7 +205,7 @@
  '(tooltip-delay 1.5)
  '(tooltip-hide-delay 60)
  '(tooltip-short-delay 0.7)
- '(tramp-auto-save-directory "Z:\\TEMP\\")
+ '(tramp-auto-save-directory "Z:\\TEMP\\" t)
  '(tramp-default-method "sshx")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(visible-bell t)
@@ -225,7 +226,7 @@
      ("/usr/games" . "/usr/share/man")
      ("/opt/bin" . "/opt/man")
      ("/opt/sbin" . "/opt/man")
-     "I:/msys64/mingw64/share/man"))))
+     "I:/msys64/mingw64/share/man")) t))
 
 (unless (daemonp)
   (server-start))
@@ -237,11 +238,10 @@
 
 (package-initialize)
 
-(when (and (string-equal system-type "windows-nt")
-	   (require 'cygwin-mount))
-  (cygwin-mount-activate))
+(when (string-equal system-type "windows-nt")
+  (load "~/.emacs.d/.init/common-win"))
 
-(when (require 'alpha)
+(when (and (require 'alpha) (featurep 'alpha))
   (transparency-set-value 85))
 
 (global-hl-line-mode)
@@ -283,4 +283,4 @@
 ;; test
 (load "~/.emacs.d/.init/test")
 
-(load "~/.emacs.d/paradox-token.el")
+;; (load "~/.emacs.d/paradox-token.el")

@@ -1,5 +1,5 @@
-(when (featurep 'cygwin-mount)
-  (require 'cygwin-mount)
+(when (and (require 'cygwin-mount)
+	   (featurep 'cygwin-mount))
   (cygwin-mount-activate))
 
 (setq TeX-print-command "start \"\" %f")
@@ -47,3 +47,11 @@
 		     (set-buffer-process-coding-system
 		      'utf-8-unix 'utf-8-unix))))
       '(inferior-js-mode-hook))
+
+(defun ss ()
+  (interactive)
+  (unless (process-status "ShadowSocks")
+    ;; (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "ss-local" "-u" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
+    (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "i:/msys64/mingw64/lib/node_modules/shadowsocks/bin/sslocal" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
+    ))
+(ss)

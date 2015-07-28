@@ -418,7 +418,7 @@ range.  Otherwise, it can be any revision or range accepted by
 (defun magit-renamed-files (revA revB)
   (--map (cons (nth 1 it) (nth 2 it))
          (-partition 3 (magit-git-items
-                        "diff-tree" "--diff-filter=R" "-z" "-M"
+                        "diff-tree" "-r" "--diff-filter=R" "-z" "-M"
                         revA revB))))
 
 (defun magit-file-status (&rest args)
@@ -1013,7 +1013,7 @@ Return a list of two integers: (A>B B>A)."
   (let ((remotes (magit-list-remotes)))
     (if (and use-only (= (length remotes) 1))
         (car remotes)
-      (magit-completing-read prompt (magit-list-remotes)
+      (magit-completing-read prompt remotes
                              nil t nil nil
                              (or default
                                  (magit-remote-at-point)

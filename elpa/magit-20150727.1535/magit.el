@@ -911,8 +911,8 @@ reference, but it is not checked out."
            (eq magit-refs-show-commit-count 'all)
          magit-refs-show-commit-count)
        (let ((count (cadr (magit-rev-diff-count head ref))))
-	 (and (> count 0)
-	      (propertize (number-to-string count) 'face 'magit-dimmed)))))
+         (and (> count 0)
+              (propertize (number-to-string count) 'face 'magit-dimmed)))))
 
 (defun magit-refs-format-margin (commit)
   (save-excursion
@@ -1868,8 +1868,7 @@ With a prefix argument fetch all remotes."
              (?S "Stage all"       magit-stage-modified)
              (?t "Tagging"         magit-tag-popup)
              (?U "Reset Index"     magit-reset-index)
-             (?v "Show Commit"     magit-show-commit)
-             (?V "Show File"       magit-find-file)
+             (?V "Reverting"       magit-revert-popup)
              (?y "Show Refs"       magit-show-refs-popup)
              (?Y "Cherry"          magit-cherry)
              (?z "Stashing"        magit-stash-popup)

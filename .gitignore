@@ -9,6 +9,8 @@ timelog
 tutorial/
 url/
 elpa/archives/
+elpa/gnupg/
+
 
 # Compiled.
 *.elc
@@ -17,6 +19,7 @@ elpa/archives/
 *.old
 
 # Temporary files.
+*~
 
 # Data.
 paradox-token.el

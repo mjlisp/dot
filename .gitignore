@@ -8,6 +8,7 @@ server/
 timelog
 tutorial/
 url/
+elpa/archives/
 
 # Compiled.
 *.elc

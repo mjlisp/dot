@@ -6,7 +6,7 @@
 ;; (semantic-add-system-include "c:/msys64/mingw64/include" 'c-mode)
 
 (when (string-equal system-type "windows-nt")
-  (semantic-add-system-include "/mingw64/include/c++/4.9.2" 'c++-mode)
+  (semantic-add-system-include "/mingw64/include/c++/5.2.0/" 'c++-mode)
   (semantic-add-system-include "/mingw64/include" 'c++-mode))
 
 (semantic-mode 1)

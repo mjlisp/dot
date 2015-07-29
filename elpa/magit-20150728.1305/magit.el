@@ -1843,37 +1843,95 @@ With a prefix argument fetch all remotes."
   (magit-with-toplevel
     (magit-run-git-async "submodule" "deinit" path)))
 
+;;;; File-buffer Mode
+
+(defvar magit-file-buffer-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "\C-xg"    'magit-status)
+    (define-key map "\C-x\M-g" 'magit-dispatch-popup)
+    (define-key map "\C-c\M-g" 'magit-file-buffer-popup)
+    map)
+  "Keymap for `magit-file-buffer-mode'.")
+
+(magit-define-popup magit-file-buffer-popup
+  "Popup consule for Magit commands in file-visiting buffers."
+  :actions '((?s "Stage"   magit-stage-file)
+             (?l "Log"     magit-log-buffer-file)
+             (?c "Commit"  magit-commit-popup)
+             (?u "Unstage" magit-unstage-file)
+             (?b "Blame"   magit-blame-popup))
+  :max-action-columns 3)
+
+(defvar magit-file-buffer-mode-lighter "")
+
+(define-minor-mode magit-file-buffer-mode
+  "Enable some Magit features in file-visiting buffers.
+
+Currently this only adds the following key bindings.
+\n\\{magit-file-buffer-mode-map}"
+  :package-version '(magit . "2.2.0")
+  :lighter magit-file-buffer-mode-lighter
+  :keymap  magit-file-buffer-mode-map)
+
+(defun magit-file-buffer-mode-turn-on ()
+  (and buffer-file-name
+       (ignore-errors (magit-inside-worktree-p))
+       (magit-file-buffer-mode)))
+
+;;;###autoload
+(define-globalized-minor-mode global-magit-file-buffer-mode
+  magit-file-buffer-mode magit-file-buffer-mode-turn-on
+  :package-version '(magit . "2.2.0")
+  :group 'magit)
+
 ;;;; Dispatch Popup
 
 ;;;###autoload (autoload 'magit-dispatch-popup "magit" nil t)
 (magit-define-popup magit-dispatch-popup
   "Popup console for dispatching other popups."
   'magit-commands nil nil
-  :actions '((?b "Branching"       magit-branch-popup)
+  :actions '("Popup and dwim commands"
+             (?A "Cherry-picking"  magit-cherry-pick-popup)
+             (?b "Branching"       magit-branch-popup)
              (?B "Bisecting"       magit-bisect-popup)
              (?c "Committing"      magit-commit-popup)
              (?d "Diffing"         magit-diff-popup)
+             (?D "Change diffs"    magit-diff-refresh-popup)
+             (?e "Ediff dwimming"  magit-ediff-dwim)
+             (?E "Ediffing"        magit-ediff-popup)
              (?f "Fetching"        magit-fetch-popup)
              (?F "Pulling"         magit-pull-popup)
-             (?g "Refresh Buffers" magit-refresh-all)
              (?l "Logging"         magit-log-popup)
              (?m "Merging"         magit-merge-popup)
              (?M "Remoting"        magit-remote-popup)
+             (?o "Submodules"      magit-submodule-popup)
              (?P "Pushing"         magit-push-popup)
-             (?o "Submoduling"     magit-submodule-popup)
              (?r "Rebasing"        magit-rebase-popup)
+             (?t "Tagging"         magit-tag-popup)
+             (?T "Notes"           magit-notes-popup)
+             (?V "Reverting"       magit-revert-popup)
              (?w "Apply patches"   magit-am-popup)
              (?W "Format patches"  magit-patch-popup)
-             (?s "Show Status"     magit-status)
-             (?S "Stage all"       magit-stage-modified)
-             (?t "Tagging"         magit-tag-popup)
-             (?U "Reset Index"     magit-reset-index)
-             (?V "Reverting"       magit-revert-popup)
              (?y "Show Refs"       magit-show-refs-popup)
-             (?Y "Cherry"          magit-cherry)
              (?z "Stashing"        magit-stash-popup)
              (?! "Running"         magit-run-popup)
-             (?$ "Show Process"    magit-process)))
+             "Applying changes"
+             (?a "Apply"           magit-apply)
+             (?s "Stage"           magit-stage)
+             (?u "Unstage"         magit-unstage)
+             nil
+             (?v "Reverse"         magit-reverse)
+             (?S "Stage all"       magit-stage-modified)
+             (?U "Unstage all"     magit-unstage-all)
+             nil
+             (?k "Discard"         magit-discard)
+             "\
+ g      refresh current buffer
+ TAB    toggle section at point
+ RET    visit thing at point
+
+ C-h m  show all key bindings" nil)
+  :max-action-columns 4)
 
 ;;;; Git Popup
 
@@ -1919,7 +1977,7 @@ Run Git in the top-level directory of the current repository.
   (let ((dir (if (or root current-prefix-arg)
                  (or (magit-toplevel)
                      (user-error "Not inside a Git repository"))
-               default-directory)))
+               (expand-file-name default-directory))))
     (list (magit-read-string (format "Git subcommand (in %s)"
                                      (abbreviate-file-name dir))
                              nil 'magit-git-command-history)

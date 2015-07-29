@@ -132,7 +132,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (ssh-agency auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(paradox-automatically-star t)
  '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)
@@ -205,7 +205,7 @@
  '(tooltip-delay 1.5)
  '(tooltip-hide-delay 60)
  '(tooltip-short-delay 0.7)
- '(tramp-auto-save-directory "Z:\\TEMP\\" t)
+ '(tramp-auto-save-directory "Z:\\TEMP\\")
  '(tramp-default-method "sshx")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(visible-bell t)

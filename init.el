@@ -6,15 +6,10 @@
  '(TeX-DVI-via-PDFTeX t)
  '(TeX-PDF-mode t)
  '(TeX-engine (quote xetex))
- '(TeX-print-command "start \"\" %f" t)
  '(TeX-queue-command nil)
  '(TeX-shell "bash" t)
  '(ac-auto-show-menu 0.1)
  '(ac-auto-start t)
- '(auto-save-file-name-transforms
-   (quote
-    (("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'" "z:/TEMP/\\2" t)
-     ("/[^/]*:\\([^/]*/\\)*\\([^/]*\\)" "z:/TEMP/\\2" t))))
  '(bidi-display-reordering nil t)
  '(bidi-paragraph-direction (quote left-to-right))
  '(c-echo-syntactic-information-p t)
@@ -33,12 +28,9 @@
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
  '(display-time-mode t)
- '(doc-view-ghostscript-program "gswin64c.exe" t)
  '(electric-pair-mode t)
  '(ess-directory-containing-R "E:" t)
  '(ess-eval-visibly (quote nowait))
- '(explicit-bash-args (quote ("--noediting" "--login" "-i")))
- '(explicit-shell-file-name "bash")
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -55,7 +47,6 @@
  '(global-semanticdb-minor-mode t)
  '(gnuplot-process-name "pgnuplot")
  '(gnuplot-program "pgnuplot")
- '(gnutls-trustfiles (quote ("I:/msys64/usr/ssl/certs/ca-bundle.crt")))
  '(google-translate-default-source-language "en")
  '(google-translate-default-target-language "zh-CN")
  '(gud-tooltip-mode t)
@@ -97,32 +88,32 @@
  '(org-footnote-tag-for-non-org-mode-files nil)
  '(org-html-doctype "html5")
  '(org-support-shift-select t)
- '(org2blog/wp-blog-alist
-   (quote
-    (("sf.net" :url "http://all-things-zklhp.sourceforge.net/xmlrpc.php" :username "admin" :keep-new-lines t :confirm t :wp-code nil :tags-as-categories nil))))
- '(org2blog/wp-buffer-format-function (quote org2blog/wp-my-format-buffer))
- '(org2blog/wp-buffer-template
-   "#+DATE: %s
-#+OPTIONS: toc:nil H:0 num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil @:t
-#+TAGS: 
-#+PERMALINK: 
-#+TITLE: 
-#+CATEGORY: 
+;;  '(org2blog/wp-blog-alist
+;;    (quote
+;;     (("sf.net" :url "http://all-things-zklhp.sourceforge.net/xmlrpc.php" :username "admin" :keep-new-lines t :confirm t :wp-code nil :tags-as-categories nil))))
+;;  '(org2blog/wp-buffer-format-function (quote org2blog/wp-my-format-buffer))
+;;  '(org2blog/wp-buffer-template
+;;    "#+DATE: %s
+;; #+OPTIONS: toc:nil H:0 num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil @:t
+;; #+TAGS: 
+;; #+PERMALINK: 
+;; #+TITLE: 
+;; #+CATEGORY: 
 
-#+BEGIN_SRC text
- ;; **************************************************************************************************************
- ;; Author: zklhp
- ;; Email: zklhp@sina.com
- ;; QQ: 493165744
- ;; Last Update: %s
- ;; Licensed under CC BY-SA 3.0
- ;; **************************************************************************************************************
-#+END_SRC
+;; #+BEGIN_SRC text
+;;  ;; **************************************************************************************************************
+;;  ;; Author: zklhp
+;;  ;; Email: zklhp@sina.com
+;;  ;; QQ: 493165744
+;;  ;; Last Update: %s
+;;  ;; Licensed under CC BY-SA 3.0
+;;  ;; **************************************************************************************************************
+;; #+END_SRC
 
-#+HTML: <!--more-->
-")
- '(org2blog/wp-show-post-in-browser nil)
- '(org2blog/wp-use-sourcecode-shortcode t)
+;; #+HTML: <!--more-->
+;; ")
+;;  '(org2blog/wp-show-post-in-browser nil)
+;;  '(org2blog/wp-use-sourcecode-shortcode t)
  '(overline-margin 0)
  '(package-archives
    (quote
@@ -139,7 +130,6 @@
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
  '(preview-fast-conversion nil)
- '(preview-gs-command "GSWIN64C.EXE" t)
  '(preview-gs-options
    (quote
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
@@ -151,11 +141,6 @@
     ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")))
  '(ps-print-header nil)
  '(ps-printer-name t)
- '(python-shell-interpreter "I:/Python27/Scripts/ipython.exe" t)
- '(python-shell-interpreter-args "-i")
- '(semantic-c-dependency-system-include-path
-   (quote
-    ("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include")) t)
  '(semantic-decoration-styles
    (quote
     (("semantic-decoration-on-includes" . t)
@@ -205,28 +190,11 @@
  '(tooltip-delay 1.5)
  '(tooltip-hide-delay 60)
  '(tooltip-short-delay 0.7)
- '(tramp-auto-save-directory "Z:\\TEMP\\")
  '(tramp-default-method "sshx")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(visible-bell t)
  '(vlfi-batch-size 1048576)
- '(woman-manpath
-   (quote
-    ("I:/msys64/usr/man" "I:/msys64/usr/share/man" "I:/msys64/usr/local/share/man"
-     ("/bin" . "/usr/share/man")
-     ("/usr/bin" . "/usr/share/man")
-     ("/sbin" . "/usr/share/man")
-     ("/usr/sbin" . "/usr/share/man")
-     ("/usr/local/bin" . "/usr/local/man")
-     ("/usr/local/bin" . "/usr/local/share/man")
-     ("/usr/local/sbin" . "/usr/local/man")
-     ("/usr/local/sbin" . "/usr/local/share/man")
-     ("/usr/X11R6/bin" . "/usr/X11R6/man")
-     ("/usr/bin/X11" . "/usr/X11R6/man")
-     ("/usr/games" . "/usr/share/man")
-     ("/opt/bin" . "/opt/man")
-     ("/opt/sbin" . "/opt/man")
-     "I:/msys64/mingw64/share/man")) t))
+)
 
 (unless (daemonp)
   (server-start))

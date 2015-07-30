@@ -9,10 +9,13 @@
 (setq TeX-shell "bash")
 (setq doc-view-ghostscript-program "gswin64c.exe")
 (setq ess-directory-containing-R "E:")
+(setq explicit-bash-args (quote ("--noediting" "--login" "-i")))
+(setq explicit-shell-file-name "bash")
 (setq gnutls-trustfiles '("I:/msys64/usr/ssl/certs/ca-bundle.crt"))
 (setq preview-gs-command "gswin64c.exe")
 (setq ps-lpr-command "gswin64c.exe")
 (setq python-shell-interpreter "I:/Python27/Scripts/ipython.exe")
+(setq python-shell-interpreter-args "-i")
 (setq semantic-c-dependency-system-include-path
       '("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include"))
 (setq tramp-auto-save-directory "Z:\\TEMP\\")

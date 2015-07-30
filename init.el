@@ -124,8 +124,6 @@
  '(package-selected-packages
    (quote
     (ssh-agency auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
- '(paradox-automatically-star t)
- '(paradox-execute-asynchronously t)
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
@@ -135,7 +133,6 @@
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
  '(preview-scale-function (quote preview-scale-from-face))
  '(ps-font-size (quote (9 . 10.5)))
- '(ps-lpr-command "gswin64c.exe" t)
  '(ps-lpr-switches
    (quote
     ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")))

@@ -905,6 +905,7 @@ restored."
 
 (define-derived-mode magit-popup-sequence-mode magit-popup-mode "MagitPopup"
   "Major mode for infix argument popups, which are affected by state.
+
 Used for popups that display different actions depending on some
 external state.  Within Magit this is used for sequence commands
 such as rebase.  The function `:sequence-predicate', which takes
@@ -1060,6 +1061,20 @@ in the popup."
           type (make-magit-popup-event :key (car  elt)
                                        :dsc (cadr elt)))
          (list 'function (lookup-key (current-local-map) (car elt)))))
+
+;;; Utilities
+
+(defun magit-popup-import-file-args (args files)
+  (if files
+      (cons (concat "-- " (mapconcat #'identity files ",")) args)
+    args))
+
+(defun magit-popup-export-file-args (args)
+  (let ((files (--first (string-prefix-p "-- " it) args)))
+    (when files
+      (setq args  (remove files args)
+            files (split-string (substring files 3) ",")))
+    (list args files)))
 
 ;;; magit-popup.el ends soon
 

@@ -226,14 +226,15 @@ has to confirm each save."
     (define-key map "i" 'magit-gitignore)
     (define-key map "I" 'magit-gitignore-locally)
     (define-key map "k" 'magit-delete-thing)
+    (define-key map "K" 'magit-file-untrack)
     (define-key map "l" 'magit-log-popup)
-    (define-key map "L" 'magit-toggle-margin)
+    (define-key map "L" 'magit-log-refresh-popup)
     (define-key map "m" 'magit-merge-popup)
     (define-key map "M" 'magit-remote-popup)
     (define-key map "o" 'magit-submodule-popup)
     (define-key map "P" 'magit-push-popup)
     (define-key map "r" 'magit-rebase-popup)
-    (define-key map "R" 'magit-rename-thing)
+    (define-key map "R" 'magit-file-rename)
     (define-key map "t" 'magit-tag-popup)
     (define-key map "T" 'magit-notes-popup)
     (define-key map "\r"       'magit-visit-thing)
@@ -271,18 +272,11 @@ Where applicable, section-specific keymaps bind another command
 which deletes the thing at point."
   (user-error "There is no thing at point that could be deleted"))
 
-(defun magit-rename-thing ()
-  "This is a placeholder command.
-Where applicable, section-specific keymaps bind another command
-which renames the thing at point."
-  (user-error "There is no thing at point that could be renamed"))
-
 (defun magit-visit-thing ()
   "This is a placeholder command.
 Where applicable, section-specific keymaps bind another command
 which visits the thing at point."
   (user-error "There is no thing at point that could be visited"))
-
 
 (easy-menu-define magit-mode-menu magit-mode-map
   "Magit menu"
@@ -344,6 +338,7 @@ which visits the thing at point."
 
 (define-derived-mode magit-mode special-mode "Magit"
   "Parent major mode from which Magit major modes inherit.
+
 Magit is documented in info node `(magit)'."
   :group 'magit-modes
   (buffer-disable-undo)
@@ -476,36 +471,39 @@ the function `magit-toplevel'."
            buffer)
   buffer)
 
-(defun magit-mode-get-buffers (&optional topdir)
-  (unless topdir
-    (setq topdir (magit-toplevel)))
-  (--filter (with-current-buffer it
-              (and (derived-mode-p 'magit-mode)
-                   (equal default-directory topdir)))
-            (buffer-list)))
+(defun magit-mode-get-buffers ()
+  (let ((topdir (magit-toplevel)))
+    (--filter (with-current-buffer it
+                (and (derived-mode-p 'magit-mode)
+                     (equal default-directory topdir)))
+              (buffer-list))))
 
-(defun magit-mode-get-buffer (format mode &optional topdir create)
-  (if (not (string-match-p "%[ab]" format))
-      (funcall (if create #'get-buffer-create #'get-buffer) format)
-    (unless topdir
-      (setq topdir (magit-toplevel)))
-    (let ((name (format-spec format
-                             `((?a . ,(abbreviate-file-name (or topdir "-")))
-                               (?b . ,(if topdir
-                                          (file-name-nondirectory
-                                           (directory-file-name topdir))
-                                        "-"))))))
-      (or (--first (with-current-buffer it
-                     (and (or (not topdir)
-                              (equal (expand-file-name default-directory)
-                                     topdir))
-                          (string-match-p (format "^%s$" (regexp-quote name))
-                                          (buffer-name))))
-                   (buffer-list))
-          (and create (generate-new-buffer name))))))
+(defun magit-mode-get-buffer (format mode &optional pwd create)
+  (unless format
+    (setq format (symbol-value
+                  (intern (format "%s-buffer-name-format"
+                                  (substring (symbol-name mode) 0 -5))))))
+  (setq pwd (expand-file-name (or pwd default-directory)))
+  (let* ((topdir (let ((default-directory pwd))
+                   (magit-toplevel)))
+         (name (format-spec
+                format (if topdir
+                           `((?a . ,(abbreviate-file-name topdir))
+                             (?b . ,(file-name-nondirectory
+                                     (directory-file-name topdir))))
+                         '((?a . "-") (?b . "-"))))))
+    (or (--first (with-current-buffer it
+                   (and (equal (buffer-name) name)
+                        (or (not topdir)
+                            (equal (expand-file-name default-directory)
+                                   topdir))))
+                 (buffer-list))
+        (and create
+             (let ((default-directory (or topdir pwd)))
+               (generate-new-buffer name))))))
 
-(defun magit-mode-get-buffer-create (format mode &optional topdir)
-  (magit-mode-get-buffer format mode topdir t))
+(defun magit-mode-get-buffer-create (format mode &optional directory)
+  (magit-mode-get-buffer format mode directory t))
 
 (defun magit-mode-bury-buffer (&optional kill-buffer)
   "Bury the current buffer.

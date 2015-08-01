@@ -123,7 +123,7 @@ the site. Otherwise, the directory is guessed from
 	      (find-file (buffer-substring-no-properties (point) (line-end-position)))
 	      (kill-buffer hexo-buffer))))
     (when (< max 5)
-	(run-with-timer 1 nil `(lambda () (funcall 'hexo-wait-and-visit ,proc ,(1+ max)))))))
+	(run-with-timer 6 nil `(lambda () (funcall 'hexo-wait-and-visit ,proc ,(1+ max)))))))
 
 (defun hexo-new (dir type title)
   "Create an hexo draft/page/photo/post/.

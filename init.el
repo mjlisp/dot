@@ -83,32 +83,6 @@
  '(org-footnote-tag-for-non-org-mode-files nil)
  '(org-html-doctype "html5")
  '(org-support-shift-select t)
-;;  '(org2blog/wp-blog-alist
-;;    (quote
-;;     (("sf.net" :url "http://all-things-zklhp.sourceforge.net/xmlrpc.php" :username "admin" :keep-new-lines t :confirm t :wp-code nil :tags-as-categories nil))))
-;;  '(org2blog/wp-buffer-format-function (quote org2blog/wp-my-format-buffer))
-;;  '(org2blog/wp-buffer-template
-;;    "#+DATE: %s
-;; #+OPTIONS: toc:nil H:0 num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil @:t
-;; #+TAGS: 
-;; #+PERMALINK: 
-;; #+TITLE: 
-;; #+CATEGORY: 
-
-;; #+BEGIN_SRC text
-;;  ;; **************************************************************************************************************
-;;  ;; Author: zklhp
-;;  ;; Email: zklhp@sina.com
-;;  ;; QQ: 493165744
-;;  ;; Last Update: %s
-;;  ;; Licensed under CC BY-SA 3.0
-;;  ;; **************************************************************************************************************
-;; #+END_SRC
-
-;; #+HTML: <!--more-->
-;; ")
-;;  '(org2blog/wp-show-post-in-browser nil)
-;;  '(org2blog/wp-use-sourcecode-shortcode t)
  '(overline-margin 0)
  '(package-archives
    (quote
@@ -118,7 +92,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (ssh-agency auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
@@ -183,8 +157,7 @@
  '(tramp-default-method "sshx")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(visible-bell t)
- '(vlfi-batch-size 1048576)
-)
+ '(vlfi-batch-size 1048576))
 
 (unless (daemonp)
   (server-start))

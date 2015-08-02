@@ -11,6 +11,8 @@ url/
 elpa/archives/
 elpa/gnupg/
 
+# Readme.
+elpa/*-readme.txt
 
 # Compiled.
 *.elc

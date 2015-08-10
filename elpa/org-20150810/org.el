@@ -5420,8 +5420,9 @@ The following commands are available:
     (define-key org-mode-map [menu-bar show] 'undefined))
 
   (org-load-modules-maybe)
-  (easy-menu-add org-org-menu)
-  (easy-menu-add org-tbl-menu)
+  (when (featurep 'xemacs)
+    (easy-menu-add org-org-menu)
+    (easy-menu-add org-tbl-menu))
   (org-install-agenda-files-menu)
   (if org-descriptive-links (add-to-invisibility-spec '(org-link)))
   (add-to-invisibility-spec '(org-cwidth))
@@ -6500,6 +6501,14 @@ needs to be inserted at a specific position in the font-lock sequence.")
    ((eq n 2) org-f)
    (t (if org-level-color-stars-only nil org-f))))
 
+(defun org-face-from-face-or-color (context inherit face-or-color)
+  "Create a face list that inherits INHERIT, but sets the foreground color.
+When FACE-OR-COLOR is not a string, just return it."
+  (if (stringp face-or-color)
+      (list :inherit inherit
+	    (cdr (assoc context org-faces-easy-properties))
+	    face-or-color)
+    face-or-color))
 
 (defun org-get-todo-face (kwd)
   "Get the right face for a TODO keyword KWD.
@@ -6510,14 +6519,28 @@ If KWD is a number, get the corresponding match group."
       (and (member kwd org-done-keywords) 'org-done)
       'org-todo))
 
-(defun org-face-from-face-or-color (context inherit face-or-color)
-  "Create a face list that inherits INHERIT, but sets the foreground color.
-When FACE-OR-COLOR is not a string, just return it."
-  (if (stringp face-or-color)
-      (list :inherit inherit
-	    (cdr (assoc context org-faces-easy-properties))
-	    face-or-color)
-    face-or-color))
+(defun org-get-priority-face (priority)
+  "Get the right face for PRIORITY.
+PRIORITY is a character."
+  (or (org-face-from-face-or-color
+       'priority 'org-priority (cdr (assq priority org-priority-faces)))
+      'org-priority))
+
+(defun org-get-tag-face (tag)
+  "Get the right face for TAG.
+If TAG is a number, get the corresponding match group."
+  (let ((tag (if (wholenump tag) (match-string tag) tag)))
+    (or (org-face-from-face-or-color
+	 'tag 'org-tag (cdr (assoc tag org-tag-faces)))
+	'org-tag)))
+
+(defun org-font-lock-add-priority-faces (limit)
+  "Add the special priority faces."
+  (while (re-search-forward "^\\*+ .*?\\(\\[#\\(.\\)\\]\\)" limit t)
+    (add-text-properties
+     (match-beginning 1) (match-end 1)
+     (list 'face (org-get-priority-face (string-to-char (match-string 2)))
+	   'font-lock-fontified t))))
 
 (defun org-font-lock-add-tag-faces (limit)
   "Add the special tag faces."
@@ -6527,27 +6550,6 @@ When FACE-OR-COLOR is not a string, just return it."
 			   (list 'face (org-get-tag-face 1)
 				 'font-lock-fontified t))
       (backward-char 1))))
-
-(defun org-font-lock-add-priority-faces (limit)
-  "Add the special priority faces."
-  (while (re-search-forward "\\[#\\([A-Z0-9]\\)\\]" limit t)
-    (when (save-match-data (org-at-heading-p))
-      (add-text-properties
-       (match-beginning 0) (match-end 0)
-       (list 'face (or (org-face-from-face-or-color
-			'priority 'org-priority
-			(cdr (assoc (char-after (match-beginning 1))
-				    org-priority-faces)))
-		       'org-priority)
-	     'font-lock-fontified t)))))
-
-(defun org-get-tag-face (kwd)
-  "Get the right face for a TODO keyword KWD.
-If KWD is a number, get the corresponding match group."
-  (if (numberp kwd) (setq kwd (match-string kwd)))
-  (or (org-face-from-face-or-color
-       'tag 'org-tag (cdr (assoc kwd org-tag-faces)))
-      'org-tag))
 
 (defun org-unfontify-region (beg end &optional maybe_loudly)
   "Remove fontification and activation overlays from links."
@@ -7386,9 +7388,8 @@ a block.  Return a non-nil value when toggling is successful."
   (setq org-goto-map
 	(let ((map (make-sparse-keymap)))
 	  (let ((cmds '(isearch-forward isearch-backward kill-ring-save set-mark-command
-					mouse-drag-region universal-argument org-occur))
-		cmd)
-	    (while (setq cmd (pop cmds))
+					mouse-drag-region universal-argument org-occur)))
+	    (dolist (cmd cmds)
 	      (substitute-key-definition cmd cmd map global-map)))
 	  (suppress-keymap map)
 	  (org-defkey map "\C-m"     'org-goto-ret)
@@ -8835,7 +8836,8 @@ Optional argument WITH-CASE means sort case-sensitively."
   (while (string-match org-bracket-link-regexp s)
     (setq s (replace-match (if (match-end 2)
 			       (match-string 3 s)
-			     (match-string 1 s)) t t s)))
+			     (match-string 1 s))
+                           t t s)))
   (let ((st (format " %s " s)))
     (while (string-match org-emph-re st)
       (setq st (replace-match (format " %s " (match-string 4 st)) t t st)))
@@ -9350,10 +9352,11 @@ definitions."
 			    (list (car c) (car c) (cadr c)))
 			   ((string= "" (cadr c))
 			    (list (car c) (car c) (caddr c)))
-			   (t c))) contexts))
-	(a alist) c r s)
+			   (t c)))
+          contexts))
+	(a alist) r s)
     ;; loop over all commands or templates
-    (while (setq c (pop a))
+    (dolist (c a)
       (let (vrules repl)
 	(cond
 	 ((not (assoc (car c) contexts))
@@ -9363,7 +9366,8 @@ definitions."
 			     (car c) contexts)))
 	  (mapc (lambda (vr)
 		  (when (not (equal (car vr) (cadr vr)))
-		    (setq repl vr))) vrules)
+		    (setq repl vr)))
+                vrules)
 	  (if (not repl) (push c r)
 	    (push (cadr repl) s)
 	    (push
@@ -9380,14 +9384,16 @@ definitions."
 		(let ((tpl (car x)))
 		  (when (not (delq
 			      nil
-			      (mapcar (lambda(y)
-					(equal y tpl)) s))) x)))
+			      (mapcar (lambda (y)
+					(equal y tpl))
+                                      s)))
+                    x)))
 	      (reverse r))))))
 
 (defun org-contextualize-validate-key (key contexts)
   "Check CONTEXTS for agenda or capture KEY."
-  (let (r rr res)
-    (while (setq r (pop contexts))
+  (let (rr res)
+    (dolist (r contexts)
       (mapc
        (lambda (rr)
 	 (when
@@ -9737,7 +9743,8 @@ active region."
 		  (funcall (caar sfuns)))
 	      (setq link (plist-get org-store-link-plist :link)
 		    desc (or (plist-get org-store-link-plist
-					:description) link))))
+					:description)
+			     link))))
 
 	;; Store a link from a source code buffer.
 	((org-src-edit-buffer-p)
@@ -9924,7 +9931,8 @@ active region."
 
        ;; Return the link
        (if (not (and (or (org-called-interactively-p 'any)
-			 executing-kbd-macro) link))
+			 executing-kbd-macro)
+                     link))
 	   (or agenda-link (and link (org-make-link-string link desc)))
 	 (push (list link desc) org-stored-links)
 	 (message "Stored: %s" (or desc link))
@@ -10675,9 +10683,9 @@ link in a property drawer line."
 	      ;; the closest one.
 	      (org-element-lineage
 	       (org-element-context)
-	       '(comment comment-block footnote-definition footnote-reference
-			 headline inlinetask keyword link node-property
-			 timestamp)
+	       '(clock comment comment-block footnote-definition
+		       footnote-reference headline inlinetask keyword link
+		       node-property timestamp)
 	       t))
 	     (type (org-element-type context))
 	     (value (org-element-property :value context)))
@@ -10709,6 +10717,13 @@ link in a property drawer line."
 		  (org-open-at-point))
 	      (require 'org-attach)
 	      (org-attach-reveal 'if-exists))))
+	 ;; On a clock line, make sure point is on the timestamp
+	 ;; before opening it.
+	 ((and (eq type 'clock)
+	       value
+	       (>= (point) (org-element-property :begin value))
+	       (<= (point) (org-element-property :end value)))
+	  (org-follow-timestamp-link))
 	 ;; Do nothing on white spaces after an object, unless point
 	 ;; is right after it.
 	 ((> (point)
@@ -11516,12 +11531,9 @@ on the system \"/user@host:\"."
    ((eq t org-reverse-note-order) t)
    ((not (listp org-reverse-note-order)) nil)
    (t (catch 'exit
-	(let  ((all org-reverse-note-order)
-	       entry)
-	  (while (setq entry (pop all))
-	    (if (string-match (car entry) buffer-file-name)
-		(throw 'exit (cdr entry))))
-	  nil)))))
+        (dolist (entry org-reverse-note-order)
+          (if (string-match (car entry) buffer-file-name)
+              (throw 'exit (cdr entry))))))))
 
 (defvar org-refile-target-table nil
   "The list of refile targets, created by `org-refile'.")
@@ -11586,10 +11598,10 @@ on the system \"/user@host:\"."
   (let ((case-fold-search nil)
 	;; otherwise org confuses "TODO" as a kw and "Todo" as a word
 	(entries (or org-refile-targets '((nil . (:level . 1)))))
-	targets tgs txt re files f desc descre fast-path-p level pos0)
+	targets tgs txt re files desc descre fast-path-p level pos0)
     (message "Getting targets...")
     (with-current-buffer (or default-buffer (current-buffer))
-      (while (setq entry (pop entries))
+      (dolist (entry entries)
 	(setq files (car entry) desc (cdr entry))
 	(setq fast-path-p nil)
 	(cond
@@ -11622,7 +11634,7 @@ on the system \"/user@host:\"."
 					      (cdr desc)))
 			       "\\}[ \t]")))
 	 (t (error "Bad refiling target description %s" desc)))
-	(while (setq f (pop files))
+	(dolist (f files)
 	  (with-current-buffer
 	      (if (bufferp f) f (org-get-agenda-file-buffer f))
 	    (or
@@ -12839,16 +12851,15 @@ changes because there are unchecked boxes in this entry."
       t))) ; do not block
 
 (defun org-entry-blocked-p ()
-  "Is the current entry blocked?"
-  (org-with-silent-modifications
-   (if (org-entry-get nil "NOBLOCKING")
-       nil ;; Never block this entry
-     (not (run-hook-with-args-until-failure
-	   'org-blocker-hook
-	   (list :type 'todo-state-change
-		 :position (point)
-		 :from 'todo
-		 :to 'done))))))
+  "Non-nil if entry at point is blocked."
+  (and (not (org-entry-get nil "NOBLOCKING"))
+       (member (org-entry-get nil "TODO") org-not-done-keywords)
+       (not (run-hook-with-args-until-failure
+	     'org-blocker-hook
+	     (list :type 'todo-state-change
+		   :position (point)
+		   :from 'todo
+		   :to 'done)))))
 
 (defun org-update-statistics-cookies (all)
   "Update the statistics cookie, either from TODO or from checkboxes.
@@ -13023,20 +13034,19 @@ This hook runs even if there is no statistics cookie present, in which case
 
 (defun org-local-logging (value)
   "Get logging settings from a property VALUE."
-  (let* (words w a)
-    ;; directly set the variables, they are already local.
-    (setq org-log-done nil
-	  org-log-repeat nil
-	  org-todo-log-states nil)
-    (setq words (org-split-string value))
-    (while (setq w (pop words))
+  ;; Directly set the variables, they are already local.
+  (setq org-log-done nil
+        org-log-repeat nil
+        org-todo-log-states nil)
+  (dolist (w (org-split-string value))
+    (let (a)
       (cond
        ((setq a (assoc w org-startup-options))
-	(and (member (nth 1 a) '(org-log-done org-log-repeat))
-	     (set (nth 1 a) (nth 2 a))))
+        (and (member (nth 1 a) '(org-log-done org-log-repeat))
+             (set (nth 1 a) (nth 2 a))))
        ((setq a (org-extract-log-state-settings w))
-	(and (member (car a) org-todo-keywords-1)
-	     (push a org-todo-log-states)))))))
+        (and (member (car a) org-todo-keywords-1)
+             (push a org-todo-log-states)))))))
 
 (defun org-get-todo-sequence-head (kwd)
   "Return the head of the TODO sequence to which KWD belongs.
@@ -14532,7 +14542,7 @@ See also `org-scan-tags'.
     (if (or (not todomatch) (not (string-match "\\S-" todomatch)))
 	(setq todomatcher t)
       (setq orterms (org-split-string todomatch "|") orlist nil)
-      (while (setq term (pop orterms))
+      (dolist (term orterms)
 	(while (string-match re term)
 	  (setq minus (and (match-end 1)
 			   (equal (match-string 1 term) "-"))
@@ -14616,7 +14626,8 @@ When DOWNCASE is non-nil, expand downcased TAGS."
 		    (with-syntax-table stable
 		      (string-match
 		       (concat "\\(?1:[+-]?\\)\\(?2:\\<"
-			       (regexp-opt taggroups-keys) "\\>\\)") return-match)))
+			       (regexp-opt taggroups-keys) "\\>\\)")
+		       return-match)))
 	  (let* ((dir (match-string 1 return-match))
 		 (tag (match-string 2 return-match))
 		 (tag (if downcased (downcase tag) tag)))
@@ -14822,7 +14833,8 @@ ignore inherited ones."
 	  (reverse (delete-dups
 		    (reverse (append
 			      (org-remove-uninherited-tags
-			       org-file-tags) tags)))))))))
+			       org-file-tags)
+                              tags)))))))))
 
 (defun org-add-prop-inherited (s)
   (add-text-properties 0 (length s) '(inherited t) s)
@@ -15493,7 +15505,7 @@ a *different* entry, you cannot use these techniques."
 	     ((eq scope 'file-with-archives)
 	      (setq scope (org-add-archive-files (list (buffer-file-name))))))
 	    (org-agenda-prepare-buffers scope)
-	    (while (setq file (pop scope))
+	    (dolist (file scope)
 	      (with-current-buffer (org-find-base-buffer-visiting file)
 		(save-excursion
 		  (save-restriction
@@ -15699,8 +15711,9 @@ strings."
 		      props))
 	      (when specific (throw 'exit props)))
 	    (when (or (not specific) (string= specific "TODO"))
-	      (when (and (looking-at org-todo-line-regexp) (match-end 2))
-		(push (cons "TODO" (org-match-string-no-properties 2)) props))
+	      (let ((case-fold-search nil))
+		(when (and (looking-at org-todo-line-regexp) (match-end 2))
+		  (push (cons "TODO" (org-match-string-no-properties 2)) props)))
 	      (when specific (throw 'exit props)))
 	    (when (or (not specific) (string= specific "PRIORITY"))
 	      (when (looking-at org-priority-regexp)
@@ -16524,7 +16537,7 @@ only headings."
 	  (widen)
 	  (setq limit (point-max))
 	  (goto-char (point-min))
-	  (while (setq heading (pop path))
+	  (dolist (heading path)
 	    (setq re (format org-complex-heading-regexp-format
 			     (regexp-quote heading)))
 	    (setq cnt 0 pos (point))
@@ -16567,9 +16580,9 @@ a priority cookie and tags in the standard locations."
 When the target headline is found, return a marker to this location."
   (let ((files (directory-files (or dir default-directory)
 				t "\\`[^.#].*\\.org\\'"))
-        file visiting m buffer)
+	visiting m buffer)
     (catch 'found
-      (while (setq file (pop files))
+      (dolist (file files)
         (message "trying %s" file)
         (setq visiting (org-find-base-buffer-visiting file))
         (setq buffer (or visiting (find-file-noselect file)))
@@ -18545,18 +18558,15 @@ un-expanded file names."
 If the current buffer visits an agenda file, find the next one in the list.
 If the current buffer does not, find the first agenda file."
   (interactive)
-  (let* ((fs (org-agenda-files t))
-	 (files (append fs (list (car fs))))
-	 (tcf (if buffer-file-name (file-truename buffer-file-name)))
+  (let* ((fs (or (org-agenda-files t)
+		 (user-error "No agenda files")))
+	 (files (copy-sequence fs))
+	 (tcf (and buffer-file-name (file-truename buffer-file-name)))
 	 file)
-    (unless files (user-error "No agenda files"))
-    (catch 'exit
-      (while (setq file (pop files))
-	(if (equal (file-truename file) tcf)
-	    (when (car files)
-	      (find-file (car files))
-	      (throw 'exit t))))
-      (find-file (car fs)))
+    (when tcf
+      (while (and (setq file (pop files))
+		  (not (equal (file-truename file) tcf)))))
+    (find-file (car (or files fs)))
     (if (buffer-base-buffer) (org-pop-to-buffer-same-window (buffer-base-buffer)))))
 
 (defun org-agenda-file-to-front (&optional to-end)
@@ -18638,8 +18648,8 @@ which might be released later."
   "Release all buffers in list, asking the user for confirmation when needed.
 When a buffer is unmodified, it is just killed.  When modified, it is saved
 \(if the user agrees) and then killed."
-  (let (buf file)
-    (while (setq buf (pop blist))
+  (let (file)
+    (dolist (buf blist)
       (setq file (buffer-file-name buf))
       (when (and (buffer-modified-p buf)
 		 file
@@ -18661,7 +18671,7 @@ When a buffer is unmodified, it is just killed.  When modified, it is saved
 	  org-tag-groups-alist-for-agenda nil)
     (save-excursion
       (save-restriction
-	(while (setq file (pop files))
+	(dolist (file files)
 	  (catch 'nextfile
 	    (if (bufferp file)
 		(set-buffer file)
@@ -19727,7 +19737,7 @@ boundaries."
 (org-defkey org-mode-map "\C-i"       'org-cycle)
 (org-defkey org-mode-map [(tab)]      'org-cycle)
 (org-defkey org-mode-map [(control tab)] 'org-force-cycle-archived)
-(org-defkey org-mode-map "\M-\t" 'pcomplete)
+(org-defkey org-mode-map "\M-\t" #'pcomplete)
 ;; The following line is necessary under Suse GNU/Linux
 (unless (featurep 'xemacs)
   (org-defkey org-mode-map [S-iso-lefttab]  'org-shifttab))
@@ -19796,7 +19806,7 @@ boundaries."
   (org-defkey org-mode-map [?\C-c (right)] 'org-shiftright)
   (org-defkey org-mode-map [?\C-c ?\C-x (right)] 'org-shiftcontrolright)
   (org-defkey org-mode-map [?\C-c ?\C-x (left)] 'org-shiftcontrolleft)
-  (org-defkey org-mode-map [?\e (tab)] 'pcomplete)
+  (org-defkey org-mode-map [?\e (tab)] #'pcomplete)
   (org-defkey org-mode-map [?\e (shift return)] 'org-insert-todo-heading)
   (org-defkey org-mode-map [?\e (shift left)]   'org-shiftmetaleft)
   (org-defkey org-mode-map [?\e (shift right)]  'org-shiftmetaright)
@@ -21599,11 +21609,11 @@ number of stars to add."
 	       (forward-line)))))))
     (unless toggled (message "Cannot toggle heading from here"))))
 
-(defun org-meta-return (&optional arg)
+(defun org-meta-return (&optional _arg)
   "Insert a new heading or wrap a region in a table.
 Calls `org-insert-heading' or `org-table-wrap-region', depending
 on context.  See the individual commands for more information."
-  (interactive "P")
+  (interactive)
   (org-check-before-invisible-edit 'insert)
   (or (run-hook-with-args-until-success 'org-metareturn-hook)
       (call-interactively (if (org-at-table-p) #'org-table-wrap-region
@@ -21896,6 +21906,7 @@ output buffer into your mail program, as it gives us important
 information about your Org-mode version and configuration."
   (interactive)
   (require 'reporter)
+  (defvar reporter-prompt-for-summary-p)
   (org-load-modules-maybe)
   (org-require-autoloaded-modules)
   (let ((reporter-prompt-for-summary-p "Bug report subject: "))
@@ -22144,11 +22155,13 @@ upon the next fontification round."
 					'invisible 'org-link s))
 	(setq s (concat (substring s 0 b)
 			(substring s (or (next-single-property-change
-					  b 'invisible s) (length s)))))))
+					  b 'invisible s)
+                                         (length s)))))))
     (while (setq b (text-property-any 0 (length s) 'org-cwidth t s))
       (setq s (concat (substring s 0 b)
 		      (substring s (or (next-single-property-change
-					b 'org-cwidth s) (length s))))))
+					b 'org-cwidth s)
+                                       (length s))))))
     (setq l (string-width s) b -1)
     (while (setq b (text-property-any (1+ b) (length s) 'org-dwidth t s))
       (setq l (- l (get-text-property b 'org-dwidth-n s))))
@@ -22245,11 +22258,9 @@ N may optionally be the number of spaces to remove."
 
 (defun org-fill-template (template alist)
   "Find each %key of ALIST in TEMPLATE and replace it."
-  (let ((case-fold-search nil)
-	entry key value)
-    (setq alist (sort (copy-sequence alist)
-		      (lambda (a b) (< (length (car a)) (length (car b))))))
-    (while (setq entry (pop alist))
+  (let ((case-fold-search nil))
+    (dolist (entry (sort (copy-sequence alist)
+                         (lambda (a b) (< (length (car a)) (length (car b))))))
       (setq template
 	    (replace-regexp-in-string
 	     (concat "%" (regexp-quote (car entry)))
@@ -22537,23 +22548,24 @@ block from point."
 	      names))
       nil)))
 
-(defun org-occur-in-agenda-files (regexp &optional nlines)
+(defun org-occur-in-agenda-files (regexp &optional _nlines)
   "Call `multi-occur' with buffers for all agenda files."
-  (interactive "sOrg-files matching: \np")
+  (interactive "sOrg-files matching: ")
   (let* ((files (org-agenda-files))
-	 (tnames (mapcar 'file-truename files))
-	 (extra org-agenda-text-search-extra-files)
-	 f)
+	 (tnames (mapcar #'file-truename files))
+	 (extra org-agenda-text-search-extra-files))
     (when (eq (car extra) 'agenda-archives)
       (setq extra (cdr extra))
       (setq files (org-add-archive-files files)))
-    (while (setq f (pop extra))
+    (dolist (f extra)
       (unless (member (file-truename f) tnames)
-	(add-to-list 'files f 'append)
-	(add-to-list 'tnames (file-truename f) 'append)))
+	(unless (member f files) (setq files (append files (list f))))
+	(setq tnames (append tnames (list (file-truename f))))))
     (multi-occur
      (mapcar (lambda (x)
 	       (with-current-buffer
+		   ;; FIXME: Why not just (find-file-noselect x)?
+		   ;; Is it to avoid the "revert buffer" prompt?
 		   (or (get-file-buffer x) (find-file-noselect x))
 		 (widen)
 		 (current-buffer)))
@@ -22738,7 +22750,7 @@ so values can contain further %-escapes if they are define later in TABLE."
 	(case-fold-search nil)
         (pchg 0)
         e re rpl)
-    (while (setq e (pop tbl))
+    (dolist (e tbl)
       (setq re (concat "%-?[0-9.]*" (substring (car e) 1)))
       (when (and (cdr e) (string-match re (cdr e)))
         (let ((sref (substring (cdr e) (match-beginning 0) (match-end 0)))
@@ -22801,7 +22813,7 @@ This works in the calendar and in the agenda, anywhere else it just
 returns the current time.
 If WITH-TIME is non-nil, returns the time of the event at point (in
 the agenda) or the current time of the day."
-  (let (date day defd tp tm hod mod)
+  (let (date day defd tp hod mod)
     (when with-time
       (setq tp (get-text-property (point) 'time))
       (when (and tp (string-match "\\([0-9][0-9]\\):\\([0-9][0-9]\\)" tp))
@@ -23634,7 +23646,7 @@ major mode."
     (insert "# ")))
 
 (defvar comment-empty-lines)		; From newcomment.el.
-(defun org-comment-or-uncomment-region (beg end &rest ignore)
+(defun org-comment-or-uncomment-region (beg end &rest _)
   "Comment or uncomment each non-blank line in the region.
 Uncomment each non-blank line between BEG and END if it only
 contains commented lines.  Otherwise, comment them.  If region is
@@ -23801,6 +23813,10 @@ it has a `diary' type."
 
 ;;; Other stuff.
 
+(defvar reftex-docstruct-symbol)
+(defvar reftex-cite-format)
+(defvar org--rds)
+
 (defun org-reftex-citation ()
   "Use reftex-citation to insert a citation into the buffer.
 This looks for a line like
@@ -23815,9 +23831,9 @@ into the buffer.
 Export of such citations to both LaTeX and HTML is handled by the contributed
 package ox-bibtex by Taru Karttunen."
   (interactive)
-  (let ((reftex-docstruct-symbol 'rds)
+  (let ((reftex-docstruct-symbol 'org--rds)
 	(reftex-cite-format "\\cite{%l}")
-	rds bib)
+	org--rds bib)
     (save-excursion
       (save-restriction
 	(widen)
@@ -23828,7 +23844,7 @@ package ox-bibtex by Taru Karttunen."
 			 (re-search-backward re nil t))))
 	      (user-error "No bibliography defined in file")
 	    (setq bib (concat (match-string 1) ".bib")
-		  rds (list (list 'bib bib)))))))
+		  org--rds (list (list 'bib bib)))))))
     (call-interactively 'reftex-citation)))
 
 ;;;; Functions extending outline functionality
@@ -23945,11 +23961,11 @@ the cursor is already beyond the end of the headline."
 (define-key org-mode-map "\C-a" 'org-beginning-of-line)
 (define-key org-mode-map "\C-e" 'org-end-of-line)
 
-(defun org-backward-sentence (&optional arg)
+(defun org-backward-sentence (&optional _arg)
   "Go to beginning of sentence, or beginning of table field.
 This will call `backward-sentence' or `org-table-beginning-of-field',
 depending on context."
-  (interactive "P")
+  (interactive)
   (let* ((element (org-element-at-point))
 	 (contents-begin (org-element-property :contents-begin element))
 	 (table (org-element-lineage element '(table) t)))
@@ -23965,11 +23981,11 @@ depending on context."
 			    (org-element-property :contents-end element)))
 	(call-interactively #'backward-sentence)))))
 
-(defun org-forward-sentence (&optional arg)
+(defun org-forward-sentence (&optional _arg)
   "Go to end of sentence, or end of table field.
 This will call `forward-sentence' or `org-table-end-of-field',
 depending on context."
-  (interactive "P")
+  (interactive)
   (let* ((element (org-element-at-point))
 	 (contents-end (org-element-property :contents-end element))
 	 (table (org-element-lineage element '(table) t)))
@@ -23991,9 +24007,9 @@ depending on context."
 (define-key org-mode-map "\M-a" 'org-backward-sentence)
 (define-key org-mode-map "\M-e" 'org-forward-sentence)
 
-(defun org-kill-line (&optional arg)
+(defun org-kill-line (&optional _arg)
   "Kill line, to tags or end of line."
-  (interactive "P")
+  (interactive)
   (cond
    ((or (not org-special-ctrl-k)
 	(bolp)

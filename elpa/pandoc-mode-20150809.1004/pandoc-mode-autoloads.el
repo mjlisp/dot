@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "pandoc-mode" "pandoc-mode.el" (21938 5112
+;;;### (autoloads nil "pandoc-mode" "pandoc-mode.el" (21960 32307
 ;;;;;;  0 0))
 ;;; Generated autoloads from pandoc-mode.el
 
@@ -21,7 +21,7 @@ This is for use in major mode hooks.
 ;;;***
 
 ;;;### (autoloads nil nil ("pandoc-mode-pkg.el" "pandoc-mode-utils.el")
-;;;;;;  (21938 5112 482776 300000))
+;;;;;;  (21960 32307 0 0))
 
 ;;;***
 

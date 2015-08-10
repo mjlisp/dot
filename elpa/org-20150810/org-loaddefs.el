@@ -14,7 +14,7 @@
 ;;;;;;  org-babel-execute-src-block org-babel-pop-to-session-maybe
 ;;;;;;  org-babel-load-in-session-maybe org-babel-expand-src-block-maybe
 ;;;;;;  org-babel-view-src-block-info org-babel-execute-maybe org-babel-execute-safely-maybe)
-;;;;;;  "ob-core" "ob-core.el" "27b1718c5a3754547f6de3163c7729c5")
+;;;;;;  "ob-core" "ob-core.el" "25ddf093b0c7e0d1bc71e5077aa83d3b")
 ;;; Generated autoloads from ob-core.el
 
 (autoload 'org-babel-execute-safely-maybe "ob-core" "\
@@ -298,7 +298,7 @@ used to limit the exported source code blocks by language.
 ;;;;;;  org-search-view org-agenda-list org-batch-store-agenda-views
 ;;;;;;  org-store-agenda-views org-batch-agenda-csv org-batch-agenda
 ;;;;;;  org-agenda org-toggle-sticky-agenda) "org-agenda" "org-agenda.el"
-;;;;;;  (21953 39595))
+;;;;;;  (21956 15799))
 ;;; Generated autoloads from org-agenda.el
 
 (autoload 'org-toggle-sticky-agenda "org-agenda" "\
@@ -695,7 +695,7 @@ Set `org-capture-templates' to be similar to `org-remember-templates'.
 
 ;;;***
 
-;;;### (autoloads nil "org-clock" "org-clock.el" "cdd81f58472d3fc8bdca014fd4b5fcbd")
+;;;### (autoloads nil "org-clock" "org-clock.el" "bf74b3635ac93b26934ca12c13a89f95")
 ;;; Generated autoloads from org-clock.el
 
 (autoload 'org-resolve-clocks "org-clock" "\
@@ -827,7 +827,7 @@ Otherwise, return nil.
 ;;;### (autoloads (org-agenda-columns org-insert-columns-dblock org-dblock-write:columnview
 ;;;;;;  org-columns-number-to-string org-columns-compute org-columns
 ;;;;;;  org-columns-get-format-and-top-level org-columns-remove-overlays)
-;;;;;;  "org-colview" "org-colview.el" (21953 39608))
+;;;;;;  "org-colview" "org-colview.el" (21956 15799))
 ;;; Generated autoloads from org-colview.el
 
 (autoload 'org-columns-remove-overlays "org-colview" "\
@@ -1238,7 +1238,7 @@ line directly before or after the table.
 ;;;;;;  org-table-begin org-table-align org-table-export org-table-import
 ;;;;;;  org-table-convert-region org-table-create org-table-create-or-convert-from-region
 ;;;;;;  org-table-create-with-table\.el) "org-table" "org-table.el"
-;;;;;;  "3c552212688594ce7023f85d4896c1ce")
+;;;;;;  "e75a308b982103eeb16090dfaad827c1")
 ;;; Generated autoloads from org-table.el
 
 (autoload 'org-table-create-with-table\.el "org-table" "\
@@ -1980,7 +1980,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (21953 62557))
+;;;;;;  (21960 12246))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -2006,7 +2006,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (21953 39608))
+;;;;;;  "org" "org.el" (21960 12242))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -2796,7 +2796,7 @@ The file is stored under the name chosen in
 
 ;;;### (autoloads (org-latex-publish-to-pdf org-latex-publish-to-latex
 ;;;;;;  org-latex-export-to-pdf org-latex-export-to-latex org-latex-convert-region-to-latex
-;;;;;;  org-latex-export-as-latex) "ox-latex" "ox-latex.el" "a0a2774cca9ba998c2c96498dc9c43e7")
+;;;;;;  org-latex-export-as-latex) "ox-latex" "ox-latex.el" "73f07ea7f1fc88cb7d6c7ad53ead7771")
 ;;; Generated autoloads from ox-latex.el
 
 (autoload 'org-latex-export-as-latex "ox-latex" "\
@@ -2996,7 +2996,7 @@ Return output file name.
 ;;;***
 
 ;;;### (autoloads (org-odt-convert org-odt-export-to-odt org-odt-export-as-odf-and-open
-;;;;;;  org-odt-export-as-odf) "ox-odt" "ox-odt.el" "dc1cbff3d250945dc07382e984ccd766")
+;;;;;;  org-odt-export-as-odf) "ox-odt" "ox-odt.el" "a23de21a14d0510dd16a16022bb7829b")
 ;;; Generated autoloads from ox-odt.el
 
 (put 'org-odt-preferred-output-format 'safe-local-variable 'stringp)
@@ -3183,7 +3183,7 @@ the project.
 ;;;***
 
 ;;;### (autoloads (org-texinfo-convert-region-to-texinfo org-texinfo-publish-to-texinfo)
-;;;;;;  "ox-texinfo" "ox-texinfo.el" "1648d91d4d39e779443c416e4680fc24")
+;;;;;;  "ox-texinfo" "ox-texinfo.el" "a14b42af7c17d29f19002fef18e3fae6")
 ;;; Generated autoloads from ox-texinfo.el
 
 (autoload 'org-texinfo-publish-to-texinfo "ox-texinfo" "\

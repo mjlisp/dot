@@ -577,14 +577,14 @@ string \"true\", otherwise return nil."
 (defun magit-commit-at-point ()
   (or (magit-section-when commit)
       (and (derived-mode-p 'magit-revision-mode)
-           (car (last magit-refresh-args 2)))))
+           (car magit-refresh-args))))
 
 (defun magit-branch-or-commit-at-point ()
   (or (magit-section-case
         (branch (magit-section-value it))
         (commit (magit-get-shortname (magit-section-value it))))
       (and (derived-mode-p 'magit-revision-mode)
-           (car (last magit-refresh-args 2)))))
+           (car magit-refresh-args))))
 
 
 (defun magit-tag-at-point ()
@@ -809,8 +809,8 @@ Return a list of two integers: (A>B B>A)."
         (magit-git-success "update-ref" "-m" "enable reflog" ref oldrev "")))))
 
 (defun magit-rev-format (format &optional rev)
-  "Return output of `git show -s --format=FORMAT [REV]'."
-  (magit-git-string "show" "-s" (concat "--format=" format) rev))
+  "Return output of `git show -s --format=FORMAT [REV]' --."
+  (magit-git-string "show" "-s" (concat "--format=" format) rev "--"))
 
 (defun magit-format-rev-summary (rev)
   (--when-let (magit-rev-format "%h %s" rev)

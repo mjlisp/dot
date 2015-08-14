@@ -425,7 +425,7 @@ release: Updating from an older release.
 
    Magit depends on the ‘dash’ library, available from all three of the
 popular third-party Elpa archives.  Install it using ‘M-x
-install-package RET dash RET’.  Of course you may also install it
+package-install RET dash RET’.  Of course you may also install it
 manually from its development repository, but I won’t cover that here.
 
    Then clone the Magit repository:
@@ -4652,9 +4652,38 @@ Per-repository configuration.
 
    • ‘magit-diff-refine-hunk’
 
+   • ‘magit-log-arguments’, ‘magit-log-select-arguments’, and
+     ‘magit-log-section-arguments’
+
+     In repositories with more than a few thousand commits ‘--graph’
+     should never be a member of ‘magit-log-section-arguments’.  That
+     variable is in the status buffer which is refreshed every time you
+     run any Magit command.
+
+     Using ‘--color --graph’ is even slower.  Magit uses code that is
+     part of Emacs to turn control characters into faces.  That code is
+     pretty slow and this is quite noticeable when showing a log with
+     many branches and merges.  For that reason ‘--color’ is not enabled
+     by default anymore.  Consider leaving it at that.
+
    • ‘magit-not-reverted-hook’
 
    • ‘magit-refresh-buffer-hook’
+
+   • ‘magit-refs-sections-hook’
+
+     When refreshing the "references buffer" is slow, then that’s
+     usually because several hundred refs are being displayed.  The best
+     way to address that is to display fewer refs, obviously.
+
+     If you are not, or only mildly, interested in seeing the list of
+     tags, then start by not displaying them:
+
+          (remove-hook 'magit-refs-sections-hook 'magit-insert-tags)
+
+     Then you should also make sure that the listed remote branches
+     actually all exist.  You can do so by pruning branches which no
+     longer exist using ‘f-pa’.
 
    • ‘magit-status-refresh-hook’
 
@@ -4666,8 +4695,14 @@ Per-repository configuration.
 
    Also note that everything involving "cherry commits" is slow.
 
-   If nothing helps, then feel free to open a new issue.  Please provide
-benchmarks.
+   If, after actually trying the above suggestions, performance is still
+bad, and the above does not contain a statement explaining why that is
+so in that particular case and that there is nothing that we can
+currently do about it, then comment on the appropriate existing issue
+(see <https://github.com/magit/magit/labels/performance>), or if
+necessary open a new issue.  Note that "something is slow, I am using
+v2.1" is not helpful, you have to be a bit more specific.  Benchmarks
+are a start.
 
 
 File: magit.info,  Node: Plumbing,  Next: FAQ,  Prev: Customizing,  Up: Top
@@ -6786,35 +6821,35 @@ Node: Per-repository configuration158660
 Node: Essential settings160308
 Node: Safety160632
 Node: Performance163813
-Node: Plumbing167966
-Node: Calling Git168594
-Node: Getting a value from Git170117
-Node: Calling Git for effect173221
-Node: Section plumbing179725
-Node: Creating sections179953
-Node: Section selection183756
-Node: Matching sections185436
-Node: Refreshing buffers190638
-Node: Conventions193773
-Node: Confirmation and completion193950
-Node: Theming Faces194848
-Node: FAQ202999
-Node: Magit is slow204008
-Node: I am having problems committing204174
-Node: I am using an Emacs release older than 244204572
-Node: I am using a Git release older than 194206018
-Node: I am using MS Windows and cannot push with Magit206857
-Node: How to install the gitman info manual?207435
-Node: How can I show Git's output?210017
-Node: Expanding a file to show the diff causes it to disappear210827
-Node: Magit claims repository accessed using Tramp does not exist211367
-Node: Can Magit be used as ediff-version-control-package?212513
-Node: How to show diffs for gpg-encrypted files?214553
-Node: Emacs 245 hangs when loading Magit215144
-Node: Keystroke Index215663
-Node: Command Index240349
-Node: Function Index265772
-Node: Variable Index275753
+Node: Plumbing169691
+Node: Calling Git170319
+Node: Getting a value from Git171842
+Node: Calling Git for effect174946
+Node: Section plumbing181450
+Node: Creating sections181678
+Node: Section selection185481
+Node: Matching sections187161
+Node: Refreshing buffers192363
+Node: Conventions195498
+Node: Confirmation and completion195675
+Node: Theming Faces196573
+Node: FAQ204724
+Node: Magit is slow205733
+Node: I am having problems committing205899
+Node: I am using an Emacs release older than 244206297
+Node: I am using a Git release older than 194207743
+Node: I am using MS Windows and cannot push with Magit208582
+Node: How to install the gitman info manual?209160
+Node: How can I show Git's output?211742
+Node: Expanding a file to show the diff causes it to disappear212552
+Node: Magit claims repository accessed using Tramp does not exist213092
+Node: Can Magit be used as ediff-version-control-package?214238
+Node: How to show diffs for gpg-encrypted files?216278
+Node: Emacs 245 hangs when loading Magit216869
+Node: Keystroke Index217388
+Node: Command Index242074
+Node: Function Index267497
+Node: Variable Index277478
 
 End Tag Table
 

@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "mew" "mew.el" (21963 22002 0 0))
+;;;### (autoloads nil "mew" "mew.el" (21965 40788 0 0))
 ;;; Generated autoloads from mew.el
 
 (autoload 'mew "mew" "\
@@ -69,7 +69,7 @@ CONTINUE, YANK-ACTION and SEND-ACTIONS are ignored.
 ;;;;;;  "mew-summary2.el" "mew-summary3.el" "mew-summary4.el" "mew-syntax.el"
 ;;;;;;  "mew-thread.el" "mew-unix.el" "mew-vars.el" "mew-vars2.el"
 ;;;;;;  "mew-vars3.el" "mew-varsx.el" "mew-virtual.el" "mew-win32.el")
-;;;;;;  (21963 22002 0 0))
+;;;;;;  (21965 40788 0 0))
 
 ;;;***
 

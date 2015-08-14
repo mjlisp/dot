@@ -24,12 +24,13 @@
 ;; Copyright (C) 2013 Matus Goljer <dota.keys@gmail.com>
 ;; Copyright (C) 2015 Google, Inc. (Contributor: Samuel Freilich <sfreilich@google.com>)
 ;; Copyright (C) 2015 Antonis Kanouras <antonis@metadosis.gr>
+;; Copyright (C) 2015 Howard Melman <hmelman@gmail.com>
 
 ;; Author: Jason R. Blevins <jrblevin@sdf.org>
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20150807.424
+;; Package-Version: 20150812.2139
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -572,6 +573,11 @@
 ;;     this variable buffer-local allows `markdown-mode' to override
 ;;     the default behavior induced when the global variable is non-nil.
 ;;
+;;   * `markdown-make-gfm-checkboxes-buttons' - Whether GitHub Flavored
+;;     Markdown style checkboxes should be turned into buttons that can
+;;     be toggled with mouse-1 or RET. If non-nil buttons are enabled, the
+;;     default is t. This works in `markdown-mode' as well as `gfm-mode'.
+;;
 ;; Additionally, the faces used for syntax highlighting can be modified to
 ;; your liking by issuing `M-x customize-group RET markdown-faces`
 ;; or by using the "Markdown Faces" link at the bottom of the mode
@@ -735,6 +741,8 @@
 ;;   * Roger Bolsius <roger.bolsius@gmail.com> for ordered list improvements.
 ;;   * Google's Open Source Programs Office for recognizing the project with
 ;;     a monetary contribution in June 2015.
+;;   * Howard Melman <hmelman@gmail.com> for supporting GFM checkboxes
+;;     as buttons.
 
 ;;; Bugs:
 
@@ -966,6 +974,11 @@ to `nil' instead. See `font-lock-support-mode' for more details."
 		 (const :tag "lazy lock" lazy-lock-mode)
 		 (const :tag "jit lock" jit-lock-mode)))
 
+(defcustom markdown-make-gfm-checkboxes-buttons t
+  "When non-nil, make GFM checkboxes into buttons."
+  :group 'markdown
+  :type 'boolean)
+
 
 ;;; Font Lock =================================================================
 
@@ -1054,6 +1067,12 @@ to `nil' instead. See `font-lock-support-mode' for more details."
 
 (defvar markdown-metadata-value-face 'markdown-metadata-value-face
   "Face name to use for metadata values.")
+
+(defvar markdown-gfm-checkbox-face 'markdown-gfm-checkbox-face
+  "Face name to use for GFM checkboxes.")
+
+(defvar markdown-highlight-face 'markdown-highlight-face
+  "Face name to use for mouse highlighting.")
 
 (defgroup markdown-faces nil
   "Faces used in Markdown Mode"
@@ -1198,6 +1217,16 @@ to `nil' instead. See `font-lock-support-mode' for more details."
 (defface markdown-metadata-value-face
   '((t (:inherit font-lock-string-face)))
   "Face for metadata values."
+  :group 'markdown-faces)
+
+(defface markdown-gfm-checkbox-face
+  '((t (:inherit font-lock-builtin-face)))
+  "Face for GFM checkboxes."
+  :group 'markdown-faces)
+
+(defface markdown-highlight-face
+  '((t (:inherit highlight)))
+  "Face for mouse highlighting."
   :group 'markdown-faces)
 
 (defconst markdown-regex-link-inline
@@ -1368,6 +1397,11 @@ on the value of `markdown-wiki-link-alias-first'.")
           "\\|" markdown-regex-link-reference
           "\\|" markdown-regex-angle-uri "\\)")
   "Regular expression for matching any recognized link.")
+
+(defconst markdown-regex-gfm-checkbox
+  " \\(\\[[ xX]\\]\\) "
+  "Regular expression for matching GFM checkboxes.
+Group 1 matches the text to become a button.")
 
 (defconst markdown-regex-block-separator
   "\\(\\`\\|\\(\n[ \t]*\n\\)[^\n \t]\\)"
@@ -4843,6 +4877,47 @@ before regenerating font-lock rules for extensions."
     (markdown-reload-extensions)))
 
 
+;;; GFM Checkboxes as Buttons =================================================
+
+(require 'button)
+
+(define-button-type 'markdown-gfm-checkbox-button
+  'follow-link t
+  'face 'markdown-gfm-checkbox-face
+  'mouse-face 'markdown-highlight-face
+  'action #'markdown-toggle-gfm-checkbox)
+
+(defun markdown-toggle-gfm-checkbox (button)
+  "Toggle a GFM checkbox clicked on."
+  (save-match-data
+    (save-excursion
+      (goto-char (button-start button))
+      (cond ((looking-at "\\[ \\]")
+             (replace-match "[x]" nil t))
+            ((looking-at "\\[[xX]\\]")
+             (replace-match "[ ]" nil t))))))
+
+(defun markdown-make-gfm-checkboxes-buttons (start end)
+  "Make GFM checkboxes buttons in region between START and END."
+  (save-excursion
+    (goto-char start)
+    (let ((case-fold-search t))
+      (save-excursion
+	(while (re-search-forward markdown-regex-gfm-checkbox end t)
+	  (make-button (match-beginning 1) (match-end 1)
+                       :type 'markdown-gfm-checkbox-button))))))
+
+;; Called when any modification is made to buffer text.
+(defun markdown-gfm-checkbox-after-change-function (beg end old-len)
+  "Add to `after-change-functions' to setup GFM checkboxes as buttons."
+  (save-excursion
+    (save-match-data
+      ;; Rescan between start of line from `beg' and start of line after `end'.
+      (markdown-make-gfm-checkboxes-buttons
+       (progn (goto-char beg) (beginning-of-line) (point))
+       (progn (goto-char end) (forward-line 1) (point))))))
+
+
 ;;; Mode Definition  ==========================================================
 
 (defun markdown-show-version ()
@@ -4953,6 +5028,11 @@ before regenerating font-lock rules for extensions."
 
   ;; Anytime text changes make sure it gets fontified correctly
   (add-hook 'after-change-functions 'markdown-check-change-for-wiki-link t t)
+
+  ;; Make checkboxes buttons
+  (when markdown-make-gfm-checkboxes-buttons
+    (markdown-make-gfm-checkboxes-buttons (point-min) (point-max))
+    (add-hook 'after-change-functions 'markdown-gfm-checkbox-after-change-function t t))
 
   ;; If we left the buffer there is a really good chance we were
   ;; creating one of the wiki link documents. Make sure we get

@@ -129,7 +129,7 @@
 	  w32-pass-apps-to-system nil
 	  w32-pass-alt-to-system nil
 	  w32-lwindow-modifier 'super ; Left Windows key
-	  w32-rwindow-modifier 'super ; Right Windows key
+	  w32-rwindow-modifier 'hyper ; Right Windows key
 	  w32-apps-modifier 'hyper    ; Menu key
 	  ))
 

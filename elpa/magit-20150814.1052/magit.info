@@ -1444,11 +1444,12 @@ that it should be bound globally.  We recommend using ‘C-x g’:
                       (define-key ido-completion-map
                         (kbd \"C-x g\") 'ido-enter-magit-status)))
 
-     Starting with Emacs 25.1 that keymap can also be customized in a
-     sane fashion:
+     Starting with Emacs 25.1 the Ido keymaps are defined just once
+     instead of every time Ido is invoked, so now you can modify it like
+     pretty much every other keymap:
 
-          (define-key ido-completion-map
-             (kbd \"C-x g\") 'ido-enter-magit-status)))
+          (define-key ido-common-completion-map
+            (kbd \"C-x g\") 'ido-enter-magit-status)
 
 * Menu:
 
@@ -6767,89 +6768,89 @@ Node: Git executable48660
 Node: Global Git arguments50667
 Node: Inspecting51474
 Node: Status buffer52601
-Node: Status sections55052
-Node: Status header sections59395
-Node: Status options61225
-Node: Logging62438
-Node: Refreshing logs64805
-Node: Log Buffer66190
-Node: Select from log69484
-Node: Reflog70424
-Node: Diffing70902
-Node: Refreshing diffs73898
-Node: Diff buffer76878
-Node: Diff options78780
-Node: Revision buffer81863
-Node: Ediffing82405
-Node: References buffer85454
-Node: References sections90158
-Node: Bisecting91033
-Node: Visiting blobs92529
-Node: Blaming93038
-Node: Manipulating96425
-Node: Repository setup96717
-Node: Staging and unstaging97480
-Node: Staging from file-visiting buffers99931
-Node: Applying101099
-Node: Committing102742
-Node: Initiating a commit103325
-Node: Editing commit messages106504
-Node: Branching114011
-Node: Merging116539
-Node: Rebasing118623
-Node: Editing rebase sequences120349
-Node: Rebase sequence log123383
-Node: Cherry picking130127
-Node: Reverting131733
-Node: Resetting133096
-Node: Stashing134380
-Node: Transferring137444
-Node: Remotes137682
-Node: Fetching138485
-Node: Pulling139301
-Node: Pushing139801
-Node: Creating and sending patches142779
-Node: Applying patches143474
-Node: Miscellaneous144472
-Node: Tagging144680
-Node: Notes145465
-Node: Submodules147990
-Node: Wip modes149304
-Node: File-buffer mode156014
-Node: Customizing156988
-Node: Per-repository configuration158660
-Node: Essential settings160308
-Node: Safety160632
-Node: Performance163813
-Node: Plumbing169691
-Node: Calling Git170319
-Node: Getting a value from Git171842
-Node: Calling Git for effect174946
-Node: Section plumbing181450
-Node: Creating sections181678
-Node: Section selection185481
-Node: Matching sections187161
-Node: Refreshing buffers192363
-Node: Conventions195498
-Node: Confirmation and completion195675
-Node: Theming Faces196573
-Node: FAQ204724
-Node: Magit is slow205733
-Node: I am having problems committing205899
-Node: I am using an Emacs release older than 244206297
-Node: I am using a Git release older than 194207743
-Node: I am using MS Windows and cannot push with Magit208582
-Node: How to install the gitman info manual?209160
-Node: How can I show Git's output?211742
-Node: Expanding a file to show the diff causes it to disappear212552
-Node: Magit claims repository accessed using Tramp does not exist213092
-Node: Can Magit be used as ediff-version-control-package?214238
-Node: How to show diffs for gpg-encrypted files?216278
-Node: Emacs 245 hangs when loading Magit216869
-Node: Keystroke Index217388
-Node: Command Index242074
-Node: Function Index267497
-Node: Variable Index277478
+Node: Status sections55145
+Node: Status header sections59488
+Node: Status options61318
+Node: Logging62531
+Node: Refreshing logs64898
+Node: Log Buffer66283
+Node: Select from log69577
+Node: Reflog70517
+Node: Diffing70995
+Node: Refreshing diffs73991
+Node: Diff buffer76971
+Node: Diff options78873
+Node: Revision buffer81956
+Node: Ediffing82498
+Node: References buffer85547
+Node: References sections90251
+Node: Bisecting91126
+Node: Visiting blobs92622
+Node: Blaming93131
+Node: Manipulating96518
+Node: Repository setup96810
+Node: Staging and unstaging97573
+Node: Staging from file-visiting buffers100024
+Node: Applying101192
+Node: Committing102835
+Node: Initiating a commit103418
+Node: Editing commit messages106597
+Node: Branching114104
+Node: Merging116632
+Node: Rebasing118716
+Node: Editing rebase sequences120442
+Node: Rebase sequence log123476
+Node: Cherry picking130220
+Node: Reverting131826
+Node: Resetting133189
+Node: Stashing134473
+Node: Transferring137537
+Node: Remotes137775
+Node: Fetching138578
+Node: Pulling139394
+Node: Pushing139894
+Node: Creating and sending patches142872
+Node: Applying patches143567
+Node: Miscellaneous144565
+Node: Tagging144773
+Node: Notes145558
+Node: Submodules148083
+Node: Wip modes149397
+Node: File-buffer mode156107
+Node: Customizing157081
+Node: Per-repository configuration158753
+Node: Essential settings160401
+Node: Safety160725
+Node: Performance163906
+Node: Plumbing169784
+Node: Calling Git170412
+Node: Getting a value from Git171935
+Node: Calling Git for effect175039
+Node: Section plumbing181543
+Node: Creating sections181771
+Node: Section selection185574
+Node: Matching sections187254
+Node: Refreshing buffers192456
+Node: Conventions195591
+Node: Confirmation and completion195768
+Node: Theming Faces196666
+Node: FAQ204817
+Node: Magit is slow205826
+Node: I am having problems committing205992
+Node: I am using an Emacs release older than 244206390
+Node: I am using a Git release older than 194207836
+Node: I am using MS Windows and cannot push with Magit208675
+Node: How to install the gitman info manual?209253
+Node: How can I show Git's output?211835
+Node: Expanding a file to show the diff causes it to disappear212645
+Node: Magit claims repository accessed using Tramp does not exist213185
+Node: Can Magit be used as ediff-version-control-package?214331
+Node: How to show diffs for gpg-encrypted files?216371
+Node: Emacs 245 hangs when loading Magit216962
+Node: Keystroke Index217481
+Node: Command Index242167
+Node: Function Index267590
+Node: Variable Index277571
 
 End Tag Table
 

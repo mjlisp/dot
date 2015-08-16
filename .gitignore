@@ -31,4 +31,4 @@ places
 recentf
 tramp
 kkcrc
-*.session
+session.*

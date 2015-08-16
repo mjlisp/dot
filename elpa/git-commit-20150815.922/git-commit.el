@@ -13,7 +13,7 @@
 
 ;; Package-Requires: ((emacs "24.4") (dash "2.11.0") (with-editor "20150808"))
 ;; Keywords: git tools vc
-;; Package-Version: 20150808.1054
+;; Package-Version: 20150815.922
 ;; Homepage: https://github.com/magit/magit
 
 ;; This file is not part of GNU Emacs.
@@ -430,12 +430,7 @@ finally check current non-comment text."
   (flyspell-buffer))
 
 (defun git-commit-flyspell-verify ()
-  (not (memq (get-text-property (point) 'face)
-             '(font-lock-comment-face     font-lock-comment-delimiter-face
-               git-commit-comment-branch  git-commit-comment-detached
-               git-commit-comment-heading git-commit-comment-file
-               git-commit-comment-action  git-commit-pseudo-header
-               git-commit-known-pseudo-header))))
+  (not (= (char-after (line-beginning-position)) ?#)))
 
 (defun git-commit-finish-query-functions (force)
   (run-hook-with-args-until-failure
@@ -645,8 +640,8 @@ With a numeric prefix ARG, go forward ARG comments."
                 (delete-region (point) (point-max)))))
            (diff-mode)
            (let (font-lock-verbose font-lock-support-mode)
-             (if (fboundp 'font-lock-ensure)
-                 (font-lock-ensure)
+             (if (fboundp 'font-lock-flush)
+                 (font-lock-flush)
                (with-no-warnings
                  (font-lock-fontify-buffer))))
            (let (next (pos (point-min)))

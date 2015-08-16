@@ -1268,32 +1268,54 @@ to a shell.
 
 ‘!’     (‘magit-run-popup’)
 
-     Show the popup buffer featuring the below suffix commands.
+     Shows the popup buffer featuring the below suffix commands.
+
+   These suffix commands run a Git subcommand.  The user input has to
+begin with the subcommand, "git" is assumed.
 
 ‘! !’     (‘magit-git-command-topdir’)
 
-     Execute a Git subcommand asynchronously, displaying the output.
+     This command reads a Git subcommand from the user and executes it
+     in the top-level directory of the current repository.
 
-     With a prefix argument run Git in the root of the current
-     repository.
+‘! p’     (‘magit-git-command’)
 
-‘! :’     (‘magit-git-command’)
+     This command reads a Git subcommand from the user and executes it
+     in ‘default-directory’.  With a prefix argument the command is
+     executed in the top-level directory of the current repository
+     instead.
 
-     Execute a Git subcommand asynchronously, displaying the output.
-     Run Git in the top-level directory of the current repository.
+   These suffix commands run arbitrary shell commands.
 
-   This popup also features some commands that start external gui tools.
+‘! !’     (‘magit-shell-command-topdir’)
 
-‘! g’     (‘magit-run-git-gui’)
+     This command reads a shell command from the user and executes it in
+     the top-level directory of the current repository.
 
-     Run ‘git gui’ for the current git repository.
+‘! p’     (‘magit-shell-command’)
+
+     This command reads a shell command from the user and executes it in
+     ‘default-directory’.  With a prefix argument the command is
+     executed in the top-level directory of the current repository
+     instead.
+
+   These suffix commands start external gui tools.
 
 ‘! k’     (‘magit-run-gitk’)
 
-     Run Gitk for the current git repository.
+     This command runs ‘gitk’ in the current repository.
 
-     Run ‘gitk --all’.  With a prefix argument run gitk without any
-     arguments.
+‘! a’     (‘magit-run-gitk-all’)
+
+     This command runs ‘gitk --all’ in the current repository.
+
+‘! b’     (‘magit-run-gitk-branches’)
+
+     This command runs ‘gitk --branches’ in the current repository.
+
+‘! g’     (‘magit-run-git-gui’)
+
+     This command runs ‘git gui’ in the current repository.
 
 
 File: magit.info,  Node: Git executable,  Next: Global Git arguments,  Prev: Running Git manually,  Up: Running Git
@@ -3322,7 +3344,7 @@ following commands.
      Start a non-interactive rebase sequence.  All commits not in
      UPSTREAM are rebased.
 
-‘r o’     (‘magit-rebase-from’)
+‘r o’     (‘magit-rebase-subset’)
 
      Start a non-interactive rebase sequence with commits from START to
      ‘HEAD’ onto NEWBASE. START has to be selected from a list of recent
@@ -3331,6 +3353,15 @@ following commands.
 ‘r e’     (‘magit-rebase-interactive’)
 
      Start an interactive rebase sequence.
+
+‘r l’     (‘magit-rebase-unpushed’)
+
+     Start an interactive rebase sequence of unpushed commits.  This is
+     like ‘magit-rebase-interactive’, but if the upstream of the current
+     branch is configured, then all commits since the merge-base are
+     rebased.  If there is no upstream or no merge-base, then the user
+     has to select the first commit to be rebased like for
+     ‘magit-rebase-interactive’.
 
 ‘r f’     (‘magit-rebase-autosquash’)
 
@@ -5780,13 +5811,21 @@ Appendix B Keystroke Index
 * !:                                     Running Git manually.
                                                               (line  12)
 * ! !:                                   Running Git manually.
-                                                              (line  16)
-* ! ::                                   Running Git manually.
-                                                              (line  23)
+                                                              (line  19)
+* ! ! <1>:                               Running Git manually.
+                                                              (line  33)
+* ! a:                                   Running Git manually.
+                                                              (line  51)
+* ! b:                                   Running Git manually.
+                                                              (line  55)
 * ! g:                                   Running Git manually.
-                                                              (line  30)
+                                                              (line  59)
 * ! k:                                   Running Git manually.
-                                                              (line  34)
+                                                              (line  47)
+* ! p:                                   Running Git manually.
+                                                              (line  24)
+* ! p <1>:                               Running Git manually.
+                                                              (line  38)
 * $:                                     Viewing Git output.  (line  11)
 * +:                                     Log Buffer.          (line  47)
 * + <1>:                                 Refreshing diffs.    (line  58)
@@ -6027,16 +6066,17 @@ Appendix B Keystroke Index
 * r:                                     Rebasing.            (line   8)
 * r <1>:                                 Editing rebase sequences.
                                                               (line  51)
-* r a:                                   Rebasing.            (line  58)
+* r a:                                   Rebasing.            (line  67)
 * r e:                                   Rebasing.            (line  27)
-* r e <1>:                               Rebasing.            (line  54)
-* r f:                                   Rebasing.            (line  31)
+* r e <1>:                               Rebasing.            (line  63)
+* r f:                                   Rebasing.            (line  40)
+* r l:                                   Rebasing.            (line  31)
 * r o:                                   Rebasing.            (line  21)
 * r r:                                   Rebasing.            (line  16)
-* r r <1>:                               Rebasing.            (line  46)
-* r s:                                   Rebasing.            (line  35)
-* r s <1>:                               Rebasing.            (line  50)
-* r w:                                   Rebasing.            (line  39)
+* r r <1>:                               Rebasing.            (line  55)
+* r s:                                   Rebasing.            (line  44)
+* r s <1>:                               Rebasing.            (line  59)
+* r w:                                   Rebasing.            (line  48)
 * RET:                                   Diff buffer.         (line   6)
 * RET <1>:                               References buffer.   (line  99)
 * RET <2>:                               Blaming.             (line  30)
@@ -6282,9 +6322,9 @@ Appendix C Command Index
 * magit-format-patch:                    Creating and sending patches.
                                                               (line  11)
 * magit-git-command:                     Running Git manually.
-                                                              (line  23)
+                                                              (line  24)
 * magit-git-command-topdir:              Running Git manually.
-                                                              (line  16)
+                                                              (line  19)
 * magit-go-backward:                     Log Buffer.          (line   6)
 * magit-go-backward <1>:                 Refreshing diffs.    (line  80)
 * magit-go-forward:                      Log Buffer.          (line  10)
@@ -6342,16 +6382,17 @@ Appendix C Command Index
 * magit-push-tag:                        Pushing.             (line  57)
 * magit-push-tags:                       Pushing.             (line  51)
 * magit-rebase:                          Rebasing.            (line  16)
-* magit-rebase-abort:                    Rebasing.            (line  58)
-* magit-rebase-autosquash:               Rebasing.            (line  31)
-* magit-rebase-continue:                 Rebasing.            (line  46)
-* magit-rebase-edit:                     Rebasing.            (line  54)
-* magit-rebase-edit-commit:              Rebasing.            (line  35)
-* magit-rebase-from:                     Rebasing.            (line  21)
+* magit-rebase-abort:                    Rebasing.            (line  67)
+* magit-rebase-autosquash:               Rebasing.            (line  40)
+* magit-rebase-continue:                 Rebasing.            (line  55)
+* magit-rebase-edit:                     Rebasing.            (line  63)
+* magit-rebase-edit-commit:              Rebasing.            (line  44)
 * magit-rebase-interactive:              Rebasing.            (line  27)
 * magit-rebase-popup:                    Rebasing.            (line   8)
-* magit-rebase-reword-commit:            Rebasing.            (line  39)
-* magit-rebase-skip:                     Rebasing.            (line  50)
+* magit-rebase-reword-commit:            Rebasing.            (line  48)
+* magit-rebase-skip:                     Rebasing.            (line  59)
+* magit-rebase-subset:                   Rebasing.            (line  21)
+* magit-rebase-unpushed:                 Rebasing.            (line  31)
 * magit-reflog-current:                  Reflog.              (line  11)
 * magit-reflog-head:                     Reflog.              (line  19)
 * magit-reflog-other:                    Reflog.              (line  15)
@@ -6379,9 +6420,13 @@ Appendix C Command Index
 * magit-revert-no-commit:                Reverting.           (line  20)
 * magit-revert-popup:                    Reverting.           (line   6)
 * magit-run-git-gui:                     Running Git manually.
-                                                              (line  30)
+                                                              (line  59)
 * magit-run-gitk:                        Running Git manually.
-                                                              (line  34)
+                                                              (line  47)
+* magit-run-gitk-all:                    Running Git manually.
+                                                              (line  51)
+* magit-run-gitk-branches:               Running Git manually.
+                                                              (line  55)
 * magit-run-popup:                       Running Git manually.
                                                               (line  12)
 * magit-section-backward:                Section movement.    (line  10)
@@ -6413,6 +6458,10 @@ Appendix C Command Index
 * magit-sequence-continue <1>:           Reverting.           (line  30)
 * magit-sequence-skip:                   Cherry picking.      (line  39)
 * magit-sequence-skip <1>:               Reverting.           (line  34)
+* magit-shell-command:                   Running Git manually.
+                                                              (line  38)
+* magit-shell-command-topdir:            Running Git manually.
+                                                              (line  33)
 * magit-show-commit:                     Diffing.             (line  75)
 * magit-show-commit <1>:                 Blaming.             (line  30)
 * magit-show-refs:                       References buffer.   (line  24)
@@ -6764,93 +6813,93 @@ Node: Completion and confirmation43223
 Node: Running Git46129
 Node: Viewing Git output46365
 Node: Running Git manually47365
-Node: Git executable48660
-Node: Global Git arguments50667
-Node: Inspecting51474
-Node: Status buffer52601
-Node: Status sections55145
-Node: Status header sections59488
-Node: Status options61318
-Node: Logging62531
-Node: Refreshing logs64898
-Node: Log Buffer66283
-Node: Select from log69577
-Node: Reflog70517
-Node: Diffing70995
-Node: Refreshing diffs73991
-Node: Diff buffer76971
-Node: Diff options78873
-Node: Revision buffer81956
-Node: Ediffing82498
-Node: References buffer85547
-Node: References sections90251
-Node: Bisecting91126
-Node: Visiting blobs92622
-Node: Blaming93131
-Node: Manipulating96518
-Node: Repository setup96810
-Node: Staging and unstaging97573
-Node: Staging from file-visiting buffers100024
-Node: Applying101192
-Node: Committing102835
-Node: Initiating a commit103418
-Node: Editing commit messages106597
-Node: Branching114104
-Node: Merging116632
-Node: Rebasing118716
-Node: Editing rebase sequences120442
-Node: Rebase sequence log123476
-Node: Cherry picking130220
-Node: Reverting131826
-Node: Resetting133189
-Node: Stashing134473
-Node: Transferring137537
-Node: Remotes137775
-Node: Fetching138578
-Node: Pulling139394
-Node: Pushing139894
-Node: Creating and sending patches142872
-Node: Applying patches143567
-Node: Miscellaneous144565
-Node: Tagging144773
-Node: Notes145558
-Node: Submodules148083
-Node: Wip modes149397
-Node: File-buffer mode156107
-Node: Customizing157081
-Node: Per-repository configuration158753
-Node: Essential settings160401
-Node: Safety160725
-Node: Performance163906
-Node: Plumbing169784
-Node: Calling Git170412
-Node: Getting a value from Git171935
-Node: Calling Git for effect175039
-Node: Section plumbing181543
-Node: Creating sections181771
-Node: Section selection185574
-Node: Matching sections187254
-Node: Refreshing buffers192456
-Node: Conventions195591
-Node: Confirmation and completion195768
-Node: Theming Faces196666
-Node: FAQ204817
-Node: Magit is slow205826
-Node: I am having problems committing205992
-Node: I am using an Emacs release older than 244206390
-Node: I am using a Git release older than 194207836
-Node: I am using MS Windows and cannot push with Magit208675
-Node: How to install the gitman info manual?209253
-Node: How can I show Git's output?211835
-Node: Expanding a file to show the diff causes it to disappear212645
-Node: Magit claims repository accessed using Tramp does not exist213185
-Node: Can Magit be used as ediff-version-control-package?214331
-Node: How to show diffs for gpg-encrypted files?216371
-Node: Emacs 245 hangs when loading Magit216962
-Node: Keystroke Index217481
-Node: Command Index242167
-Node: Function Index267590
-Node: Variable Index277571
+Node: Git executable49491
+Node: Global Git arguments51498
+Node: Inspecting52305
+Node: Status buffer53432
+Node: Status sections55976
+Node: Status header sections60319
+Node: Status options62149
+Node: Logging63362
+Node: Refreshing logs65729
+Node: Log Buffer67114
+Node: Select from log70408
+Node: Reflog71348
+Node: Diffing71826
+Node: Refreshing diffs74822
+Node: Diff buffer77802
+Node: Diff options79704
+Node: Revision buffer82787
+Node: Ediffing83329
+Node: References buffer86378
+Node: References sections91082
+Node: Bisecting91957
+Node: Visiting blobs93453
+Node: Blaming93962
+Node: Manipulating97349
+Node: Repository setup97641
+Node: Staging and unstaging98404
+Node: Staging from file-visiting buffers100855
+Node: Applying102023
+Node: Committing103666
+Node: Initiating a commit104249
+Node: Editing commit messages107428
+Node: Branching114935
+Node: Merging117463
+Node: Rebasing119547
+Node: Editing rebase sequences121706
+Node: Rebase sequence log124740
+Node: Cherry picking131484
+Node: Reverting133090
+Node: Resetting134453
+Node: Stashing135737
+Node: Transferring138801
+Node: Remotes139039
+Node: Fetching139842
+Node: Pulling140658
+Node: Pushing141158
+Node: Creating and sending patches144136
+Node: Applying patches144831
+Node: Miscellaneous145829
+Node: Tagging146037
+Node: Notes146822
+Node: Submodules149347
+Node: Wip modes150661
+Node: File-buffer mode157371
+Node: Customizing158345
+Node: Per-repository configuration160017
+Node: Essential settings161665
+Node: Safety161989
+Node: Performance165170
+Node: Plumbing171048
+Node: Calling Git171676
+Node: Getting a value from Git173199
+Node: Calling Git for effect176303
+Node: Section plumbing182807
+Node: Creating sections183035
+Node: Section selection186838
+Node: Matching sections188518
+Node: Refreshing buffers193720
+Node: Conventions196855
+Node: Confirmation and completion197032
+Node: Theming Faces197930
+Node: FAQ206081
+Node: Magit is slow207090
+Node: I am having problems committing207256
+Node: I am using an Emacs release older than 244207654
+Node: I am using a Git release older than 194209100
+Node: I am using MS Windows and cannot push with Magit209939
+Node: How to install the gitman info manual?210517
+Node: How can I show Git's output?213099
+Node: Expanding a file to show the diff causes it to disappear213909
+Node: Magit claims repository accessed using Tramp does not exist214449
+Node: Can Magit be used as ediff-version-control-package?215595
+Node: How to show diffs for gpg-encrypted files?217635
+Node: Emacs 245 hangs when loading Magit218226
+Node: Keystroke Index218745
+Node: Command Index244048
+Node: Function Index270088
+Node: Variable Index280069
 
 End Tag Table
 

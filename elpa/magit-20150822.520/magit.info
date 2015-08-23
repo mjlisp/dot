@@ -2634,9 +2634,8 @@ Also see *note (gitman)git-blame:: .
 
 ‘M-x magit-blame-popup’     (‘magit-blame-popup’)
 
-     By default this behaves just like ‘magit-blame’.  With a prefix
-     argument instead show a popup buffer featuring a few infix
-     arguments and a single suffix command (‘magit-blame’).
+     This prefix command shows the following suffix commands along with
+     the appropriate infix arguments in a popup buffer.
 
 ‘RET’     (‘magit-show-commit’)
 
@@ -2807,6 +2806,10 @@ apply variants are described in the next section.
 ‘M-x magit-unstage-all’     (‘magit-unstage-all’)
 
      Remove all changes from the staging area.
+
+   To stage a smaller unit than a range of lines, similar to ‘git add
+--patch’ followed by ‘e’ would do, then you can use ‘magit-ediff-stage’
+to do so.
 
 * Menu:
 
@@ -5932,7 +5935,7 @@ Appendix B Keystroke Index
 * D w:                                   Refreshing diffs.    (line  28)
 * DEL:                                   Log Buffer.          (line  24)
 * DEL <1>:                               Diff buffer.         (line  48)
-* DEL <2>:                               Blaming.             (line  45)
+* DEL <2>:                               Blaming.             (line  44)
 * DEL <3>:                               Editing rebase sequences.
                                                               (line  28)
 * e:                                     Ediffing.            (line   6)
@@ -6010,7 +6013,7 @@ Appendix B Keystroke Index
 * M-p <2>:                               Editing rebase sequences.
                                                               (line  43)
 * M-w:                                   Modes and Buffers.   (line  49)
-* M-w <1>:                               Blaming.             (line  76)
+* M-w <1>:                               Blaming.             (line  75)
 * M-x magit-blame:                       Blaming.             (line   8)
 * M-x magit-blame-popup:                 Blaming.             (line  24)
 * M-x magit-clone:                       Repository setup.    (line  16)
@@ -6036,8 +6039,8 @@ Appendix B Keystroke Index
 * M-x magit-version:                     Git executable.      (line  17)
 * M-x magit-wip-commit:                  Wip modes.           (line 129)
 * n:                                     Section movement.    (line  16)
-* n <1>:                                 Blaming.             (line  55)
-* N:                                     Blaming.             (line  59)
+* n <1>:                                 Blaming.             (line  54)
+* N:                                     Blaming.             (line  58)
 * n <2>:                                 Editing rebase sequences.
                                                               (line  39)
 * o:                                     Submodules.          (line   8)
@@ -6049,8 +6052,8 @@ Appendix B Keystroke Index
 * o s:                                   Submodules.          (line  33)
 * o u:                                   Submodules.          (line  28)
 * p:                                     Section movement.    (line  10)
-* p <1>:                                 Blaming.             (line  63)
-* P:                                     Blaming.             (line  67)
+* p <1>:                                 Blaming.             (line  62)
+* P:                                     Blaming.             (line  66)
 * p <2>:                                 Editing rebase sequences.
                                                               (line  35)
 * P <1>:                                 Pushing.             (line   8)
@@ -6064,7 +6067,7 @@ Appendix B Keystroke Index
 * P T:                                   Pushing.             (line  57)
 * q:                                     Modes and Buffers.   (line  17)
 * q <1>:                                 Log Buffer.          (line  34)
-* q <2>:                                 Blaming.             (line  71)
+* q <2>:                                 Blaming.             (line  70)
 * r:                                     Rebasing.            (line   8)
 * r <1>:                                 Editing rebase sequences.
                                                               (line  51)
@@ -6081,7 +6084,7 @@ Appendix B Keystroke Index
 * r w:                                   Rebasing.            (line  48)
 * RET:                                   Diff buffer.         (line   6)
 * RET <1>:                               References buffer.   (line  99)
-* RET <2>:                               Blaming.             (line  30)
+* RET <2>:                               Blaming.             (line  29)
 * RET <3>:                               Editing rebase sequences.
                                                               (line  16)
 * s:                                     Staging and unstaging.
@@ -6093,10 +6096,10 @@ Appendix B Keystroke Index
 * s-<tab>:                               Section visibility.  (line  22)
 * SPC:                                   Log Buffer.          (line  14)
 * SPC <1>:                               Diff buffer.         (line  44)
-* SPC <2>:                               Blaming.             (line  35)
+* SPC <2>:                               Blaming.             (line  34)
 * SPC <3>:                               Editing rebase sequences.
                                                               (line  21)
-* t:                                     Blaming.             (line  80)
+* t:                                     Blaming.             (line  79)
 * t <1>:                                 Tagging.             (line   8)
 * T:                                     Notes.               (line   8)
 * T a:                                   Notes.               (line  70)
@@ -6233,14 +6236,14 @@ Appendix C Command Index
 * magit-bisect-skip:                     Bisecting.           (line  41)
 * magit-bisect-start:                    Bisecting.           (line  16)
 * magit-blame:                           Blaming.             (line   8)
-* magit-blame-copy-hash:                 Blaming.             (line  76)
-* magit-blame-next-chunk:                Blaming.             (line  55)
-* magit-blame-next-chunk-same-commit:    Blaming.             (line  59)
+* magit-blame-copy-hash:                 Blaming.             (line  75)
+* magit-blame-next-chunk:                Blaming.             (line  54)
+* magit-blame-next-chunk-same-commit:    Blaming.             (line  58)
 * magit-blame-popup:                     Blaming.             (line  24)
-* magit-blame-previous-chunk:            Blaming.             (line  63)
-* magit-blame-previous-chunk-same-commit: Blaming.            (line  67)
-* magit-blame-quit:                      Blaming.             (line  71)
-* magit-blame-toggle-headings:           Blaming.             (line  80)
+* magit-blame-previous-chunk:            Blaming.             (line  62)
+* magit-blame-previous-chunk-same-commit: Blaming.            (line  66)
+* magit-blame-quit:                      Blaming.             (line  70)
+* magit-blame-toggle-headings:           Blaming.             (line  79)
 * magit-branch:                          Branching.           (line  21)
 * magit-branch-and-checkout:             Branching.           (line  29)
 * magit-branch-delete:                   Branching.           (line  34)
@@ -6283,11 +6286,11 @@ Appendix C Command Index
 * magit-diff-save-default-arguments:     Refreshing diffs.    (line  28)
 * magit-diff-set-default-arguments:      Refreshing diffs.    (line  21)
 * magit-diff-show-or-scroll-down:        Log Buffer.          (line  24)
-* magit-diff-show-or-scroll-down <1>:    Blaming.             (line  45)
+* magit-diff-show-or-scroll-down <1>:    Blaming.             (line  44)
 * magit-diff-show-or-scroll-down <2>:    Editing rebase sequences.
                                                               (line  28)
 * magit-diff-show-or-scroll-up:          Log Buffer.          (line  14)
-* magit-diff-show-or-scroll-up <1>:      Blaming.             (line  35)
+* magit-diff-show-or-scroll-up <1>:      Blaming.             (line  34)
 * magit-diff-show-or-scroll-up <2>:      Editing rebase sequences.
                                                               (line  21)
 * magit-diff-staged:                     Diffing.             (line  49)
@@ -6465,7 +6468,7 @@ Appendix C Command Index
 * magit-shell-command-topdir:            Running Git manually.
                                                               (line  33)
 * magit-show-commit:                     Diffing.             (line  75)
-* magit-show-commit <1>:                 Blaming.             (line  30)
+* magit-show-commit <1>:                 Blaming.             (line  29)
 * magit-show-refs:                       References buffer.   (line  24)
 * magit-show-refs-current:               References buffer.   (line  19)
 * magit-show-refs-head:                  References buffer.   (line  14)
@@ -6707,10 +6710,10 @@ Appendix E Variable Index
 * global-magit-file-buffer-mode:         File-buffer mode.    (line  12)
 * magit-after-revert-hook:               Automatic refresh and revert.
                                                               (line  82)
-* magit-blame-goto-chunk-hook:           Blaming.             (line  97)
-* magit-blame-heading-format:            Blaming.             (line  84)
-* magit-blame-show-headings:             Blaming.             (line  92)
-* magit-blame-time-format:               Blaming.             (line  88)
+* magit-blame-goto-chunk-hook:           Blaming.             (line  96)
+* magit-blame-heading-format:            Blaming.             (line  83)
+* magit-blame-show-headings:             Blaming.             (line  91)
+* magit-blame-time-format:               Blaming.             (line  87)
 * magit-branch-read-upstream-first:      Branching.           (line  63)
 * magit-commit-ask-to-stage:             Initiating a commit. (line  72)
 * magit-commit-extend-override-date:     Initiating a commit. (line  77)
@@ -6838,70 +6841,70 @@ Node: References sections91184
 Node: Bisecting92059
 Node: Visiting blobs93555
 Node: Blaming94064
-Node: Manipulating97451
-Node: Repository setup97743
-Node: Staging and unstaging98506
-Node: Staging from file-visiting buffers100957
-Node: Applying102125
-Node: Committing103768
-Node: Initiating a commit104351
-Node: Editing commit messages107530
-Node: Branching115037
-Node: Merging117565
-Node: Rebasing119649
-Node: Editing rebase sequences121808
-Node: Rebase sequence log124842
-Node: Cherry picking131586
-Node: Reverting133192
-Node: Resetting134555
-Node: Stashing135839
-Node: Transferring138903
-Node: Remotes139141
-Node: Fetching139944
-Node: Pulling140760
-Node: Pushing141260
-Node: Creating and sending patches144238
-Node: Applying patches144933
-Node: Miscellaneous145931
-Node: Tagging146139
-Node: Notes146924
-Node: Submodules149449
-Node: Wip modes150763
-Node: File-buffer mode157473
-Node: Customizing158447
-Node: Per-repository configuration160119
-Node: Essential settings161767
-Node: Safety162091
-Node: Performance165272
-Node: Plumbing171150
-Node: Calling Git171778
-Node: Getting a value from Git173301
-Node: Calling Git for effect176405
-Node: Section plumbing182909
-Node: Creating sections183137
-Node: Section selection186940
-Node: Matching sections188620
-Node: Refreshing buffers193822
-Node: Conventions196957
-Node: Confirmation and completion197134
-Node: Theming Faces198032
-Node: FAQ206183
-Node: Magit is slow207192
-Node: I am having problems committing207358
-Node: I am using an Emacs release older than 244207756
-Node: I am using a Git release older than 194209202
-Node: I am using MS Windows and cannot push with Magit210041
-Node: How to install the gitman info manual?210619
-Node: How can I show Git's output?213201
-Node: Expanding a file to show the diff causes it to disappear214011
-Node: Magit claims repository accessed using Tramp does not exist214551
-Node: Can Magit be used as ediff-version-control-package?215697
-Node: How to show diffs for gpg-encrypted files?217737
-Node: Emacs 245 hangs when loading Magit218328
-Node: Keystroke Index218847
-Node: Command Index244150
-Node: Function Index270190
-Node: Variable Index280171
+Node: Manipulating97378
+Node: Repository setup97670
+Node: Staging and unstaging98433
+Node: Staging from file-visiting buffers101049
+Node: Applying102217
+Node: Committing103860
+Node: Initiating a commit104443
+Node: Editing commit messages107622
+Node: Branching115129
+Node: Merging117657
+Node: Rebasing119741
+Node: Editing rebase sequences121900
+Node: Rebase sequence log124934
+Node: Cherry picking131678
+Node: Reverting133284
+Node: Resetting134647
+Node: Stashing135931
+Node: Transferring138995
+Node: Remotes139233
+Node: Fetching140036
+Node: Pulling140852
+Node: Pushing141352
+Node: Creating and sending patches144330
+Node: Applying patches145025
+Node: Miscellaneous146023
+Node: Tagging146231
+Node: Notes147016
+Node: Submodules149541
+Node: Wip modes150855
+Node: File-buffer mode157565
+Node: Customizing158539
+Node: Per-repository configuration160211
+Node: Essential settings161859
+Node: Safety162183
+Node: Performance165364
+Node: Plumbing171242
+Node: Calling Git171870
+Node: Getting a value from Git173393
+Node: Calling Git for effect176497
+Node: Section plumbing183001
+Node: Creating sections183229
+Node: Section selection187032
+Node: Matching sections188712
+Node: Refreshing buffers193914
+Node: Conventions197049
+Node: Confirmation and completion197226
+Node: Theming Faces198124
+Node: FAQ206275
+Node: Magit is slow207284
+Node: I am having problems committing207450
+Node: I am using an Emacs release older than 244207848
+Node: I am using a Git release older than 194209294
+Node: I am using MS Windows and cannot push with Magit210133
+Node: How to install the gitman info manual?210711
+Node: How can I show Git's output?213293
+Node: Expanding a file to show the diff causes it to disappear214103
+Node: Magit claims repository accessed using Tramp does not exist214643
+Node: Can Magit be used as ediff-version-control-package?215789
+Node: How to show diffs for gpg-encrypted files?217829
+Node: Emacs 245 hangs when loading Magit218420
+Node: Keystroke Index218939
+Node: Command Index244242
+Node: Function Index270282
+Node: Variable Index280263
 
 End Tag Table
 

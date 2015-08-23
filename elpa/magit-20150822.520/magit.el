@@ -1004,6 +1004,8 @@ existing one."
 (defun magit-get-revision-buffer-create (rev file)
   (magit-get-revision-buffer rev file t))
 
+(defvar magit-find-file-hook nil)
+
 (defun magit-find-file-noselect (rev file)
   "Read FILE from REV into a buffer and return the buffer.
 FILE must be relative to the top directory of the repository."
@@ -1022,6 +1024,8 @@ FILE must be relative to the top directory of the repository."
         (goto-char (point-min))
         (run-hooks 'magit-find-file-hook)
         (current-buffer))))
+
+(defvar magit-find-index-hook nil)
 
 (defun magit-find-file-index-noselect (file &optional revert)
   "Read FILE from the index into a buffer and return the buffer.
@@ -2044,7 +2048,7 @@ repository, otherwise in `default-directory'."
 Run the command in the top-level directory of the current repository.
 \n(fn)" ; arguments are for internal use
   (interactive (magit-read-shell-command "Shell command (pwd: %s)" t))
-  (magit-git-command args directory))
+  (magit-shell-command args directory))
 
 (defun magit-read-shell-command (prompt &optional root)
   (let ((dir (if (or root current-prefix-arg)
@@ -2126,20 +2130,19 @@ When the region is active, then behave like `kill-ring-save'."
   (interactive)
   (if (region-active-p)
       (copy-region-as-kill (mark) (point) 'region)
-    (-when-let (section (magit-current-section))
-      (let ((value (magit-section-value section)))
-        (magit-section-case
-          (branch (when current-prefix-arg
-                    (setq value (magit-rev-parse value))))
-          (commit (setq value (magit-rev-parse value)))
-          (module-commit (let ((default-directory
-                                 (file-name-as-directory
-                                  (expand-file-name
-                                   (magit-section-parent-value section)
-                                   (magit-toplevel)))))
-                           (setq value (magit-rev-parse value))))
-          (t value))
-        (kill-new (message "%s" value))))))
+    (-when-let* ((section (magit-current-section))
+                 (value (magit-section-value section)))
+      (magit-section-case
+        (branch (when current-prefix-arg
+                  (setq value (magit-rev-parse value))))
+        (commit (setq value (magit-rev-parse value)))
+        (module-commit (let ((default-directory
+                               (file-name-as-directory
+                                (expand-file-name
+                                 (magit-section-parent-value section)
+                                 (magit-toplevel)))))
+                         (setq value (magit-rev-parse value)))))
+      (kill-new (message "%s" value)))))
 
 (defun magit-copy-buffer-thing-as-kill ()
   "Save the thing displayed in the current buffer to the kill ring.

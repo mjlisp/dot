@@ -10,6 +10,3 @@
 + `.init/.my-key-bindings.el`: My key bindings. Load early.
 + `.init/some-functions.el`: Nested functions.
 + `.init/test.el`: Unstable functions.
-
-
-

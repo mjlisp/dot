@@ -31,9 +31,8 @@
 
 ;;; Installation:
 
-;; Make sure to place `SHELX-mode.el` somewhere in the load-path and
-;; `M-x SHELX-mode` to enable it.
-;;
+;; Make sure to place `SHELX-mode.el' somewhere in the load-path and
+;; add `(require 'SHELX-mode)' to init file.
 
 ;;; Code:
 
@@ -108,8 +107,11 @@
 ;;         synTable))
 
 ;; Open .ins and .res files with SHELX-mode
-;;;###autoload (add-to-list 'auto-mode-alist '("\\.ins\\'" . SHELX-mode))
-;;;###autoload (add-to-list 'auto-mode-alist '("\\.res\\'" . SHELX-mode))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.ins\\'" . SHELX-mode))
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.res\\'" . SHELX-mode))
 
 ;;;###autoload
 (define-derived-mode SHELX-mode prog-mode
@@ -126,7 +128,6 @@
   
   ;; code for syntax highlighting
   (setq font-lock-defaults '((SHELX-font-lock-keywords)))
-
   )
 
 ;;;###autoload

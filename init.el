@@ -201,15 +201,14 @@
 
 ;; (load "~/.emacs.d/.init/for-org-mode")
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 (load-theme 'my-wheatgrass t)
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; Load the mode written by me.
+(add-to-list 'load-path "~/.emacs.d/local-mode")
+(require 'astyle-utils)
+(require 'hexo-utils)
+(require 'SHELX-mode)
 
 ;; test
 (load "~/.emacs.d/.init/test")

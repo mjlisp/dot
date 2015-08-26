@@ -4,7 +4,7 @@
 
 ;; Author: Magnar Sveen <magnars@gmail.com>
 ;; Version: 2.11.0
-;; Package-Version: 20150804.1354
+;; Package-Version: 20150824.1455
 ;; Keywords: lists
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -396,6 +396,14 @@ Thus function FN should return a list."
 
 (defun -flatten (l)
   "Take a nested list L and return its contents as a single, flat list.
+
+Note that because `nil' represents a list of zero elements (an
+empty list), any mention of nil in L will disappear after
+flattening.  If you need to preserve nils, consider `-flatten-n'
+or map them to some unique symbol and then map them back.
+
+Conses of two atoms are considered \"terminals\", that is, they
+aren't flattened further.
 
 See also: `-flatten-n'"
   (if (and (listp l) (listp (cdr l)))

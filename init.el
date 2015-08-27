@@ -27,7 +27,7 @@
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:" t)
+ '(ess-directory-containing-R "E:")
  '(ess-eval-visibly (quote nowait))
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)
@@ -92,7 +92,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers ac-R)))
+    (ess auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode outline-magic org-ac nlinum loc-changes linum-relative js2-refactor js-comint htmlize hide-region google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
@@ -214,3 +214,9 @@
 (load "~/.emacs.d/.init/test")
 
 ;; (load "~/.emacs.d/paradox-token.el")
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -7,7 +7,7 @@
  '(TeX-PDF-mode t)
  '(TeX-engine (quote xetex))
  '(TeX-queue-command nil)
- '(TeX-shell "bash" t)
+ '(TeX-shell "bash")
  '(ac-auto-show-menu 0.1)
  '(ac-auto-start t)
  '(c-echo-syntactic-information-p t)

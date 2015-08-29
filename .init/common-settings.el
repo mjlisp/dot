@@ -69,10 +69,6 @@
 (autoload 'mew "mew" nil t)
 (autoload 'mew-send "mew" nil t)
 
-(eval-after-load 'ess-mode
-  '(require 'ac-R)
-  )
-
 (when (fboundp 'rainbow-delimiters-mode)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 

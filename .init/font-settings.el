@@ -2,7 +2,7 @@
 
 ;; Setting English Font
 (set-face-attribute
- 'default nil :font "Inconsolata 17") ;: height 130
+ 'default nil :font "Inconsolata 16") ;: height 130
 					  ;; DejaVu Sans
 					  ;; Inconsolata
 					  ;; Droid Sans Mono

@@ -26,7 +26,7 @@
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:")
+ '(ess-directory-containing-R "E:" t)
  '(ess-eval-visibly (quote nowait))
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)
@@ -219,3 +219,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)

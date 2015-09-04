@@ -26,7 +26,7 @@
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:" t)
+ '(ess-directory-containing-R "E:")
  '(ess-eval-visibly (quote nowait))
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)

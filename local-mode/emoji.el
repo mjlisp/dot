@@ -47,10 +47,10 @@
  "An Emoji input method." nil t nil nil nil nil nil nil nil nil t)
 
 (quail-define-rules
- (":smile:" ["\x1f604"])	; SMILING FACE WITH OPEN MOUTH AND SMILING EYES
- (":smiley:" ["\x1f603"])	; SMILING FACE WITH OPEN MOUTH
- (":grinning:" ["\x1f600"])	; GRINNING FACE
- (":blush:" ["\x1f60a"])	; SMILING FACE WITH SMILING EYES
+ (":smile:" ["\x1f604" "\x1f603" "\x1f600" "\x1f60a"])	; SMILING FACE WITH OPEN MOUTH AND SMILING EYES
+ ;; (":smiley:" [])	; SMILING FACE WITH OPEN MOUTH
+ ;; (":grinning:" [])	; GRINNING FACE
+ ;; (":blush:" [])	; SMILING FACE WITH SMILING EYES
  (":relaxed:" ["\x263a"])	; WHITE SMILING FACE
  (":wink:" ["\x1f609"])	; WINKING FACE
  (":heart_eyes:" ["\x1f60d"])	; SMILING FACE WITH HEART-SHAPED EYES

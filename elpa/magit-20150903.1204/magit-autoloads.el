@@ -3,8 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "git-rebase" "git-rebase.el" (21995 35183 0
-;;;;;;  0))
+;;;### (autoloads nil "git-rebase" "git-rebase.el" (21993 945 0 0))
 ;;; Generated autoloads from git-rebase.el
 
 (autoload 'git-rebase-mode "git-rebase" "\
@@ -23,7 +22,7 @@ running 'man git-rebase' at the command line) for details.
 
 ;;;***
 
-;;;### (autoloads nil "magit" "magit.el" (21995 35183 0 0))
+;;;### (autoloads nil "magit" "magit.el" (21993 945 0 0))
 ;;; Generated autoloads from magit.el
 
 (autoload 'magit-status "magit" "\
@@ -80,11 +79,6 @@ With a prefix argument, visit in other window.  If there
 is no file at point then instead visit `default-directory'.
 
 \(fn &optional OTHER-WINDOW)" t nil)
-
-(autoload 'magit-checkout-file "magit" "\
-Checkout FILE from REV.
-
-\(fn REV FILE)" t nil)
 
 (autoload 'magit-init "magit" "\
 Initialize a Git repository, then show its status.
@@ -342,8 +336,8 @@ Run the command in the top-level directory of the current repository.
 
 ;;;***
 
-;;;### (autoloads nil "magit-apply" "magit-apply.el" (21995 35183
-;;;;;;  0 0))
+;;;### (autoloads nil "magit-apply" "magit-apply.el" (21993 945 0
+;;;;;;  0))
 ;;; Generated autoloads from magit-apply.el
 
 (autoload 'magit-stage-file "magit-apply" "\
@@ -379,7 +373,7 @@ Remove all changes from the staging area.
 
 ;;;***
 
-;;;### (autoloads nil "magit-bisect" "magit-bisect.el" (21995 35183
+;;;### (autoloads nil "magit-bisect" "magit-bisect.el" (21993 945
 ;;;;;;  0 0))
 ;;; Generated autoloads from magit-bisect.el
  (autoload 'magit-bisect-popup "magit-bisect" nil t)
@@ -427,8 +421,8 @@ Bisect automatically by running commands after each step.
 
 ;;;***
 
-;;;### (autoloads nil "magit-blame" "magit-blame.el" (21995 35183
-;;;;;;  0 0))
+;;;### (autoloads nil "magit-blame" "magit-blame.el" (21993 945 0
+;;;;;;  0))
 ;;; Generated autoloads from magit-blame.el
  (autoload 'magit-blame-popup "magit-blame" nil t)
 
@@ -452,7 +446,7 @@ only arguments available from `magit-blame-popup' should be used.
 
 ;;;***
 
-;;;### (autoloads nil "magit-commit" "magit-commit.el" (21995 35183
+;;;### (autoloads nil "magit-commit" "magit-commit.el" (21993 945
 ;;;;;;  0 0))
 ;;; Generated autoloads from magit-commit.el
 
@@ -497,45 +491,53 @@ and ignore the option.
 
 (autoload 'magit-commit-fixup "magit-commit" "\
 Create a fixup commit.
-
-With a prefix argument the target COMMIT has to be confirmed.
+With a prefix argument the target commit has to be confirmed.
 Otherwise the commit at point may be used without confirmation
 depending on the value of option `magit-commit-squash-confirm'.
 
-\(fn &optional COMMIT)" t nil)
+\(git commit --no-edit --fixup=COMMIT [ARGS])
+
+\(fn &optional COMMIT ARGS CONFIRM)" t nil)
 
 (autoload 'magit-commit-squash "magit-commit" "\
 Create a squash commit, without editing the squash message.
-
-With a prefix argument the target COMMIT has to be confirmed.
+With a prefix argument the target commit has to be confirmed.
 Otherwise the commit at point may be used without confirmation
 depending on the value of option `magit-commit-squash-confirm'.
 
-\(fn &optional COMMIT)" t nil)
+\(git commit --no-edit --squash=COMMIT [ARGS])
+
+\(fn &optional COMMIT ARGS CONFIRM)" t nil)
 
 (autoload 'magit-commit-augment "magit-commit" "\
 Create a squash commit, editing the squash message.
-
-With a prefix argument the target COMMIT has to be confirmed.
+With a prefix argument the target commit has to be confirmed.
 Otherwise the commit at point may be used without confirmation
 depending on the value of option `magit-commit-squash-confirm'.
 
-\(fn &optional COMMIT)" t nil)
+\(git commit --squash=COMMIT [ARGS])
+
+\(fn &optional COMMIT ARGS CONFIRM)" t nil)
 
 (autoload 'magit-commit-instant-fixup "magit-commit" "\
-Create a fixup commit targeting COMMIT and instantly rebase.
+Create a fixup commit and instantly rebase.
 
-\(fn &optional COMMIT)" t nil)
+\(git commit --no-edit --fixup=COMMIT ARGS;
+ git rebase -i COMMIT^ --autosquash --autostash)
+
+\(fn &optional COMMIT ARGS)" t nil)
 
 (autoload 'magit-commit-instant-squash "magit-commit" "\
-Create a squash commit targeting COMMIT and instantly rebase.
+Create a squash commit and instantly rebase.
 
-\(fn &optional COMMIT)" t nil)
+\(git commit --no-edit --squash=COMMIT ARGS;
+ git rebase -i COMMIT^ --autosquash --autostash)
+
+\(fn &optional COMMIT ARGS)" t nil)
 
 ;;;***
 
-;;;### (autoloads nil "magit-diff" "magit-diff.el" (21995 35183 0
-;;;;;;  0))
+;;;### (autoloads nil "magit-diff" "magit-diff.el" (21993 945 0 0))
 ;;; Generated autoloads from magit-diff.el
 
 (autoload 'magit-diff-dwim "magit-diff" "\
@@ -610,8 +612,8 @@ for a commit.
 
 ;;;***
 
-;;;### (autoloads nil "magit-ediff" "magit-ediff.el" (21995 35183
-;;;;;;  0 0))
+;;;### (autoloads nil "magit-ediff" "magit-ediff.el" (21993 945 0
+;;;;;;  0))
 ;;; Generated autoloads from magit-ediff.el
  (autoload 'magit-ediff-popup "magit-ediff" nil t)
 
@@ -691,7 +693,7 @@ Show changes introduced by COMMIT using Ediff.
 
 ;;;***
 
-;;;### (autoloads nil "magit-extras" "magit-extras.el" (21995 35183
+;;;### (autoloads nil "magit-extras" "magit-extras.el" (21993 945
 ;;;;;;  0 0))
 ;;; Generated autoloads from magit-extras.el
 
@@ -762,7 +764,7 @@ on a position in a file-visiting buffer.
 
 ;;;***
 
-;;;### (autoloads nil "magit-log" "magit-log.el" (21995 35183 0 0))
+;;;### (autoloads nil "magit-log" "magit-log.el" (21993 945 0 0))
 ;;; Generated autoloads from magit-log.el
 
 (autoload 'magit-log-current "magit-log" "\
@@ -830,7 +832,7 @@ Show commits in a branch that are not merged in the upstream branch.
 
 ;;;***
 
-;;;### (autoloads nil "magit-remote" "magit-remote.el" (21995 35183
+;;;### (autoloads nil "magit-remote" "magit-remote.el" (21993 945
 ;;;;;;  0 0))
 ;;; Generated autoloads from magit-remote.el
 
@@ -961,8 +963,8 @@ is asked to pull.  START has to be reachable from that commit.
 
 ;;;***
 
-;;;### (autoloads nil "magit-sequence" "magit-sequence.el" (21995
-;;;;;;  35183 0 0))
+;;;### (autoloads nil "magit-sequence" "magit-sequence.el" (21993
+;;;;;;  945 0 0))
 ;;; Generated autoloads from magit-sequence.el
 
 (autoload 'magit-sequencer-continue "magit-sequence" "\
@@ -1047,39 +1049,42 @@ This discards all changes made since the sequence started.
 Start a non-interactive rebase sequence.
 All commits not in UPSTREAM are rebased.
 
+\(git rebase UPSTREAM[^] [ARGS])
+
 \(fn UPSTREAM &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-subset "magit-sequence" "\
 Start a non-interactive rebase sequence.
-Rebase commits from START to `HEAD' onto NEWBASE.
-START has to be selected from a list of recent commits.
+Commits from START to `HEAD' onto NEWBASE.  START has to be
+selected from a list of recent commits.
+
+\(git rebase --onto NEWBASE START[^] [ARGS])
 
 \(fn NEWBASE START &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-interactive "magit-sequence" "\
 Start an interactive rebase sequence.
 
-\(fn COMMIT)" t nil)
+\(git rebase -i COMMIT[^] [ARGS])
 
-(autoload 'magit-rebase-unpushed "magit-sequence" "\
-Start an interactive rebase sequence of all unpushed commits.
-
-\(fn)" t nil)
+\(fn COMMIT &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-autosquash "magit-sequence" "\
 Combine squash and fixup commits with their intended targets.
 
-\(fn)" t nil)
+\(git rebase -i COMMIT[^] --autosquash [ARGS])
+
+\(fn COMMIT &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-edit-commit "magit-sequence" "\
 Edit a single older commit using rebase.
 
-\(fn COMMIT)" t nil)
+\(fn COMMIT &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-reword-commit "magit-sequence" "\
 Reword a single older commit using rebase.
 
-\(fn COMMIT)" t nil)
+\(fn COMMIT &optional ARGS)" t nil)
 
 (autoload 'magit-rebase-continue "magit-sequence" "\
 Restart the current rebasing operation.
@@ -1103,8 +1108,8 @@ Abort the current rebase operation, restoring the original branch.
 
 ;;;***
 
-;;;### (autoloads nil "magit-stash" "magit-stash.el" (21995 35183
-;;;;;;  0 0))
+;;;### (autoloads nil "magit-stash" "magit-stash.el" (21993 945 0
+;;;;;;  0))
 ;;; Generated autoloads from magit-stash.el
  (autoload 'magit-stash-popup "magit-stash" nil t)
 
@@ -1195,7 +1200,7 @@ Show all diffs of a stash in a buffer.
 
 ;;;***
 
-;;;### (autoloads nil "magit-wip" "magit-wip.el" (21995 35183 0 0))
+;;;### (autoloads nil "magit-wip" "magit-wip.el" (21993 945 0 0))
 ;;; Generated autoloads from magit-wip.el
 
 (defvar magit-wip-after-save-mode nil "\
@@ -1262,7 +1267,7 @@ command which is about to be called are committed.
 
 ;;;### (autoloads nil nil ("magit-core.el" "magit-git.el" "magit-mode.el"
 ;;;;;;  "magit-pkg.el" "magit-process.el" "magit-section.el" "magit-utils.el")
-;;;;;;  (21995 35183 0 0))
+;;;;;;  (21993 945 0 0))
 
 ;;;***
 

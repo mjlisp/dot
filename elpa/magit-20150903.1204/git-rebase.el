@@ -120,7 +120,6 @@
 (defvar git-rebase-mode-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map special-mode-map)
-    (define-key map (kbd "q")    'undefined)
     (define-key map [remap undo] 'git-rebase-undo)
     (define-key map (kbd "RET") 'git-rebase-show-commit)
     (define-key map (kbd "SPC") 'magit-diff-show-or-scroll-up)
@@ -301,7 +300,7 @@ Like `undo' but works in read-only buffers."
     (goto-char (line-beginning-position))
     (--if-let (and (looking-at git-rebase-line)
                    (match-string 2))
-        (apply #'magit-show-commit it nil nil (magit-diff-arguments))
+        (magit-show-commit it)
       (ding))))
 
 (defun git-rebase-backward-line (&optional n)

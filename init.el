@@ -26,7 +26,7 @@
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:")
+ '(ess-directory-containing-R "E:" t)
  '(ess-eval-visibly (quote nowait))
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)
@@ -91,7 +91,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (ess auto-compile rainbow-delimiters pandoc-mode w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes linum-relative js2-refactor js-comint htmlize google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
+    (magit ess auto-compile rainbow-delimiters w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes linum-relative js2-refactor js-comint htmlize google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)

@@ -2,7 +2,7 @@
 
 ;; Setting English Font
 (set-face-attribute
- 'default nil :font "Inconsolata 16") ;: height 130
+ 'default nil :family "Inconsolata" :height 160) ;: height 130
 					  ;; DejaVu Sans
 					  ;; Inconsolata
 					  ;; Droid Sans Mono
@@ -17,8 +17,8 @@
 ;  cjk-misc gb18030 chinese-gbk chinese-gb2312
 (dolist (charset '(han cjk-misc chinese-gbk))
   (set-fontset-font t ;; (frame-parameter nil 'font)
-		    charset
-		    "冬青黑体简体中文 W3"))
+  		    charset
+		    (font-spec :family "冬青黑体简体中文 W3")))
 					; 微软雅黑
 					; 冬青黑体简体中文 W3
 					; Hiragino Sans GB W3

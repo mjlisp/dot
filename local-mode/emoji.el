@@ -44,7 +44,13 @@
 
 (quail-define-package
  "emoji" "UTF-8" "😊" t
- "An Emoji input method." nil t nil nil nil nil nil nil nil nil t)
+ "An Emoji input method."
+ '(("" . quail-delete-last-char)
+   ("." . quail-next-translation)
+   (">" . quail-next-translation)
+   ("," . quail-prev-translation)
+   ("<" . quail-prev-translation))
+  nil nil nil nil)
 
 (quail-define-rules
  (":face:" ["😄" "😃" "😀" "😊" "☺" "😉" "😍" "😘" "😚" "😙"

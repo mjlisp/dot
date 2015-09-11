@@ -208,6 +208,7 @@
 (require 'astyle-utils)
 (require 'hexo-utils)
 (require 'SHELX-mode)
+(require 'emoji)
 
 ;; test
 (load "~/.emacs.d/.init/test")

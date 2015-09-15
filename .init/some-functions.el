@@ -29,14 +29,8 @@
 	      (setq str (buffer-substring (setq pt (point)) (1+ pt)))
 	      (if (string-equal str "-")
 		  (delete-char 2)
-		(forward-char)
-		)
-	      )
-	    )
-	  )
-	(message "make-a-long-sentence completely.")
-	)
-    )
+		(forward-char)))))
+	(message "make-a-long-sentence completely.")))
   (progn
     (let (str pt)
       (delete-indentation 1)		;一个现成函数 但要处理连字符
@@ -44,11 +38,7 @@
       (setq str (buffer-substring (setq pt (point)) (1+ pt)))
       (if (string-equal str "-")
 	  (delete-char 2)
-	(forward-char)
-	)
-      )
-    )
-  )
+	(forward-char)))))
 
 ;; C-;
 (global-set-key [67108923] (quote make-a-long-sentence))
@@ -61,15 +51,10 @@
 	(save-restriction
 	  (narrow-to-region (region-beginning) (region-end))
 	  (goto-char (point-min))
-	  (while (search-forward "\n" nil t) (replace-match "" nil t))
-	  )
-	)
+	  (while (search-forward "\n" nil t) (replace-match "" nil t))))
     (progn
       (end-of-line)
-      (delete-char 1)
-      )
-    )
-  )
+      (delete-char 1))))
 
 ;; s-;
 (global-set-key [8388667] (quote dwim-make-a-long-sentence))

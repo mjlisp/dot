@@ -62,8 +62,7 @@
 	    (let* (fullscreen)
 	      (setq fullscreen (list (assq 'fullscreen (frame-parameters))))
 	      (select-frame new-frame)
-	      (modify-frame-parameters (selected-frame) fullscreen)
-	      (transparency-set-value 85))))
+	      (modify-frame-parameters (selected-frame) fullscreen))))
 
 ;; For Mew.
 (autoload 'mew "mew" nil t)

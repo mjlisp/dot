@@ -3069,7 +3069,7 @@ It is meant to use with `filter-one-by-one' slot."
   "The filtered-candidate-transformer function to highlight matches in fuzzy.
 See helm-fuzzy-default-highlight-match."
   (cl-loop for c in candidates
-           collect (helm-fuzzy-default-highlight-match c)))
+           collect (funcall helm-fuzzy-matching-highlight-fn c)))
 
 (defun helm-match-functions (source)
   (let ((matchfns (or (assoc-default 'match source)
@@ -5061,7 +5061,6 @@ Argument ACTION if present will be used as second argument of `display-buffer'."
     (overlay-put o 'face   'helm-visible-mark)
     (overlay-put o 'source (assoc-default 'name (helm-get-current-source)))
     (overlay-put o 'string (buffer-substring (overlay-start o) (overlay-end o)))
-    (overlay-put o 'display (concat "> " (overlay-get o 'string)))
     (overlay-put o 'real   (helm-get-selection))
     (add-to-list 'helm-visible-mark-overlays o))
   (push (cons (helm-get-current-source) (helm-get-selection))

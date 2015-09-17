@@ -928,33 +928,49 @@ vertically aligned:
 See `ess-style-alist' for further details.")
 
 (defvar ess-align-continuations-in-calls
-  '("[ \t]*(" "if[ \t]*(" "[^ \t]+\\[")
+  '("[ \t]*(" "[^ \t]+\\[")
   "List of regexes for which continuations inside the
 corresponding calls will be indented from the opening
 delimiter. By default, continuations are ignored for anonymous
 parentheses, bracket indexing and arguments to `if', which
 produces the following indentation:
 
-  if (test1 || test2 ||
-      test3 || test4) {
-      10 + (1 + 2 +
-            3 + 4)
-      object[variable1 +
-             variable2]
-  }
+  10 + (1 + 2 +
+        3 + 4)
+  object[variable1 +
+         variable2]
 
 instead of
 
-  if (test1 || test2 ||
-          test3 || test4) {
-      10 + (1 + 2 +
-                3 + 4)
-      object[variable1 +
-                 variable2]
-  }
+  10 + (1 + 2 +
+            3 + 4)
+  object[variable1 +
+             variable2]
 
 Definition operators (`<-', `=', `:=' and `~') still trigger an
-indentation in all cases.")
+indentation in all cases.
+
+See also `ess-align-after-operators'.")
+
+(defvar ess-align-after-operators '("|" "&" "!=" "==")
+  "List of regexes matching operators that should not trigger an
+indentation. By default, logical operators are aligned:
+
+  if (test1 || test2 ||
+      test3 || test4) {
+      any(test5 &
+          test6)
+  }
+
+instead of:
+
+  if (test1 || test2 ||
+        test3 || test4) {
+      any(test5 &
+            test6)
+  }
+
+See also `ess-align-continuations-in-calls'.")
 
 (defvar ess-align-blocks '(control-flow)
   "List of block types for which `ess-offset-blocks' should be
@@ -967,7 +983,7 @@ aligned vertically. With `fun-decl', the body of a function
 declaration will always be aligned with the call to
 `function'.")
 
-(defvar ess-indent-from-lhs nil
+(defvar ess-indent-from-lhs t
   "When non-nil, indent arguments from the left-hand side of an
 assignment. This setting currently only has an effect for
 offsets set to `prev-call'.
@@ -1032,132 +1048,141 @@ See `ess-style-alist' for for an overview of ESS indentation."
 
 (defvar ess-style-alist
   `((BSD
-     (ess-indent-offset . 8)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . prev-call)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . 8)
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . prev-call)
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     (C++
-     (ess-indent-offset . 4)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . prev-call)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . 4)
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . prev-call)
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     ;; CLB added rmh 2Nov97 at request of Terry Therneau
     (CLB
-     (ess-indent-offset . 2)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . prev-line)
-     (ess-offset-continued . (straight 4))
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . ,(default-value 'ess-indent-offset))
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . ,(default-value 'ess-offset-block))
+     (ess-offset-continued             . (straight 4))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     (GNU
-     (ess-indent-offset . 2)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . (prev-call 4))
-     (ess-offset-block . prev-line)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . ,(default-value 'ess-indent-offset))
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . (prev-call 4))
+     (ess-offset-block                 . ,(default-value 'ess-offset-block))
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     (K&R
-     (ess-indent-offset . 5)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . prev-call)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . 5)
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . prev-call)
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     ;; R added ajr 17Feb04 to match "common R" use
     (RRR
-     (ess-indent-offset . 4)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . prev-line)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . 4)
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . ,(default-value 'ess-offset-block))
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     (RRR-aligned
-     (ess-indent-offset . 4)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-call)
-     (ess-offset-block . open-delim)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . ("ifelse"))
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
-     (ess-align-continuations-in-calls . ("[ \t]*(" "if[ \t]*(" "[^ \t]+\\["))
-     (ess-align-blocks . (control-flow))
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . nil)
-     (ess-indent-with-fancy-comments . t))
+     (ess-indent-offset                . 4)
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+     (ess-offset-block                 . open-delim)
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
+     (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+     (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . nil)
+     (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
     (RStudio
-     (ess-indent-offset . 2)
-     (ess-offset-arguments . open-delim)
-     (ess-offset-arguments-newline . prev-line)
-     (ess-offset-block . prev-line)
-     (ess-offset-continued . straight)
-     (ess-align-nested-calls . nil)
-     (ess-align-arguments-in-calls . ("function[ \t]*("))
+     (ess-indent-offset                . ,(default-value 'ess-indent-offset))
+     (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+     (ess-offset-arguments-newline     . prev-line)
+     (ess-offset-block                 . ,(default-value 'ess-offset-block))
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . nil)
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
      (ess-align-continuations-in-calls . nil)
-     (ess-align-blocks . nil)
-     (ess-indent-from-lhs . t)
-     (ess-indent-from-chain-start . t)
-     (ess-indent-with-fancy-comments . nil))
+     (ess-align-after-operators        . nil)
+     (ess-align-blocks                 . nil)
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . nil))
 
     (DEFAULT
-      (ess-indent-offset . ,(default-value 'ess-indent-offset))
-      (ess-offset-arguments . ,(default-value 'ess-offset-arguments))
-      (ess-offset-arguments-newline . ,(default-value 'ess-offset-arguments-newline))
-      (ess-offset-block . ,(default-value 'ess-offset-block))
-      (ess-offset-continued . ,(default-value 'ess-offset-continued))
-      (ess-align-nested-calls . ,(default-value 'ess-align-nested-calls))
-      (ess-align-arguments-in-calls . ,(default-value 'ess-align-arguments-in-calls))
+      (ess-indent-offset                . ,(default-value 'ess-indent-offset))
+      (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
+      (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
+      (ess-offset-block                 . ,(default-value 'ess-offset-block))
+      (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+      (ess-align-nested-calls           . ,(default-value 'ess-align-nested-calls))
+      (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
       (ess-align-continuations-in-calls . ,(default-value 'ess-align-continuations-in-calls))
-      (ess-align-blocks . ,(default-value 'ess-align-blocks))
-      (ess-indent-from-lhs . ,(default-value 'ess-indent-from-lhs))
-      (ess-indent-from-chain-start . ,(default-value 'ess-indent-from-chain-start))
-      (ess-indent-with-fancy-comments . ,(default-value 'ess-indent-with-fancy-comments))))
+      (ess-align-after-operators        . ,(default-value 'ess-align-after-operators))
+      (ess-align-blocks                 . ,(default-value 'ess-align-blocks))
+      (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+      (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+      (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments))))
 
   "Predefined formatting styles for ESS code.
 Values for all groups, except OWN, are fixed.  To change the

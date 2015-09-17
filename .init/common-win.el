@@ -11,17 +11,17 @@
 (setq ess-directory-containing-R "E:")
 (setq explicit-bash-args (quote ("--noediting" "--login" "-i")))
 (setq explicit-shell-file-name "bash")
-(setq gnutls-trustfiles '("I:/msys64/usr/ssl/certs/ca-bundle.crt"))
+(setq gnutls-trustfiles '("C:/msys64/usr/ssl/certs/ca-bundle.crt"))
 (setq preview-gs-command "gswin64c.exe")
 (setq ps-lpr-command "gswin64c.exe")
-(setq python-shell-interpreter "I:/Python27/Scripts/ipython.exe")
+(setq python-shell-interpreter "C:/Python27/Scripts/ipython.exe")
 (setq python-shell-interpreter-args "-i")
 (setq semantic-c-dependency-system-include-path
       '("/mingw64/x86_64-w64-mingw32/include" "/mingw64/include"))
 (setq tramp-auto-save-directory "Z:\\TEMP\\")
 (setq woman-manpath
       (quote
-       ("I:/msys64/usr/man" "I:/msys64/usr/share/man" "I:/msys64/usr/local/share/man"
+       ("C:/msys64/usr/man" "C:/msys64/usr/share/man" "C:/msys64/usr/local/share/man"
 	("/bin" . "/usr/share/man")
 	("/usr/bin" . "/usr/share/man")
 	("/sbin" . "/usr/share/man")
@@ -35,7 +35,7 @@
 	("/usr/games" . "/usr/share/man")
 	("/opt/bin" . "/opt/man")
 	("/opt/sbin" . "/opt/man")
-	"I:/msys64/mingw64/share/man")))
+	"C:/msys64/mingw64/share/man")))
 (when (and
        (featurep 'tex-site)
        (featurep 'tex-mik)
@@ -55,6 +55,6 @@
   (interactive)
   (unless (process-status "ShadowSocks")
     ;; (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "ss-local" "-u" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
-    (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "i:/msys64/mingw64/lib/node_modules/shadowsocks/bin/sslocal" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
+    (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "C:/msys64/mingw64/lib/node_modules/shadowsocks/bin/sslocal" "-c" "C:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
     ))
 (ss)

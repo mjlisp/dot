@@ -91,7 +91,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (magit ess auto-compile rainbow-delimiters w32-browser srefactor synonyms yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes linum-relative js2-refactor js-comint htmlize google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
+    (ess auto-compile rainbow-delimiters w32-browser srefactor yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes linum-relative js2-refactor js-comint htmlize google-translate go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)

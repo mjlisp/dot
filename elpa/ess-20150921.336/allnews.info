@@ -2,43 +2,39 @@ This is allnews.info, produced by makeinfo version 5.2 from
 allnews.texi.
 
 Changes and New Features in 15.09:
+
    * ESS[R]: The indentation logic has been refactored.  It should be
-     faster, more consistent and more flexible.  A test framework has
-     been set up in order to prevent any regression on future code
-     change.  Indentation offsets have been renamed as well and now all
-     start with the prefix 'ess-offset-' and other control variables
-     start with 'ess-indent-'.  See 'ess-style-alist' for detailed
-     description of the new indentation system.
+     faster, more consistent and more flexible.  There are three types
+     of indentation settings, those starting with 'ess-offset-' give the
+     actual offsets, those starting with 'ess-indent-' are control
+     (commonly Boolean) variables, and those starting with 'ess-align-'
+     are vertical alignment overrides which inhibit default offsets in
+     specific situations.  See 'ess-style-alist' for detailed
+     description of the new indentation system and provided default
+     indentation styles.
 
-     The most visible user change in the indentation setup is that
-     customisation is now centered around 3 settings:
-     'ess-offset-arguments', 'ess-offset-arguments-newline' and
-     'ess-offset-block'.  The first two settings control how arguments
-     are indented inside function calls and index brackets, while the
-     latter controls the indentation of statement blocks.  They can be
-     set to 'prev-call' (indentation relative to innermost function
-     call), 'prev-line' (indentation relative to last line indentation
-     as in RStudio) or 'open-delim' (indentation relative to opening
-     delimiter).  See the documentation strings of those variables for
-     more information.  Indentation of delimiters refer to these three
-     values depending on the context in order to offer a consistent
-     indentation.
+   * ESS[R]: Deprecation of old indentation settings.  As a consequence
+     of the indentation re-factoring 'ess-brace-imaginary-offset',
+     'ess-expression-offset' and all delimiter-specific offsets are
+     deprecated.  The settings for indentation of continued statements
+     have been replaced by 'ess-offset-continuations'.  It can be set to
+     either 'cascade' or 'straight' (the default).
+     'ess-arg-function-offset' has been replaced by
+     'ess-indent-from-lhs' and has been generalised to assignements.
+     This setting now works with both statement blocks and expressions
+     and only takes effect for offsets set to 'prev-call' and
+     'open-delim' in order to produce a consistent indentation.
 
-   * ESS[R]: 'ess-brace-imaginary-offset', 'ess-expression-offset' and
-     all delimiter-specific offsets are deprecated.  The settings for
-     indentation of continued statements have been replaced by
-     'ess-offset-continuations'.  It can be set to either 'cascade' or
-     'straight' (the default).  'ess-arg-function-offset' has been
-     replaced by 'ess-indent-from-lhs' and has been generalised to
-     assignements.  This setting works with both statement blocks and
-     expressions.  It now only takes effect for offsets set to
-     'prev-call' and 'open-delim' in order to produce a consistent
-     indentation.
+   * ESS: A test framework has been set up.
 
    * ESS[R]: A new RStudio style is provided to mimic as closely as
      possible R files indented via RStudio.  To reproduce the setup of
-     some of the RStudio users, you will also need to set
-     'ess-offset-arguments' to 'prev-line'.
+     some of the RStudio users, the RStudio- style with
+     'ess-offset-arguments' set to 'prev-line' is also provided.  In
+     addition, the new RRR+ style is equivalent to RRR except it indents
+     blocks in function calls relatively to the opening delimiter.  This
+     style does not try to save horizontal space and produces more
+     indentation.
 
    * ESS[R]: Roxygen fields will now be indented on paragraph refilling
      in order to make the documentation more readable.  You can also
@@ -55,6 +51,14 @@ Changes and New Features in 15.09:
 
    * ESS[R]: Fix occasional missing error location fontification in
      inferior buffers.
+
+   * ESS[R]: ess-developer now correctly assigned the environment of new
+     functions to the package namespace.
+
+   * iESS: For naming inferior processes ESS can use 'projectile''s
+     project root and it does so by default whenever 'projectile' -
+     'ess-gen-proc-buffer-name-function' is set to
+     'ess-gen-proc-buffer-name:projectile-or-simple'
 
    Changes and New Features in 15.03-1:
    * ESS[R]: An indentation bug has been fixed (github issue 163)

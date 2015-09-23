@@ -246,43 +246,39 @@ File: ess.info,  Node: New features,  Next: Credits,  Prev: Features,  Up: Intro
 =======================
 
 Changes and New Features in 15.09:
+
    * ESS[R]: The indentation logic has been refactored.  It should be
-     faster, more consistent and more flexible.  A test framework has
-     been set up in order to prevent any regression on future code
-     change.  Indentation offsets have been renamed as well and now all
-     start with the prefix 'ess-offset-' and other control variables
-     start with 'ess-indent-'.  See 'ess-style-alist' for detailed
-     description of the new indentation system.
+     faster, more consistent and more flexible.  There are three types
+     of indentation settings, those starting with 'ess-offset-' give the
+     actual offsets, those starting with 'ess-indent-' are control
+     (commonly Boolean) variables, and those starting with 'ess-align-'
+     are vertical alignment overrides which inhibit default offsets in
+     specific situations.  See 'ess-style-alist' for detailed
+     description of the new indentation system and provided default
+     indentation styles.
 
-     The most visible user change in the indentation setup is that
-     customisation is now centered around 3 settings:
-     'ess-offset-arguments', 'ess-offset-arguments-newline' and
-     'ess-offset-block'.  The first two settings control how arguments
-     are indented inside function calls and index brackets, while the
-     latter controls the indentation of statement blocks.  They can be
-     set to 'prev-call' (indentation relative to innermost function
-     call), 'prev-line' (indentation relative to last line indentation
-     as in RStudio) or 'open-delim' (indentation relative to opening
-     delimiter).  See the documentation strings of those variables for
-     more information.  Indentation of delimiters refer to these three
-     values depending on the context in order to offer a consistent
-     indentation.
+   * ESS[R]: Deprecation of old indentation settings.  As a consequence
+     of the indentation re-factoring 'ess-brace-imaginary-offset',
+     'ess-expression-offset' and all delimiter-specific offsets are
+     deprecated.  The settings for indentation of continued statements
+     have been replaced by 'ess-offset-continuations'.  It can be set to
+     either 'cascade' or 'straight' (the default).
+     'ess-arg-function-offset' has been replaced by
+     'ess-indent-from-lhs' and has been generalised to assignements.
+     This setting now works with both statement blocks and expressions
+     and only takes effect for offsets set to 'prev-call' and
+     'open-delim' in order to produce a consistent indentation.
 
-   * ESS[R]: 'ess-brace-imaginary-offset', 'ess-expression-offset' and
-     all delimiter-specific offsets are deprecated.  The settings for
-     indentation of continued statements have been replaced by
-     'ess-offset-continuations'.  It can be set to either 'cascade' or
-     'straight' (the default).  'ess-arg-function-offset' has been
-     replaced by 'ess-indent-from-lhs' and has been generalised to
-     assignements.  This setting works with both statement blocks and
-     expressions.  It now only takes effect for offsets set to
-     'prev-call' and 'open-delim' in order to produce a consistent
-     indentation.
+   * ESS: A test framework has been set up.
 
    * ESS[R]: A new RStudio style is provided to mimic as closely as
      possible R files indented via RStudio.  To reproduce the setup of
-     some of the RStudio users, you will also need to set
-     'ess-offset-arguments' to 'prev-line'.
+     some of the RStudio users, the RStudio- style with
+     'ess-offset-arguments' set to 'prev-line' is also provided.  In
+     addition, the new RRR+ style is equivalent to RRR except it indents
+     blocks in function calls relatively to the opening delimiter.  This
+     style does not try to save horizontal space and produces more
+     indentation.
 
    * ESS[R]: Roxygen fields will now be indented on paragraph refilling
      in order to make the documentation more readable.  You can also
@@ -299,6 +295,14 @@ Changes and New Features in 15.09:
 
    * ESS[R]: Fix occasional missing error location fontification in
      inferior buffers.
+
+   * ESS[R]: ess-developer now correctly assigned the environment of new
+     functions to the package namespace.
+
+   * iESS: For naming inferior processes ESS can use 'projectile''s
+     project root and it does so by default whenever 'projectile' -
+     'ess-gen-proc-buffer-name-function' is set to
+     'ess-gen-proc-buffer-name:projectile-or-simple'
 
    Changes and New Features in 15.03-1:
    * ESS[R]: An indentation bug has been fixed (github issue 163)
@@ -5561,111 +5565,111 @@ Node: Introduction2288
 Node: Features5249
 Node: Current Features5882
 Node: New features10155
-Node: Credits49119
-Node: Latest version52638
-Node: Manual53173
-Node: Installation55718
-Node: Step by step instructions56048
-Node: License58157
-Node: Stability58820
-Node: Requirements59317
-Node: Interactive ESS60350
-Node: Starting up61204
-Node: Multiple ESS processes61987
-Node: ESS processes on Remote Computers63021
-Node: S+elsewhere and ESS-elsewhere67175
-Node: Customizing startup69950
-Node: Entering commands72630
-Node: Command-line editing73788
-Node: Transcript75025
-Node: Last command76802
-Node: Process buffer motion78236
-Node: Transcript resubmit79739
-Node: Saving transcripts81713
-Node: Command History83566
-Node: Saving History87016
-Node: History expansion87812
-Node: Hot keys91023
-Node: Statistical Process running in ESS?95098
-Node: Emacsclient96377
-Node: Other97184
-Node: Evaluating code98236
-Node: Transcript Mode101785
-Node: Resubmit102934
-Node: Clean103997
-Node: Editing objects104993
-Node: Edit buffer106111
-Node: Loading108160
-Node: Error Checking109187
-Node: Indenting110236
-Node: Styles113509
-Node: Other edit buffer commands115703
-Node: Source Files117359
-Node: Source Directories121969
-Node: Help125111
-Node: Completion129406
-Node: Object names129627
-Node: Function arguments132485
-Node: Minibuffer completion133024
-Node: Auto-complete133523
-Node: Icicles135070
-Node: Developing with ESS136436
-Node: ESS tracebug136874
-Node: Editing documentation140046
-Node: R documentation files140588
-Node: Roxygen144508
-Node: ESS developer148843
-Node: Extras155346
-Node: ESS ElDoc156329
-Node: Handy commands157852
-Node: Highlighting159047
-Node: Parens160376
-Node: Graphics160957
-Node: printer161466
-Node: X11162222
-Node: winjava162561
-Node: Imenu162973
-Node: Toolbar163814
-Node: TAGS164222
-Node: Rdired165574
-Node: Rutils166626
-Node: Org169002
-Node: Sweave and AUCTeX169944
-Node: ESS for S172068
-Node: ESS(S)--Editing files172503
-Node: iESS(S)--Inferior ESS processes173620
-Node: ESS-help--assistance with viewing help179288
-Node: Philosophies for using ESS(S)179608
-Node: Scenarios for use (possibilities--based on actual usage)180727
-Node: Customization Examples and Solutions to Problems185410
-Node: ESS for SAS187147
-Node: ESS(SAS)--Design philosophy187870
-Node: ESS(SAS)--Editing files188823
-Node: ESS(SAS)--TAB key190677
-Node: ESS(SAS)--Batch SAS processes192043
-Node: ESS(SAS)--Function keys for batch processing197072
-Node: iESS(SAS)--Interactive SAS processes206558
-Node: iESS(SAS)--Common problems210312
-Node: ESS(SAS)--Graphics211836
-Node: ESS(SAS)--Windows212619
-Node: ESS for BUGS213197
-Node: ESS(BUGS)--Model files214212
-Node: ESS(BUGS)--Command files214992
-Node: ESS(BUGS)--Log files215537
-Node: ESS for JAGS215874
-Node: ESS(JAGS)--Model files216862
-Node: ESS(JAGS)--Command files219296
-Node: ESS(JAGS)--Log files220071
-Node: Mailing lists/bug reports220367
-Node: Bugs220631
-Node: Reporting Bugs222256
-Node: Mailing Lists223069
-Node: Help with emacs223823
-Node: Customization224378
-Node: Indices225141
-Node: Key index225316
-Node: Function and program index230749
-Node: Variable index240325
-Node: Concept index243456
+Node: Credits49150
+Node: Latest version52669
+Node: Manual53204
+Node: Installation55749
+Node: Step by step instructions56079
+Node: License58188
+Node: Stability58851
+Node: Requirements59348
+Node: Interactive ESS60381
+Node: Starting up61235
+Node: Multiple ESS processes62018
+Node: ESS processes on Remote Computers63052
+Node: S+elsewhere and ESS-elsewhere67206
+Node: Customizing startup69981
+Node: Entering commands72661
+Node: Command-line editing73819
+Node: Transcript75056
+Node: Last command76833
+Node: Process buffer motion78267
+Node: Transcript resubmit79770
+Node: Saving transcripts81744
+Node: Command History83597
+Node: Saving History87047
+Node: History expansion87843
+Node: Hot keys91054
+Node: Statistical Process running in ESS?95129
+Node: Emacsclient96408
+Node: Other97215
+Node: Evaluating code98267
+Node: Transcript Mode101816
+Node: Resubmit102965
+Node: Clean104028
+Node: Editing objects105024
+Node: Edit buffer106142
+Node: Loading108191
+Node: Error Checking109218
+Node: Indenting110267
+Node: Styles113540
+Node: Other edit buffer commands115734
+Node: Source Files117390
+Node: Source Directories122000
+Node: Help125142
+Node: Completion129437
+Node: Object names129658
+Node: Function arguments132516
+Node: Minibuffer completion133055
+Node: Auto-complete133554
+Node: Icicles135101
+Node: Developing with ESS136467
+Node: ESS tracebug136905
+Node: Editing documentation140077
+Node: R documentation files140619
+Node: Roxygen144539
+Node: ESS developer148874
+Node: Extras155377
+Node: ESS ElDoc156360
+Node: Handy commands157883
+Node: Highlighting159078
+Node: Parens160407
+Node: Graphics160988
+Node: printer161497
+Node: X11162253
+Node: winjava162592
+Node: Imenu163004
+Node: Toolbar163845
+Node: TAGS164253
+Node: Rdired165605
+Node: Rutils166657
+Node: Org169033
+Node: Sweave and AUCTeX169975
+Node: ESS for S172099
+Node: ESS(S)--Editing files172534
+Node: iESS(S)--Inferior ESS processes173651
+Node: ESS-help--assistance with viewing help179319
+Node: Philosophies for using ESS(S)179639
+Node: Scenarios for use (possibilities--based on actual usage)180758
+Node: Customization Examples and Solutions to Problems185441
+Node: ESS for SAS187178
+Node: ESS(SAS)--Design philosophy187901
+Node: ESS(SAS)--Editing files188854
+Node: ESS(SAS)--TAB key190708
+Node: ESS(SAS)--Batch SAS processes192074
+Node: ESS(SAS)--Function keys for batch processing197103
+Node: iESS(SAS)--Interactive SAS processes206589
+Node: iESS(SAS)--Common problems210343
+Node: ESS(SAS)--Graphics211867
+Node: ESS(SAS)--Windows212650
+Node: ESS for BUGS213228
+Node: ESS(BUGS)--Model files214243
+Node: ESS(BUGS)--Command files215023
+Node: ESS(BUGS)--Log files215568
+Node: ESS for JAGS215905
+Node: ESS(JAGS)--Model files216893
+Node: ESS(JAGS)--Command files219327
+Node: ESS(JAGS)--Log files220102
+Node: Mailing lists/bug reports220398
+Node: Bugs220662
+Node: Reporting Bugs222287
+Node: Mailing Lists223100
+Node: Help with emacs223854
+Node: Customization224409
+Node: Indices225172
+Node: Key index225347
+Node: Function and program index230780
+Node: Variable index240356
+Node: Concept index243487
 
 End Tag Table

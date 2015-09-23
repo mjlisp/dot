@@ -1,256 +1,39 @@
-This is announc.info, produced by makeinfo version 5.2 from
-announc.texi.
-
-
-File: announc.info,  Node: Announce
-
-1 ANNOUNCING ESS
-****************
-
-The ESS Developers proudly announce the release of ESS 15.09-beta
-
-   Emacs Speaks Statistics (ESS) provides an intelligent, consistent
-interface between the user and the software.  ESS interfaces with
-R/S-PLUS, SAS, BUGS/JAGS, Stata and other statistical analysis packages
-under the UNIX, GNU Linux, Microsoft Windows, Mac OS X and other
-operating systems.  ESS is a package for the GNU Emacs and XEmacs text
-editors whose features ESS uses to streamline the creation and use of
-statistical software.  ESS knows the syntax and grammar of statistical
-analysis packages and provides consistent display and editing features
-based on that knowledge.  ESS assists in interactive and batch execution
-of statements written in these statistical analysis languages.
-
-   ESS is freely available under the GNU General Public License (GPL).
-Please read the file COPYING which comes with the distribution, for more
-information about the license.  For more detailed information, please
-read the README files that come with ESS.
-
-* Menu:
-
-* Latest Version::
-* Current Features::
-* Requirements::
-* Stability::
-* Mailing List::
-* Reporting Bugs::
-* Authors::
-* License::
-* New Features::
-
-
-File: announc.info,  Node: Latest Version,  Next: Current Features,  Prev: Announce,  Up: Announce
-
-1.1 Getting the Latest Version
-==============================
-
-The latest released version of ESS is always available on the web at:
-ESS web page (http://ess.r-project.org) or StatLib
-(http://lib.stat.cmu.edu/general/ESS/)
-
-1.1.1 Git for ESS development
------------------------------
-
-For development and experimentation on new ESS features, there is now a
-GitHub branch for ESS, available at <https://github.com/emacs-ess/ESS>.
-
-
-File: announc.info,  Node: Current Features,  Next: Requirements,  Prev: Latest Version,  Up: Announce
-
-1.2 Current Features
-====================
-
-   * Languages Supported:
-        * S family (R and S+ AKA S-PLUS)
-        * SAS
-        * OpenBUGS/JAGS
-        * Stata
-        * Julia
-   * Editing source code (S family, SAS, OpenBUGS/JAGS, Stata, Julia)
-        * Syntactic indentation and highlighting of source code
-        * Partial evaluation of code
-        * Loading and error-checking of code
-        * Source code revision maintenance
-        * Batch execution (SAS, OpenBUGS/JAGS)
-        * Use of imenu to provide links to appropriate functions
-   * Interacting with the process (S family, SAS, Stata, Julia)
-        * Command-line editing
-        * Searchable Command history
-        * Command-line completion of S family object names and file
-          names
-        * Quick access to object lists and search lists
-        * Transcript recording
-        * Interface to the help system
-   * Transcript manipulation (S family, Stata)
-        * Recording and saving transcript files
-        * Manipulating and editing saved transcripts
-        * Re-evaluating commands from transcript files
-   * Interaction with Help Pages and other Documentation (R)
-        * Fast Navigation
-        * Sending Examples to running ESS process.
-        * Fast Transfer to Further Help Pages
-   * Help File Editing (R)
-        * Syntactic indentation and highlighting of source code.
-        * Sending Examples to running ESS process.
-        * Previewing
-
-
-File: announc.info,  Node: Requirements,  Next: Stability,  Prev: Current Features,  Up: Announce
-
-1.3 Requirements
-================
-
-ESS is most likely to work with current/recent versions of the following
-statistical packages: R/S-PLUS, SAS, Stata, OpenBUGS and JAGS.
-
-   ESS supports current, and recent, stable versions of GNU Emacs
-(currently, specifically, the 23.x and 24.x series;
-alpha/beta/pre-release versions are NOT SUPPORTED). Non-Windows users
-beware: GNU Emacs 24.3 is preferable to 24.1 or 24.2: these broken
-builds suffer from bug 12463
-<http://debbugs.gnu.org/cgi/bugreport.cgi?bug=12463> which will cause
-emacs and ESS to get progressively slower over time.
-
-   Due to XEmacs lacking some features that ESS requires, ESS support of
-XEmacs ends with ESS 12.04-4.  This decision will be re-visited in the
-future as XEmacs continues to sync with GNU Emacs.
-
-   To build the PDF documentation, you will need a version of TeX Live
-or texinfo that includes texi2dvi (BEWARE: recent TeX Live, and some
-texinfo RPMs, do NOT include texi2dvi).
-
-
-File: announc.info,  Node: Stability,  Next: Mailing List,  Prev: Requirements,  Up: Announce
-
-1.4 Stability
-=============
-
-All recent released versions are meant to be release-quality versions.
-While some new features are being introduced, we are cleaning up and
-improving the interface.  We know that there are many remaining
-opportunities for documentation improvements, but all contributors are
-volunteers and time is precious.  Patches or suggested fixes with bug
-reports are much appreciated!
-
-
-File: announc.info,  Node: Mailing List,  Next: Reporting Bugs,  Prev: Stability,  Up: Announce
-
-1.5 Mailing List
-================
-
-There is a mailing list for discussions and announcements relating to
-ESS. Join the list by sending an e-mail with "subscribe ess-help" (or
-"help") in the body to <ess-help-request@stat.math.ethz.ch>;
-contributions to the list may be mailed to <ess-help@stat.math.ethz.ch>.
-Rest assured, this is a fairly low-volume mailing list.
-
-   The purposes of the mailing list include
-
-   * helping users of ESS to get along with it.
-   * discussing aspects of using ESS on Emacs and XEmacs.
-   * suggestions for improvements.
-   * announcements of new releases of ESS.
-   * posting small patches to ESS.
-
-
-File: announc.info,  Node: Reporting Bugs,  Next: Authors,  Prev: Mailing List,  Up: Announce
-
-1.6 Reporting Bugs
-==================
-
-Please send bug reports, suggestions etc.  to
-<ESS-bugs@stat.math.ethz.ch>
-
-   The easiest way to do this is within Emacs by typing
-
-   'M-x ess-submit-bug-report'
-
-   This also gives the maintainers valuable information about your
-installation which may help us to identify or even fix the bug.
-
-   If Emacs reports an error, backtraces can help us debug the problem.
-Type "M-x set-variable RET debug-on-error RET t RET". Then run the
-command that causes the error and you should see a *Backtrace* buffer
-containing debug information; send us that buffer.
-
-   Note that comments, suggestions, words of praise and large cash
-donations are also more than welcome.
-
-
-File: announc.info,  Node: Authors,  Next: License,  Prev: Reporting Bugs,  Up: Announce
-
-1.7 Authors
-===========
-
-   * A.J. Rossini (mailto:blindglobe@gmail.com)
-   * Richard M. Heiberger (mailto:rmh@temple.edu)
-   * Kurt Hornik (mailto:Kurt.Hornik@R-project.org)
-   * Martin Maechler (mailto:maechler@stat.math.ethz.ch)
-   * Rodney A. Sparapani (mailto:rsparapa@mcw.edu)
-   * Stephen Eglen (mailto:stephen@gnu.org)
-   * Sebastian P. Luque (mailto:spluque@gmail.com)
-   * Henning Redestig (mailto:henning.red@googlemail.com)
-   * Vitalie Spinu (mailto:spinuvit@gmail.com)
-
-
-File: announc.info,  Node: License,  Next: New Features,  Prev: Authors,  Up: Announce
-
-1.8 License
-===========
-
-The source and documentation of ESS is free software.  You can
-redistribute it and/or modify it under the terms of the GNU General
-Public License as published by the Free Software Foundation; either
-version 2, or (at your option) any later version.
-
-   ESS is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License in
-the file COPYING in the same directory as this file for more details.
-
-
-File: announc.info,  Node: New Features,  Prev: License,  Up: Announce
-
-1.9 New Features
-================
+This is news.info, produced by makeinfo version 5.2 from news.texi.
 
 Changes and New Features in 15.09:
+
    * ESS[R]: The indentation logic has been refactored.  It should be
-     faster, more consistent and more flexible.  A test framework has
-     been set up in order to prevent any regression on future code
-     change.  Indentation offsets have been renamed as well and now all
-     start with the prefix 'ess-offset-' and other control variables
-     start with 'ess-indent-'.  See 'ess-style-alist' for detailed
-     description of the new indentation system.
+     faster, more consistent and more flexible.  There are three types
+     of indentation settings, those starting with 'ess-offset-' give the
+     actual offsets, those starting with 'ess-indent-' are control
+     (commonly Boolean) variables, and those starting with 'ess-align-'
+     are vertical alignment overrides which inhibit default offsets in
+     specific situations.  See 'ess-style-alist' for detailed
+     description of the new indentation system and provided default
+     indentation styles.
 
-     The most visible user change in the indentation setup is that
-     customisation is now centered around 3 settings:
-     'ess-offset-arguments', 'ess-offset-arguments-newline' and
-     'ess-offset-block'.  The first two settings control how arguments
-     are indented inside function calls and index brackets, while the
-     latter controls the indentation of statement blocks.  They can be
-     set to 'prev-call' (indentation relative to innermost function
-     call), 'prev-line' (indentation relative to last line indentation
-     as in RStudio) or 'open-delim' (indentation relative to opening
-     delimiter).  See the documentation strings of those variables for
-     more information.  Indentation of delimiters refer to these three
-     values depending on the context in order to offer a consistent
-     indentation.
+   * ESS[R]: Deprecation of old indentation settings.  As a consequence
+     of the indentation re-factoring 'ess-brace-imaginary-offset',
+     'ess-expression-offset' and all delimiter-specific offsets are
+     deprecated.  The settings for indentation of continued statements
+     have been replaced by 'ess-offset-continuations'.  It can be set to
+     either 'cascade' or 'straight' (the default).
+     'ess-arg-function-offset' has been replaced by
+     'ess-indent-from-lhs' and has been generalised to assignements.
+     This setting now works with both statement blocks and expressions
+     and only takes effect for offsets set to 'prev-call' and
+     'open-delim' in order to produce a consistent indentation.
 
-   * ESS[R]: 'ess-brace-imaginary-offset', 'ess-expression-offset' and
-     all delimiter-specific offsets are deprecated.  The settings for
-     indentation of continued statements have been replaced by
-     'ess-offset-continuations'.  It can be set to either 'cascade' or
-     'straight' (the default).  'ess-arg-function-offset' has been
-     replaced by 'ess-indent-from-lhs' and has been generalised to
-     assignements.  This setting works with both statement blocks and
-     expressions.  It now only takes effect for offsets set to
-     'prev-call' and 'open-delim' in order to produce a consistent
-     indentation.
+   * ESS: A test framework has been set up.
 
    * ESS[R]: A new RStudio style is provided to mimic as closely as
      possible R files indented via RStudio.  To reproduce the setup of
-     some of the RStudio users, you will also need to set
-     'ess-offset-arguments' to 'prev-line'.
+     some of the RStudio users, the RStudio- style with
+     'ess-offset-arguments' set to 'prev-line' is also provided.  In
+     addition, the new RRR+ style is equivalent to RRR except it indents
+     blocks in function calls relatively to the opening delimiter.  This
+     style does not try to save horizontal space and produces more
+     indentation.
 
    * ESS[R]: Roxygen fields will now be indented on paragraph refilling
      in order to make the documentation more readable.  You can also
@@ -267,6 +50,14 @@ Changes and New Features in 15.09:
 
    * ESS[R]: Fix occasional missing error location fontification in
      inferior buffers.
+
+   * ESS[R]: ess-developer now correctly assigned the environment of new
+     functions to the package namespace.
+
+   * iESS: For naming inferior processes ESS can use 'projectile''s
+     project root and it does so by default whenever 'projectile' -
+     'ess-gen-proc-buffer-name-function' is set to
+     'ess-gen-proc-buffer-name:projectile-or-simple'
 
    Changes and New Features in 15.03-1:
    * ESS[R]: An indentation bug has been fixed (github issue 163)
@@ -1002,15 +793,5 @@ Changes and New Features in 15.09:
 
 
 Tag Table:
-Node: Announce75
-Node: Latest Version1323
-Node: Current Features1855
-Node: Requirements3406
-Node: Stability4464
-Node: Mailing List4966
-Node: Reporting Bugs5696
-Node: Authors6496
-Node: License7072
-Node: New Features7720
 
 End Tag Table

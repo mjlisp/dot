@@ -689,7 +689,11 @@ intended for example for dplyr-style code:
       argument2,
       argument3,
       argument4
-  )"
+  )
+
+Note that this setting is temporary and likely to be replaced in
+the next ESS version by a more comprehensive and flexible way to
+set refill styles."
   :group 'ess-edit
   :type 'boolean)
 
@@ -774,8 +778,10 @@ preceding line:
   object <- call(argument, other_call(argument,
       other_argument))
 
-See `ess-style-alist' for other offsets controlling
-indentation.")
+This setting can also be set to a list containing the the offset
+type and the offset size, such as `'(prev-call 2)'. Otherwise,
+`ess-indent-offset' is used as a default. See `ess-style-alist'
+for other offsets controlling indentation.")
 
 (defvar ess-offset-arguments-newline 'prev-call
   "Indent of arguments when ( or [ is followed by a new line.
@@ -787,6 +793,7 @@ relative to the opening parenthesis of the closest function call:
                                       argument,
                                       other_argument
                                       ))
+
 
 Wnen set to `prev-call', arguments on a new line are indented relative to
 the closest function call:
@@ -808,8 +815,10 @@ relative to the preceding line:
       other_argument
   ))
 
-See `ess-style-alist' for other offsets controlling
-indentation.")
+This setting can also be set to a list containing the the offset
+type and the offset size, such as `'(prev-call 2)'. Otherwise,
+`ess-indent-offset' is used as a default. See `ess-style-alist'
+for other offsets controlling indentation.")
 
 (defvar ess-offset-block 'prev-line
   "Indentation for blocks. A block is usually declared with
@@ -861,8 +870,10 @@ preceding line:
       body
   }))
 
-See `ess-style-alist' for other offsets controlling
-indentation.")
+This setting can also be set to a list containing the the offset
+type and the offset size, such as `'(prev-call 2)'. Otherwise,
+`ess-indent-offset' is used as a default. See `ess-style-alist'
+for other offsets controlling indentation.")
 
 (defvar ess-offset-continued 'straight
   "This setting controls indentation of continued statements, that is,
@@ -883,7 +894,9 @@ When set to 'cascade:
 The 'straight and 'cascade settings are actually equivalent to
 '(straight . t) and '(cascade . t), where `t' represents the
 base indent size. More generally, you can supply '(straight . N)
-to control the size of indentation.")
+to control the size of indentation.
+
+See `ess-style-alist' for for an overview of ESS indentation.")
 
 (defvar ess-align-nested-calls '("ifelse")
   "List of strings declaring function calls for which
@@ -892,7 +905,9 @@ will be vertically aligned instead. The default is `ifelse',
 resulting in the following indentation for nested ifelse calls:
 
     object <- ifelse(condition1, out1,
-              ifelse(condition2, out2, out3))")
+              ifelse(condition2, out2, out3))
+
+See `ess-style-alist' for for an overview of ESS indentation.")
 
 (defvar ess-align-arguments-in-calls '("function[ \t]*(")
   "List of regexes specifying the calls where
@@ -920,11 +935,8 @@ vertically aligned:
 See `ess-style-alist' for further details.")
 
 (defvar ess-align-continuations-in-calls t
-  "List of regexes for which continuations inside the
-corresponding calls will be indented from the opening
-delimiter. By default, continuations are ignored for anonymous
-parentheses, bracket indexing and arguments to `if', which
-produces the following indentation:
+  "Whether continuations inside calls should be indented from the
+opening delimiter. This produces the following indentation:
 
   10 + (1 + 2 +
         3 + 4)
@@ -958,7 +970,9 @@ an offset:
   {
       var1 +
           var2
-  }")
+  }
+
+See `ess-style-alist' for for an overview of ESS indentation.")
 
 (defvar ess-align-blocks '(control-flow)
   "List of block types for which `ess-offset-blocks' should be
@@ -973,8 +987,8 @@ declaration will always be aligned with the call to
 
 (defvar ess-indent-from-lhs t
   "When non-nil, indent arguments from the left-hand side of an
-assignment. This setting currently only has an effect for
-offsets set to `prev-call'.
+assignment. This setting only has an effect for offsets set to
+`prev-call'.
 
 If nil:
 
@@ -1003,8 +1017,8 @@ See `ess-style-alist' for for an overview of ESS indentation.")
 (defvar ess-indent-from-chain-start t
   "When non-nil, chained calls will be treated as if they were
 one call and indentation will start from the first one. This
-setting currently only has an effect for offsets set to
-`prev-call'.
+setting only has an effect for offsets set to `prev-call' or
+block offsets set to `opening-delim'.
 
 If `nil':
 
@@ -1016,7 +1030,9 @@ If `t':
 
   some_function(other_function(
       argument
-  ))")
+  ))
+
+See `ess-style-alist' for for an overview of ESS indentation.")
 
 ;;added rmh 2Nov97 at request of Terry Therneau
 (defcustom ess-indent-with-fancy-comments t
@@ -1121,7 +1137,7 @@ See `ess-style-alist' for for an overview of ESS indentation."
      (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
      (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments)))
 
-    (RRR-aligned
+    (RRR+
      (ess-indent-offset                . 4)
      (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
      (ess-offset-arguments-newline     . ,(default-value 'ess-offset-arguments-newline))
@@ -1149,6 +1165,20 @@ See `ess-style-alist' for for an overview of ESS indentation."
      (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
      (ess-indent-with-fancy-comments   . nil))
 
+    (RStudio-
+     (ess-indent-offset                . ,(default-value 'ess-indent-offset))
+     (ess-offset-arguments             . prev-line)
+     (ess-offset-arguments-newline     . prev-line)
+     (ess-offset-block                 . ,(default-value 'ess-offset-block))
+     (ess-offset-continued             . ,(default-value 'ess-offset-continued))
+     (ess-align-nested-calls           . nil)
+     (ess-align-arguments-in-calls     . ,(default-value 'ess-align-arguments-in-calls))
+     (ess-align-continuations-in-calls . nil)
+     (ess-align-blocks                 . nil)
+     (ess-indent-from-lhs              . ,(default-value 'ess-indent-from-lhs))
+     (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
+     (ess-indent-with-fancy-comments   . nil))
+
     (DEFAULT
       (ess-indent-offset                . ,(default-value 'ess-indent-offset))
       (ess-offset-arguments             . ,(default-value 'ess-offset-arguments))
@@ -1163,15 +1193,27 @@ See `ess-style-alist' for for an overview of ESS indentation."
       (ess-indent-from-chain-start      . ,(default-value 'ess-indent-from-chain-start))
       (ess-indent-with-fancy-comments   . ,(default-value 'ess-indent-with-fancy-comments))))
 
-  "Predefined formatting styles for ESS code.
-Values for all groups, except OWN, are fixed.  To change the
-value of variables in the OWN group, customize the variable
-`ess-own-style-list'.  RRR style is the common R style that
-adheres closely to R internal standards. RStudio style closely
-mimics the indentation of the RStudio editor. DEFAULT style picks
-default (aka global) values from ESS indentation variables.  The
-actual style that is applied in R buffers is set by
-`ess-default-style'.
+  "Predefined formatting styles for ESS code. Use
+`ess-default-style' to apply a style in all R buffers. The values
+of all styles except OWN are fixed. To change the value of
+variables in the OWN group, customize the variable
+`ess-own-style-list'. DEFAULT style picks default (aka global)
+values from ESS indentation variables. In addition, ESS provides
+many indentation styles, the most important being the RRR and the
+RStudio variants.
+
+RRR is the common R style that adheres closely to R internal
+standards. RRR+ is the same except it also aligns blocks in
+function calls with the opening delimiter, producing more
+indentation. The C++ style (named like this for historical
+reasons rather than any resemblance to existing C++ indentation
+schemes) is halfway between these two styles and indent block
+arguments from the start of the surrounding function's name.
+
+The RStudio style closely mimics the indentation of the RStudio
+editor. RStudio- is the same except it does not align arguments
+in function calls, which corresponds to the settings of some
+RStudio users.
 
 ESS indentation is fully specified by the following offsets and
 variables. See the documentation of these variables for examples.
@@ -1180,16 +1222,16 @@ Offsets:
 
  - `ess-indent-offset': main offset inherited by other settings
 
- - `ess-offset-arguments': offset for function and bracket
+ - `ess-offset-arguments': offset type for function and bracket
    arguments
 
- - `ess-offset-arguments-newline': offset of arguments when ( or
-   [ is followed by a new line.
+ - `ess-offset-arguments-newline': offset type of arguments
+   when ( or [ is followed by a new line.
 
- - `ess-offset-block': offset for brace and anonymous parenthesis
-   blocks
+ - `ess-offset-block': offset type for brace and anonymous
+   parenthesis blocks
 
- - `ess-offset-continued': offset for continuation lines in
+ - `ess-offset-continued': offset type for continuation lines in
    multiline statements
 
 
@@ -1216,15 +1258,12 @@ Control variables:
  - `ess-indent-from-chain-start': whether to indent arguments from
    the first of several consecutive calls.
 
- - `ess-indent-with-fancy-comments': whether to indent #,## and ### comments
-   distinctly.
-")
+ - `ess-indent-with-fancy-comments': whether to indent #, ## and
+   ### comments distinctly.")
 
 (defun ess-add-style (key entries)
   "Add a new style to `ess-style-list', with the key KEY.
-Remove any existing entry with the same KEY before adding the new one.
-               (ess-offset-continued-first . 0)
-This can be used"
+Remove any existing entry with the same KEY before adding the new one."
   (setq ess-style-alist (assq-delete-all key ess-style-alist))
   (add-to-list 'ess-style-alist (cons key entries)))
 
@@ -1254,8 +1293,9 @@ global) values from ESS indentation variables."
                  (const CLB)
                  (const K&R)
                  (const RRR)
-                 (const RRR-aligned)
+                 (const RRR+)
                  (const RStudio)
+                 (const RStudio-)
                  (const DEFAULT))
   :group 'ess-edit)
 

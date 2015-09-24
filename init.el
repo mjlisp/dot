@@ -176,8 +176,6 @@
 
 (global-hl-line-mode)
 
-(prefer-coding-system 'utf-8-unix)
-
 ;; 一般的设置
 (load "~/.emacs.d/.init/common-settings")
 

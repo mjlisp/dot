@@ -2,6 +2,12 @@
 	   (featurep 'cygwin-mount))
   (cygwin-mount-activate))
 
+(prefer-coding-system 'utf-8-unix)
+
+(set-default 'process-coding-system-alist
+      '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
+	("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
+
 (setq TeX-print-command "start \"\" %f")
 (setq auto-save-file-name-transforms
       '(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'" "z:/TEMP/\\2" t)

@@ -1,4 +1,4 @@
-(define-package "ess" "20150924.418" "Emacs Speaks Statistics"
+(define-package "ess" "20150924.1356" "Emacs Speaks Statistics"
   '((julia-mode "0.3"))
   :url "http://ess.r-project.org")
 ;; Local Variables:

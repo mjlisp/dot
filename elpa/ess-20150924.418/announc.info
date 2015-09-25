@@ -269,17 +269,21 @@ Changes and New Features in 15.09:
 
    * ESS[Julia]: ?[topic] now works in the *julia* buffer.  Note that
      support for editing Julia code now depends on 'julia-mode.el' from
-     the Julia project.  If you install ESS by running 'make', then the
-     latest version of 'julia-mode.el' is downloaded (and so you need an
-     active internet connection to install) during the installation
-     process.  Alternatively, if you run ESS without running 'make',
-     then ensure that you have the 'julia-mode.el', which you can get
-     easily from MELPA for example.
+     the Julia project.  If you install ESS from the official
+     tarball/zip file, 'julia-mode.el' is already included.  Otherwise,
+     if you install ESS by running 'make', then the latest version of
+     'julia-mode.el' is downloaded (and so you need an active internet
+     connection to install) during the installation process.
+     Alternatively, if you run ESS without running 'make', then ensure
+     that you have the 'julia-mode.el', which you can get easily from
+     MELPA for example.
 
-   * iESS: For naming inferior processes ESS can use 'projectile''s
-     project root and it does so by default whenever 'projectile' -
+   * iESS: For naming inferior processes, ESS can use 'projectile''s
+     project root and it does so when
      'ess-gen-proc-buffer-name-function' is set to
-     'ess-gen-proc-buffer-name:projectile-or-simple'
+     'ess-gen-proc-buffer-name:projectile-or-simple' as by default, or
+     to another value beginning with
+     'ess-gen-proc-buffer-name:projectile-*'.
 
    Changes and New Features in 15.03-1:
    * ESS[R]: An indentation bug has been fixed (github issue 163)

@@ -1117,10 +1117,15 @@ before the `=' sign."
 (defun ess-point-in-continuation-p ()
   (unless (or (looking-at ",")
               (ess-looking-at-call-opening "[[(]"))
-    (save-excursion
-      (ess-jump-object)
-      (and (not (ess-looking-at-parameter-op-p))
-           (ess-looking-at-operator-p)))))
+    (or (save-excursion
+          (ess-jump-object)
+          (and (not (ess-looking-at-parameter-op-p))
+               (ess-looking-at-operator-p)))
+        (save-excursion
+          (ess-climb-object)
+          (ess-climb-operator)
+          (and (ess-looking-at-operator-p)
+               (not (ess-looking-at-parameter-op-p)))))))
 
 (defun ess-point-on-call-name-p ()
   (save-excursion
@@ -1656,7 +1661,7 @@ Returns nil if line starts inside a string, t if in a comment."
         (ess-calculate-indent--comma))
        ;; Arguments: Closing
        ((ess-call-closing-p)
-        (ess-calculate-indent--args 0))
+        (ess-calculate-indent--call-closing-delim))
        ;; Block: Contents (easy cases)
        ((ess-calculate-indent--block-relatively))
        ;; Continuations
@@ -1703,6 +1708,13 @@ Returns nil if line starts inside a string, t if in a comment."
                            (skip-chars-forward ", \t"))))
       (- indent unindent))))
 
+(defun ess-calculate-indent--call-closing-delim ()
+  (let ((offset (if (save-excursion
+                      (ess-skip-blanks-backward t)
+                      (eq (char-before) ?,))
+                    nil 0)))
+    (ess-calculate-indent--args offset)))
+
 (defun ess-calculate-indent--block-opening ()
   (cond
    ;; Block is an argument in a function call
@@ -1729,7 +1741,7 @@ Returns nil if line starts inside a string, t if in a comment."
         (current-column))
     ;; Check for braced and unbraced blocks
     (ess-save-excursion-when-nil
-      (let ((offset (if (looking-at "[{}()]")
+      (let ((offset (if (looking-at "[{})]")
                         0 (ess-offset 'block))))
         (when (and (cond
                     ;; Unbraced blocks
@@ -2339,7 +2351,7 @@ style variables buffer local."
              (setq ess-fill--style-level (1+ ess-fill--style-level))))))
   ess-fill--style-level)
 
-(defun ess-fill-args ()
+(defun ess-fill-args (&optional style)
   (let ((start-pos (point-min))
         (orig-col (current-column))
         (orig-line (line-number-at-pos))
@@ -2347,10 +2359,10 @@ style variables buffer local."
         ;; Set undo boundaries manually
         (undo-inhibit-record-point t)
         last-pos last-newline prefix-break
-        infinite style)
+        infinite)
     (when (not bounds)
       (error "Could not find function bounds"))
-    (setq style (ess-fill-style 'calls bounds))
+    (setq style (or style (ess-fill-style 'calls bounds)))
     (if (= style 0)
         (progn
           (delete-region (car bounds) (marker-position (cadr bounds)))
@@ -2367,8 +2379,8 @@ style variables buffer local."
       (save-excursion
         (ess-fill--unroll-lines bounds t)
         (cond
-         ;; Second level, start with first argument on a newline
-         ((and (= style 2)
+         ;; Some styles start with first argument on a newline
+         ((and (memq style '(2 4))
                ess-fill-calls-newlines
                (not (looking-at "[ \t]*#")))
           (newline-and-indent))
@@ -2417,7 +2429,7 @@ style variables buffer local."
                     (forward-line))))))
           (when (or (>= (current-column) fill-column)
                     prefix-break
-                    ;; May be useful later
+                    ;; Ensures closing delim on a newline
                     (and (= style 4)
                          (looking-at "[ \t]*[])]")
                          (setq last-pos (point))))
@@ -2430,7 +2442,7 @@ style variables buffer local."
                    (setq last-newline nil))
                   ;; With levels 2 and 3, closing delim goes on a newline
                   ((looking-at "[ \t]*[])]")
-                   (when (and (memq style '(2 3))
+                   (when (and (memq style '(2 3 4))
                               ess-fill-calls-newlines
                               (not last-newline))
                      (newline-and-indent)
@@ -2461,14 +2473,14 @@ style variables buffer local."
         (ess-jump-continuations)
         (list beg (point-marker))))))
 
-(defun ess-fill-continuations ()
+(defun ess-fill-continuations (&optional style)
   (let ((bounds (ess-continuations-bounds))
         (undo-inhibit-record-point t)
         (last-pos (point-min))
-        style last-newline infinite)
+        last-newline infinite)
     (when (not bounds)
       (error "Could not find statements bounds"))
-    (setq style (ess-fill-style 'continuations bounds))
+    (setq style (or style (ess-fill-style 'continuations bounds)))
     (if (= style 0)
         (progn
           (delete-region (car bounds) (marker-position (cadr bounds)))

@@ -2,74 +2,8 @@
 ;;
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
-
-(autoload 'helm-define-multi-key "helm" "\
-In KEYMAP, define key sequence KEY for function list FUNCTIONS.
-Each function run sequentially each time the key KEY is pressed.
-If DELAY is specified switch back to initial function of FUNCTIONS list
-after DELAY seconds.
-The functions in FUNCTIONS list are functions with no args.
-e.g
-  (defun foo ()
-    (message \"Run foo\"))
-  (defun bar ()
-    (message \"Run bar\"))
-  (defun baz ()
-    (message \"Run baz\"))
-
-\(helm-define-multi-key global-map \"<f5> q\" '(foo bar baz) 2)
-
-Each time \"<f5> q\" is pressed the next function is executed, if you wait
-More than 2 seconds, next hit will run again the first function and so on.
-
-\(fn KEYMAP KEY FUNCTIONS &optional DELAY)" nil nil)
-
-(autoload 'helm-multi-key-defun "helm" "\
-Define NAME as a multi-key command running FUNS.
-After DELAY seconds the FUNS list is reinitialised.
-See `helm-define-multi-key'.
-
-\(fn NAME DOCSTRING FUNS &optional DELAY)" nil t)
-
-(function-put 'helm-multi-key-defun 'lisp-indent-function '2)
-
-(autoload 'helm-define-key-with-subkeys "helm" "\
-Allow defining in MAP a KEY and SUBKEY to COMMAND.
-
-This allow typing KEY to call COMMAND the first time and
-type only SUBKEY on subsequent calls.
-
-Arg MAP is the keymap to use, SUBKEY is the initial short keybinding to
-call COMMAND.
-
-Arg OTHER-SUBKEYS is an alist specifying other short keybindings
-to use once started.
-e.g:
-
-\(helm-define-key-with-subkeys global-map
-   (kbd \"C-x v n\") ?n 'git-gutter:next-hunk '((?p . git-gutter:previous-hunk)))
-
-
-In this example, `C-x v n' will run `git-gutter:next-hunk'
-subsequent hits on \"n\" will run this command again
-and subsequent hits on \"p\" will run `git-gutter:previous-hunk'.
-
-Arg MENU is a string to display in minibuffer
-to describe SUBKEY and OTHER-SUBKEYS.
-Arg EXIT-FN specify a function to run on exit.
-
-Any other keys pressed run their assigned command defined in MAP
-and exit the loop running EXIT-FN if specified.
-
-NOTE: SUBKEY and OTHER-SUBKEYS bindings support
-only char syntax actually (e.g ?n)
-so don't use strings, vectors or whatever to define them.
-
-\(fn MAP KEY SUBKEY COMMAND &optional OTHER-SUBKEYS MENU EXIT-FN)" nil nil)
-
-(function-put 'helm-define-key-with-subkeys 'lisp-indent-function '1)
 
-;;;### (autoloads nil "helm" "helm.el" (22027 44339 0 0))
+;;;### (autoloads nil "helm" "helm.el" (22030 30107 0 0))
 ;;; Generated autoloads from helm.el
 
 (autoload 'helm-define-multi-key "helm" "\
@@ -256,7 +190,7 @@ Enable/disable helm debug from outside of helm session.
 ;;;***
 
 ;;;### (autoloads nil nil ("helm-core-pkg.el" "helm-lib.el" "helm-multi-match.el"
-;;;;;;  "helm-source.el") (22027 44339 0 0))
+;;;;;;  "helm-source.el") (22030 30107 0 0))
 
 ;;;***
 

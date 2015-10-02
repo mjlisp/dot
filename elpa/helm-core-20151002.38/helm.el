@@ -656,9 +656,6 @@ Other sources won't appear in the search results.
 If nil then there is no filtering.
 See also `helm-set-source-filter'.")
 
-(defvar helm-action-buffer "*helm action*"
-  "Buffer showing actions.")
-
 (defvar helm-selection-overlay nil
   "Overlay used to highlight the currently selected item.")
 
@@ -1081,26 +1078,6 @@ not `exit-minibuffer' or unwanted functions."
 
 
 ;; Helm API
-
-(defun helm-buffer-get ()
-  "Return `helm-action-buffer' if shown otherwise `helm-buffer'."
-  (if (helm-action-window)
-      helm-action-buffer
-    helm-buffer))
-
-(defun helm-window ()
-  "Window of `helm-buffer'."
-  (get-buffer-window (helm-buffer-get) 0))
-
-(defun helm-action-window ()
-  "Window of `helm-action-buffer'."
-  (get-buffer-window helm-action-buffer 'visible))
-
-(defmacro with-helm-window (&rest body)
-  "Be sure BODY is excuted in the helm window."
-  (declare (indent 0) (debug t))
-  `(with-selected-window (helm-window)
-     ,@body))
 
 (defmacro with-helm-restore-variables (&rest body)
   "Restore `helm-restored-variables' after executing BODY."
@@ -3802,7 +3779,11 @@ Possible value of DIRECTION are 'next or 'previous."
         (put-text-property
          ;; Increment pos to handle the space before prompt (i.e `pref').
          (1+ pos) (+ 2 pos)
-         'face 'cursor header-line-format)
+         'face ;don't just use 'cursor; this can hide the current character
+         `((t :inverse-video t
+              :foreground ,(face-background 'cursor)
+              :background ,(face-background 'default)))
+         header-line-format)
         (when update (force-mode-line-update))))))
 
 (defun helm--update-header-line ()

@@ -3947,6 +3947,10 @@ Also see *note (gitman)git-stash:: .
 
      Create and checkout a new BRANCH from STASH.
 
+‘z f’     (‘magit-stash-format-patch’)
+
+     Create a patch from STASH.
+
 ‘k’     (‘magit-stash-clear’)
 
      Remove all stashes saved in REF’s reflog by deleting REF.
@@ -6168,7 +6172,7 @@ Appendix B Keystroke Index
 * k <1>:                                 Applying.            (line  37)
 * k <2>:                                 Editing rebase sequences.
                                                               (line  68)
-* k <3>:                                 Stashing.            (line  88)
+* k <3>:                                 Stashing.            (line  92)
 * l:                                     Logging.             (line  24)
 * L:                                     Refreshing logs.     (line  11)
 * L <1>:                                 Log Buffer.          (line   6)
@@ -6359,6 +6363,7 @@ Appendix B Keystroke Index
 * z a:                                   Stashing.            (line  58)
 * z b:                                   Stashing.            (line  84)
 * z d:                                   Stashing.            (line  71)
+* z f:                                   Stashing.            (line  88)
 * z i:                                   Stashing.            (line  20)
 * z I:                                   Stashing.            (line  46)
 * z l:                                   Stashing.            (line  76)
@@ -6716,8 +6721,9 @@ Appendix C Command Index
 * magit-stash:                           Stashing.            (line  13)
 * magit-stash-apply:                     Stashing.            (line  58)
 * magit-stash-branch:                    Stashing.            (line  84)
-* magit-stash-clear:                     Stashing.            (line  88)
+* magit-stash-clear:                     Stashing.            (line  92)
 * magit-stash-drop:                      Stashing.            (line  71)
+* magit-stash-format-patch:              Stashing.            (line  88)
 * magit-stash-index:                     Stashing.            (line  20)
 * magit-stash-keep-index:                Stashing.            (line  32)
 * magit-stash-list:                      Stashing.            (line  76)
@@ -7088,55 +7094,55 @@ Node: Cherry picking136013
 Node: Reverting137619
 Node: Resetting138982
 Node: Stashing140472
-Node: Transferring143536
-Node: Remotes143774
-Node: Fetching144577
-Node: Pulling145393
-Node: Pushing145893
-Node: Creating and sending patches148871
-Node: Applying patches149566
-Node: Miscellaneous150564
-Node: Tagging150855
-Node: Notes151640
-Node: Submodules154165
-Node: Common commands155485
-Node: Wip modes157233
-Node: Minor mode for buffers visiting files163969
-Node: Minor mode for buffers visiting blobs166112
-Node: Customizing166917
-Node: Per-repository configuration168589
-Node: Essential settings170237
-Node: Safety170561
-Node: Performance173742
-Node: Plumbing179620
-Node: Calling Git180248
-Node: Getting a value from Git181771
-Node: Calling Git for effect184875
-Node: Section plumbing191379
-Node: Creating sections191607
-Node: Section selection195410
-Node: Matching sections197090
-Node: Refreshing buffers202292
-Node: Conventions205427
-Node: Confirmation and completion205604
-Node: Theming Faces206502
-Node: FAQ214653
-Node: Magit is slow215662
-Node: I am having problems committing215828
-Node: I am using an Emacs release older than 244216226
-Node: I am using a Git release older than 194217672
-Node: I am using MS Windows and cannot push with Magit218511
-Node: How to install the gitman info manual?219089
-Node: How can I show Git's output?221671
-Node: Expanding a file to show the diff causes it to disappear222481
-Node: Magit claims repository accessed using Tramp does not exist223021
-Node: Can Magit be used as ediff-version-control-package?224167
-Node: How to show diffs for gpg-encrypted files?226207
-Node: Emacs 245 hangs when loading Magit226798
-Node: Keystroke Index227317
-Node: Command Index254654
-Node: Function Index282655
-Node: Variable Index292563
+Node: Transferring143617
+Node: Remotes143855
+Node: Fetching144658
+Node: Pulling145474
+Node: Pushing145974
+Node: Creating and sending patches148952
+Node: Applying patches149647
+Node: Miscellaneous150645
+Node: Tagging150936
+Node: Notes151721
+Node: Submodules154246
+Node: Common commands155566
+Node: Wip modes157314
+Node: Minor mode for buffers visiting files164050
+Node: Minor mode for buffers visiting blobs166193
+Node: Customizing166998
+Node: Per-repository configuration168670
+Node: Essential settings170318
+Node: Safety170642
+Node: Performance173823
+Node: Plumbing179701
+Node: Calling Git180329
+Node: Getting a value from Git181852
+Node: Calling Git for effect184956
+Node: Section plumbing191460
+Node: Creating sections191688
+Node: Section selection195491
+Node: Matching sections197171
+Node: Refreshing buffers202373
+Node: Conventions205508
+Node: Confirmation and completion205685
+Node: Theming Faces206583
+Node: FAQ214734
+Node: Magit is slow215743
+Node: I am having problems committing215909
+Node: I am using an Emacs release older than 244216307
+Node: I am using a Git release older than 194217753
+Node: I am using MS Windows and cannot push with Magit218592
+Node: How to install the gitman info manual?219170
+Node: How can I show Git's output?221752
+Node: Expanding a file to show the diff causes it to disappear222562
+Node: Magit claims repository accessed using Tramp does not exist223102
+Node: Can Magit be used as ediff-version-control-package?224248
+Node: How to show diffs for gpg-encrypted files?226288
+Node: Emacs 245 hangs when loading Magit226879
+Node: Keystroke Index227398
+Node: Command Index254808
+Node: Function Index282882
+Node: Variable Index292790
 
 End Tag Table
 

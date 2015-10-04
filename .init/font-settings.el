@@ -29,6 +29,7 @@
 (set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol")
 
 (set-fontset-font t ?– "Symbola")
+(set-fontset-font t ?′ "Symbola")
 
 ;; (set-fontset-font t ;; (frame-parameter nil 'font)
 ;; 		    'symbol

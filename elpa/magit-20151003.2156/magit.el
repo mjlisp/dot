@@ -2300,14 +2300,14 @@ of the buffer, and removes the consumed revision from the stack.
 The entries on the stack have the format (HASH TOPLEVEL) and this
 option has the format (POINT-FORMAT EOB-FORMAT INDEX-REGEXP), all
 of which may be nil or a string (though either one of EOB-FORMAT
-or POINT-FORMAT should be a string, and if POINT-FORMAT is
-non-nil, then the the two formats should be too).
+or POINT-FORMAT should be a string, and if INDEX-REGEXP is
+non-nil, then the two formats should be too).
 
 First INDEX-REGEXP is used to find the previously inserted entry,
 by searching backward from point.  The first submatch must match
 the index number.  That number is incremented by one, and becomes
 the index number of the entry to be inserted.  If you don't want
-to number the inserted revisions, then us nil for INDEX-REGEXP.
+to number the inserted revisions, then use nil for INDEX-REGEXP.
 
 If INDEX-REGEXP is non-nil then both POINT-FORMAT and EOB-FORMAT
 should contain \"%N\", which is replaced with the number that was
@@ -2322,12 +2322,12 @@ the buffer ends with a comment, then it is inserted right before
 that)."
   :package-version '(magit . "2.3.0")
   :group 'magit-status
-  :type '(list (or (string :tag "Insert at point format")
-                   (const  :tag "Don't insert at point" nil))
-               (or (string :tag "Insert at eob format")
-                   (const  :tag "Don't insert at eob" nil))
-               (or (regexp :tag "Find index regexp")
-                   (const  :tag "Don't number entries" nil))))
+  :type '(list (choice (string :tag "Insert at point format")
+                       (const  :tag "Don't insert at point" nil))
+               (choice (string :tag "Insert at eob format")
+                       (const :tag "Don't insert at eob" nil))
+               (choice (regexp :tag "Find index regexp")
+                       (const :tag "Don't number entries" nil))))
 
 (defun magit-pop-revision-stack (rev toplevel)
   "Insert a representation of a revision into the current buffer.
@@ -2401,7 +2401,8 @@ the minibuffer too."
 
 Save the section value to the `kill-ring', and, provided that
 the current section is a commit, branch, or tag section, push
-the (referenced) revision to the `magit-revision-stack'.
+the (referenced) revision to the `magit-revision-stack' for use
+with `magit-pop-revision-stack'.
 
 When the current section is a branch or a tag, and a prefix
 argument is used, then save the revision at its tip to the

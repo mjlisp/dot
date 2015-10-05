@@ -19,34 +19,12 @@
 		(lambda () (interactive) (erase-buffer)))
 
 ;; 一个ESC是C-g 和一般的程序一样
-(global-set-key (kbd "<escape>")
-		'keyboard-quit) ;; all platforms?
-
-;; Rect-mark 区块选择 抄的
-;; Support for marking a rectangle of text with highlighting.
-;; (define-key ctl-x-map "r\C-@" 'rm-set-mark)
-;; (define-key ctl-x-map [?\r ?\C-\ ] 'rm-set-mark)
-;; (define-key ctl-x-map "r\C-x" 'rm-exchange-point-and-mark)
-;; (define-key ctl-x-map "r\C-w" 'rm-kill-region)
-;; (define-key ctl-x-map "r\M-w" 'rm-kill-ring-save)
-;; 改成 M-左键 是区域选择 貌似win里这个叫区块操作
-;; (define-key global-map [M-drag-mouse-1] 'rm-mouse-drag-region)
-;; (define-key global-map [M-down-mouse-1] 'rm-mouse-drag-region)
-;; (autoload 'rm-set-mark "rect-mark"
-;;   "Set mark for rectangle." t)
-;; (autoload 'rm-exchange-point-and-mark "rect-mark"
-;;   "Exchange point and mark for rectangle." t)
-;; (autoload 'rm-kill-region "rect-mark"
-;;   "Kill a rectangular region and save it in the kill ring." t)
-;; (autoload 'rm-kill-ring-save "rect-mark"
-;;   "Copy a rectangular region to the kill ring." t)
-;; (autoload 'rm-mouse-drag-region "rect-mark"
-;;   "Drag out a rectangular region with the mouse." t)
+(global-set-key (kbd "<escape>") 'keyboard-quit)
 
 (global-set-key (kbd "C-<down-mouse-1>")
-		(quote mouse-set-secondary))
+	        'mouse-set-secondary)
 (global-set-key (kbd "C-<drag-mouse-1>")
-		(quote mouse-set-secondary))
+		'mouse-set-secondary)
 
 (if (string-equal system-type "windows-nt")
     (progn
@@ -67,47 +45,29 @@
   )
 
 ;; 加一个Shift+空格作为设定标记
-(global-set-key (kbd "S-SPC")
-		(quote set-mark-command))
+(global-set-key (kbd "S-SPC") 'set-mark-command)
 
 ;; 不用C-h了
 ;; (define-key global-map "\C-h" 'backward-delete-char)
 (define-key key-translation-map (kbd "C-h") "")
 
 ;; M-s f 前景色
-(global-set-key (kbd "M-s f")
-		(quote facemenu-set-foreground))
+(global-set-key (kbd "M-s f") 'facemenu-set-foreground)
 ;; M-s M-f 前景色
-(global-set-key (kbd "M-s M-f")
-		(quote facemenu-set-foreground))
+(global-set-key (kbd "M-s M-f") 'facemenu-set-foreground)
 ;; M-s b 背景色
-(global-set-key (kbd "M-s b")
-		(quote facemenu-set-background))
+(global-set-key (kbd "M-s b") 'facemenu-set-background)
 ;; M-s M-b 背景色
-(global-set-key (kbd "M-s M-b")
-		(quote facemenu-set-background))
+(global-set-key (kbd "M-s M-b") 'facemenu-set-background)
 
-(define-prefix-command 'Hyper-g-map)
-(global-set-key (kbd "H-g")
-		'Hyper-g-map)
-(global-set-key (kbd "H-g g")
-		(quote google-translate-at-point))
-(global-set-key (kbd "H-g H-g")
-		(quote google-translate-at-point))
-(global-set-key (kbd "H-g r")
-		(quote google-translate-at-point-reverse))
-(global-set-key (kbd "H-g H-r")
-		(quote google-translate-at-point-reverse))
+(global-set-key (kbd "H-g") 'magit-status)
 
-(global-set-key (kbd "H-b")
-		(quote switch-to-buffer))
+(global-set-key (kbd "H-b") 'switch-to-buffer)
 (global-set-key (kbd "H-k")
 		(lambda () (interactive) (kill-buffer nil)))
 
-(global-set-key (kbd "H-1")
-		(quote delete-other-windows))
-(global-set-key (kbd "H-0")
-		(quote delete-window))
+(global-set-key (kbd "H-1") 'delete-other-windows)
+(global-set-key (kbd "H-0") 'delete-window)
 
 (global-set-key (kbd "H-m")
 		(lambda ()
@@ -116,12 +76,9 @@
 		    (select-window
 		     (active-minibuffer-window)))))
 
-(global-set-key (kbd "H-s")
-		(quote shell))
-(global-set-key (kbd "H-o")
-		(quote run-octave))
-(global-set-key (kbd "H-q")
-		(quote calculator))
+(global-set-key (kbd "H-s") 'shell)
+(global-set-key (kbd "H-o") 'run-octave)
+(global-set-key (kbd "H-q") 'calculator)
 
 (if (string-equal system-type "windows-nt")
     (setq w32-pass-lwindow-to-system nil
@@ -134,24 +91,21 @@
 	  ))
 
 ;; 扩展缩写 M-'
-(global-set-key (kbd "M-'")
-		(quote expand-abbrev))
+(global-set-key (kbd "M-'") 'expand-abbrev)
 
 ;; (require 'misc)
 (autoload 'copy-from-above-command "misc" nil t)
-(global-set-key (kbd "H-y")
-		'copy-from-above-command)
+(global-set-key (kbd "H-y") 'copy-from-above-command)
 
 ;; (require 'smart-compile)
 (autoload 'smart-compile "smart-compile" nil t)
-(global-set-key (kbd "H-c")
-		'smart-compile)
+(global-set-key (kbd "H-c") 'smart-compile)
 
 (global-set-key (kbd "M-s-s")
 		(lambda ()
 		  (interactive)
 		  (switch-to-buffer "*scratch*" nil
-				    (quote force-same-window))))
+				    'force-same-window)))
 
 (add-hook 'js2-mode-hook
 	  '(lambda ()
@@ -188,12 +142,6 @@
 	     (local-set-key (kbd "C-c l")
 			    'js-load-file-and-go)
 	     ))
-
-;; (add-hook 'markdown-mode-hook
-;; 	  '(lambda ()
-;; 	     (local-set-key (kbd "M-RET")
-;; 			    'markdown-insert-header-dwim)
-;; 	     ))
 
 ; vi `.' command emulation
 (autoload 'dot-mode "dot-mode" nil t) 

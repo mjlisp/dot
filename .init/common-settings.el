@@ -1,7 +1,9 @@
 ;; Some Common Settings
 
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-(set-register ?i '(file . "~/.emacs.d/.init"))
+(set-register ?i '(file . "~/.emacs.d/.init/"))
+(set-register ?h '(file . "~/repo/hexo-blog"))
+(set-register ?r '(file . "~/repo/"))
 
 ;; 语法加亮
 (global-font-lock-mode 1)

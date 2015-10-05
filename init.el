@@ -189,9 +189,12 @@
 (when (fboundp 'auto-complete)
   (load "~/.emacs.d/.init/auto-complete-settings"))
 
-;; 字体设置
 (when (or (display-graphic-p) (daemonp))
-  (load "~/.emacs.d/.init/font-settings"))
+  ;; 字体设置
+  (load "~/.emacs.d/.init/font-settings")
+  (add-to-list 'default-frame-alist '(height . 35))
+  (add-to-list 'default-frame-alist '(width . 85))
+  )
 
 ;; C语言编程
 (load "~/.emacs.d/.init/for-C-language")

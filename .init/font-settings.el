@@ -8,7 +8,7 @@
 					  ;; Droid Sans Mono
 					  ;; Source Code Pro
 
-(set-fontset-font t 'symbol "Inconsolata" nil 'prepend)
+(set-fontset-font t 'symbol "Inconsolata")
 
 ;; (set-fontset-font t 'unicode-bmp "STIX" nil 'append)
 ;; (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
@@ -24,6 +24,7 @@
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
 
+(set-fontset-font t 'unicode "Segoe UI Symbol" nil 'append)
 (set-fontset-font t 'unicode "Symbola" nil 'append)
 (set-fontset-font t '(#xE000 . #xF8FF) "STIX")
 (set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol")
@@ -49,8 +50,6 @@
 ;; (set-fontset-font (frame-parameter nil 'font)
 ;; 		    '(#x1d4b6 . #x1d537)
 ;; 		    (font-spec :family "Symbola"))
-
-
 
 ;; (set-fontset-font (frame-parameter nil 'font)
 ;; 		    '(#xe833 . #xe835)

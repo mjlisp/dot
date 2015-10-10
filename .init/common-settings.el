@@ -1,6 +1,6 @@
 ;; Some Common Settings
 
-(set-register ?e '(file . "~/.emacs.d/init.el"))
+(set-register ?e '(file . "~/.emacs.d/"))
 (set-register ?i '(file . "~/.emacs.d/.init/"))
 (set-register ?h '(file . "~/repo/hexo-blog"))
 (set-register ?r '(file . "~/repo/"))
@@ -61,13 +61,11 @@
 
 (add-hook 'after-make-frame-functions
 	  (lambda (new-frame)
-	    (let* ((fullscreen)
-		   (alpha))
-	      (setq fullscreen (list (assq 'fullscreen (frame-parameters))))
-	      (setq alhpa (list (assq 'alpha (frame-parameters))))
+	    (let* ((fullscreen (list (assq 'fullscreen (frame-parameters))))
+		   (alpha (list (assq 'alpha (frame-parameters)))))
 	      (select-frame new-frame)
 	      (modify-frame-parameters (selected-frame) fullscreen)
-	      (modify-frame-parameters (selected-frame) alhpa))))
+	      (modify-frame-parameters (selected-frame) alpha))))
 
 ;; For Mew.
 (autoload 'mew "mew" nil t)

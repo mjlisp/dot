@@ -61,10 +61,13 @@
 
 (add-hook 'after-make-frame-functions
 	  (lambda (new-frame)
-	    (let* (fullscreen)
+	    (let* ((fullscreen)
+		   (alpha))
 	      (setq fullscreen (list (assq 'fullscreen (frame-parameters))))
+	      (setq alhpa (list (assq 'alpha (frame-parameters))))
 	      (select-frame new-frame)
-	      (modify-frame-parameters (selected-frame) fullscreen))))
+	      (modify-frame-parameters (selected-frame) fullscreen)
+	      (modify-frame-parameters (selected-frame) alhpa))))
 
 ;; For Mew.
 (autoload 'mew "mew" nil t)

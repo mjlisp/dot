@@ -4,7 +4,7 @@
 
 ;; Author: DarkSun <lujun9972@gmail.com>
 ;; Keywords: lisp, url, image
-;; Package-Version: 20151006.259
+;; Package-Version: 20151009.1651
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -53,6 +53,7 @@
 ;;; Code:
 
 (require 'image-file)
+(require 'url-queue)
 
 (defgroup uimage nil
   "Support for url images."
@@ -148,7 +149,7 @@ Examples of image filename patterns to match:
                               '(display nil modification-hooks nil)))))
 
 
-(defun uimage-display-inline-images-callback (status start end type ori-buffer)
+(defun uimage-display-inline-images-callback (status start end ori-buffer)
   (unwind-protect
 	  (let (file-data)
 		(goto-char (point-min))
@@ -158,7 +159,8 @@ Examples of image filename patterns to match:
 		(when file-data
 		  (with-current-buffer ori-buffer
 			(add-text-properties start end
-								 `(display ,(create-image file-data type t)
+								 `(display ,(or (create-image file-data nil t)
+												(create-image file-data 'imagemagick t))
 										   modification-hooks
 										   (uimage-modification-hook))))))
 	(kill-buffer)))
@@ -189,8 +191,8 @@ Examples of image filename patterns to match:
 		url)
 	(with-silent-modifications
 	  (save-excursion
-		(goto-char start)
 		(dolist (pair uimage-mode-image-regex-alist)
+		  (goto-char start)
 		  (while (re-search-forward (car pair) end t)
 			(setq url (match-string (cdr pair)))
 			;; FIXME: we don't mark our images, so we can't reliably
@@ -200,9 +202,10 @@ Examples of image filename patterns to match:
 				(unless (eq 'image (car (get-text-property (match-beginning 0) 'display)))
 				  (when (uimage--url-readable-p url)
 					(if (uimage--url-retrievable-p url)
-						(url-queue-retrieve url #'uimage-display-inline-images-callback `(,(match-beginning 0) ,(match-end 0) nil ,(current-buffer)))
+						(url-queue-retrieve url #'uimage-display-inline-images-callback `(,(match-beginning 0) ,(match-end 0) ,(current-buffer)))
 					  (add-text-properties (match-beginning 0) (match-end 0)
-										   `(display ,(create-image url)
+										   `(display ,(or (create-image url)
+														  (create-image url 'imagemagick))
 													 modification-hooks
 													 (uimage-modification-hook))))))
 			  (remove-text-properties (match-beginning 0) (match-end 0)

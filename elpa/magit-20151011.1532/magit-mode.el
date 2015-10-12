@@ -599,9 +599,13 @@ Magit buffer is buried."
       (add-to-list 'uniquify-list-buffers-directory-modes mode)
       (with-current-buffer buffer
         (setq list-buffers-directory default-directory))
-      (uniquify-rationalize-file-buffer-names
-       name (file-name-directory (directory-file-name default-directory))
-       buffer))
+      (let ((uniquify-buffer-name-style
+             (if (eq uniquify-buffer-name-style 'forward)
+                 'post-forward-angle-brackets
+               uniquify-buffer-name-style)))
+        (uniquify-rationalize-file-buffer-names
+         name (file-name-directory (directory-file-name default-directory))
+         buffer)))
     buffer))
 
 (defun magit-generate-buffer-name-default-function (mode &optional value)
@@ -789,21 +793,6 @@ tracked in the current repository."
                                                 beg (line-end-position))))
                                 (t t)))))))))
 
-(defun magit-refresh-status ()
-  "Refresh the status buffer of the current repository.
-
-This function is intended to be added to `after-save-hook'.
-
-If the status buffer does not exist or the file being visited in
-the current buffer isn't inside a repository, then do nothing.
-
-Note that refreshing a Magit buffer is done by re-creating its
-contents from scratch, which can be slow in large repositories.
-If you are not satisfied with Magit's performance, then you
-should obviously not add this function to that hook."
-  (--when-let (ignore-errors (magit-mode-get-buffer 'magit-status-mode))
-    (with-current-buffer it
-      (magit-refresh-buffer))))
 
 (defvar inhibit-magit-revert nil)
 (defvar magit-revert-buffers-backlog nil)
@@ -927,6 +916,32 @@ Like `vc-mode-line' but simpler, more efficient, and less buggy."
   (setq disable-magit-save-buffers nil))
 (add-hook 'pre-command-hook #'magit-pre-command-hook)
 
+(defvar magit-after-save-refresh-buffers nil)
+
+(defun magit-after-save-refresh-buffers ()
+  (dolist (buffer magit-after-save-refresh-buffers)
+    (with-current-buffer buffer
+      (magit-refresh-buffer)))
+  (setq magit-after-save-refresh-buffers nil)
+  (remove-hook 'post-command-hook 'magit-after-save-refresh-buffers))
+
+(defun magit-after-save-refresh-status ()
+  "Refresh the status buffer of the current repository.
+
+This function is intended to be added to `after-save-hook'.
+
+If the status buffer does not exist or the file being visited in
+the current buffer isn't inside a repository, then do nothing.
+
+Note that refreshing a Magit buffer is done by re-creating its
+contents from scratch, which can be slow in large repositories.
+If you are not satisfied with Magit's performance, then you
+should obviously not add this function to that hook."
+  (unless disable-magit-save-buffers
+    (--when-let (ignore-errors (magit-mode-get-buffer 'magit-status-mode))
+      (add-to-list 'magit-after-save-refresh-buffers it)
+      (add-hook 'post-command-hook 'magit-after-save-refresh-buffers))))
+
 (defun magit-maybe-save-repository-buffers ()
   "Maybe save file-visiting buffers belonging to the current repository.
 Do so if `magit-save-repository-buffers' is non-nil."
@@ -936,7 +951,8 @@ Do so if `magit-save-repository-buffers' is non-nil."
     (let ((msg (current-message)))
       (magit-save-repository-buffers
        (eq magit-save-repository-buffers 'dontask))
-      (when msg (message "%s" msg)))))
+      (when (and msg (not (equal msg (current-message))))
+        (message "%s" msg)))))
 
 (add-hook 'magit-pre-refresh-hook #'magit-maybe-save-repository-buffers)
 (add-hook 'magit-pre-call-git-hook #'magit-maybe-save-repository-buffers)

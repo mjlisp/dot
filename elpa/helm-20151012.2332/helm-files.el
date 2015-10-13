@@ -465,7 +465,7 @@ Don't set it directly, use instead `helm-ff-auto-update-initial-value'.")
    "Symlink files(s) `M-S, C-u to follow'" 'helm-find-files-symlink
    "Relsymlink file(s) `C-u to follow'" 'helm-find-files-relsymlink
    "Hardlink file(s) `M-H, C-u to follow'" 'helm-find-files-hardlink
-   "Find file other window `C-c o'" 'find-file-other-window
+   "Find file other window `C-c o'" 'helm-find-files-other-window
    "Switch to history `M-p'" 'helm-find-files-switch-to-hist
    "Find file other frame `C-c C-o'" 'find-file-other-frame
    "Print File `C-c p, C-u to refresh'" 'helm-ff-print
@@ -605,6 +605,18 @@ ACTION must be an action supported by `helm-dired-action'."
 (defun helm-find-files-hardlink (_candidate)
   "Hardlink files from `helm-find-files'."
   (helm-find-files-do-action 'hardlink))
+
+(defun helm-find-files-other-window (_candidate)
+  "Keep current-buffer and open files in separate windows."
+  (let* ((files (helm-marked-candidates))
+         (buffers (mapcar 'find-file-noselect files)))
+    (switch-to-buffer-other-window (car buffers))
+    (helm-aif (cdr buffers)
+        (save-selected-window
+          (cl-loop for buffer in it
+                   do (progn
+                        (select-window (split-window))
+                        (switch-to-buffer buffer)))))))
 
 (defun helm-find-files-byte-compile (_candidate)
   "Byte compile elisp files from `helm-find-files'."
@@ -1128,7 +1140,7 @@ This doesn't replace inside the files, only modify filenames."
   "Run switch to other window action from `helm-source-find-files'."
   (interactive)
   (with-helm-alive-p
-    (helm-exit-and-execute-action 'find-file-other-window)))
+    (helm-exit-and-execute-action 'helm-find-files-other-window)))
 
 (defun helm-ff-run-switch-other-frame ()
   "Run switch to other frame action from `helm-source-find-files'."
@@ -1424,9 +1436,13 @@ or when `helm-pattern' is equal to \"~/\"."
                            (unless (or completed-p
                                        (file-exists-p pat)
                                        history-p (null lt2-p))
-                                  ;; Only one non--existing candidate
-                                  ;; and one directory candidate, move to it.
-                                  (helm-next-line))
+                             ;; Only one non--existing candidate
+                             ;; and one directory candidate, move to it,
+                             ;; but not when renaming, copying etc...,
+                             ;; so for this use
+                             ;; `helm-ff-move-to-first-real-candidate'
+                             ;; instead of `helm-next-line' (Issue #910).
+                             (helm-ff-move-to-first-real-candidate))
                            (helm-get-selection))))
         (when (and (or (and helm-ff-auto-update-flag
                             (null helm-ff--deleting-char-backward)

@@ -4,7 +4,7 @@
 
 ;; Author: DarkSun <lujun9972@gmail.com>
 ;; Keywords: lisp, url, image
-;; Package-Version: 20151009.1651
+;; Package-Version: 20151012.604
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -54,6 +54,9 @@
 
 (require 'image-file)
 (require 'url-queue)
+(require 'url-file)
+(require 'url-http)
+(require 'url-ftp)
 
 (defgroup uimage nil
   "Support for url images."

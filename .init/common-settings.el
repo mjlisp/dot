@@ -78,3 +78,5 @@
 	   (featurep 'auto-compile))
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
+
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))

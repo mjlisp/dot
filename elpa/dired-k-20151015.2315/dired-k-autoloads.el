@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "dired-k" "dired-k.el" (22022 17359 0 0))
+;;;### (autoloads nil "dired-k" "dired-k.el" (22048 64229 0 0))
 ;;; Generated autoloads from dired-k.el
 
 (autoload 'dired-k "dired-k" "\
@@ -14,7 +14,7 @@ This is inspired by `k' zsh script
 
 ;;;***
 
-;;;### (autoloads nil "direx-k" "direx-k.el" (22022 17359 0 0))
+;;;### (autoloads nil "direx-k" "direx-k.el" (22048 64229 0 0))
 ;;; Generated autoloads from direx-k.el
 
 (autoload 'direx-k "direx-k" "\
@@ -24,7 +24,7 @@ This is inspired by `k' zsh script
 
 ;;;***
 
-;;;### (autoloads nil nil ("dired-k-pkg.el") (22022 17359 0 0))
+;;;### (autoloads nil nil ("dired-k-pkg.el") (22048 64229 0 0))
 
 ;;;***
 

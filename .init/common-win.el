@@ -18,8 +18,12 @@
 (setq explicit-bash-args (quote ("--noediting" "--login" "-i")))
 (setq explicit-shell-file-name "bash")
 (setq gnutls-trustfiles '("C:/msys64/usr/ssl/certs/ca-bundle.crt"))
-;; (setq preview-gs-command "gswin64c.exe")
-;; (setq ps-lpr-command "gswin64c.exe")
+(setq preview-gs-command "gswin32c.exe")
+;; Print support.
+(setq-default ps-lpr-command (expand-file-name "C:/Program Files/Ghostgum/gsview/gsprint.exe"))
+(setq-default ps-printer-name t)
+(setq-default ps-printer-name-option nil)
+(setq ps-lpr-switches '("-query")) ; show printer dialog
 (setq python-shell-interpreter "C:/Python27/Scripts/ipython.exe")
 (setq python-shell-interpreter-args "-i")
 (setq semantic-c-dependency-system-include-path

@@ -1135,11 +1135,17 @@ Returns nil if line starts inside a string, t if in a comment."
       (- indent unindent))))
 
 (defun ess-calculate-indent--call-closing-delim ()
-  (let ((offset (if (save-excursion
-                      (ess-skip-blanks-backward t)
-                      (eq (char-before) ?,))
-                    nil 0)))
-    (ess-calculate-indent--args offset)))
+  (cond ((save-excursion
+           (ess-skip-blanks-backward t)
+           (eq (char-before) ?,))
+         (ess-calculate-indent--args nil))
+        ((save-excursion
+           (and (ess-climb-operator)
+                (or (not ess-align-continuations-in-calls)
+                    (ess-looking-at-definition-op-p))))
+         (ess-calculate-indent--continued))
+        (t
+         (ess-calculate-indent--args 0))))
 
 (defun ess-calculate-indent--block-opening ()
   (cond
@@ -1484,7 +1490,7 @@ Returns nil if line starts inside a string, t if in a comment."
     (ess-save-excursion-when-nil
       (let ((block-type (ess-climb-block-prefix)))
         (cond ((ess-save-excursion-when-nil
-                 (and (memq 'fun-decl-curly ess-indent-from-lhs)
+                 (and (memq 'fun-decl-opening ess-indent-from-lhs)
                       (string= block-type "function")
                       (ess-climb-operator)
                       (ess-looking-at-assignment-op-p)

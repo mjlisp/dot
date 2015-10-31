@@ -3417,11 +3417,10 @@ File: ess.info,  Node: ESS developer,  Prev: Editing documentation,  Up: Develop
 
 Usual ESS evaluation commands, *Note Evaluating code::, send portions of
 the current buffer for the evaluation in the current environment
-(usually 'R_GlobalEnv').  Often, in process of the developing packages
-with namespaces, it is necessary to evaluate code directly in the
-package's environment or its namespace.  The 'ess-developer' utility
-provides such a functionality with minimal disruption of the usual ESS
-work-flow.
+(usually 'R_GlobalEnv').  Often, when developing packages with
+namespaces, it is necessary to evaluate code directly in the package's
+environment or its namespace.  The 'ess-developer' utility provides such
+a functionality with minimal disruption of the usual ESS work-flow.
 
    To understand how ess-developer works you must be familiar with
 namespace system in R. In a nutshell, all objects defined in a package
@@ -3473,7 +3472,7 @@ appear in the modeline.
    When you add a package to 'ess-developer-packages', ESS will ask for
 loading command.  By default there are two options 'library' and
 'load_all' from 'devtools' package.  You can configure this behavior in
-'ess-developer-load-on-add-commands'.  To explisitely load the package
+'ess-developer-load-on-add-commands'.  To explicitly load the package
 containing current file use 'C-c C-t l'.
 
  -- Command: ess-developer-load-package
@@ -3514,7 +3513,7 @@ differently:
           Similarly to function definitions modified methods are
           assigned in the local method table in the namespace:foo.  New
           methods are assigned into .GlobalEnv, but with the environment
-          pointing to namespace:foo.  There is a suttle catch with
+          pointing to namespace:foo.  There is a subtle catch with
           method caching in R though.  See the code in
           etc/ESSR/developer.R for more details.
 
@@ -3531,9 +3530,9 @@ differently:
           registered (aka cached) S3 method instead of the new method
           that ess-developer inserted in the package environment.
 
-   * 'C-c C-r'('ess-eval-region' and functions that depend on it
-     ('ess-eval-paragraph', 'ess-eval-buffer' etc., behave as
-     ess-load-file', but restrict the evaluation to the corresponding
+   * 'C-c C-r'('ess-eval-region') and functions that depend on it
+     ('ess-eval-paragraph', 'ess-eval-buffer' etc.), behave as
+     'ess-load-file', but restrict the evaluation to the corresponding
      region.
 
    * 'C-c C-f' ('ess-eval-function') and friends check if the current
@@ -5207,10 +5206,10 @@ Key index
 * C-c C-q:                               Hot keys.             (line 72)
 * C-C C-r:                               Evaluating code.      (line 57)
 * C-c C-s:                               Hot keys.             (line 34)
-* C-c C-t C-a:                           ESS developer.        (line 55)
-* C-c C-t C-r:                           ESS developer.        (line 59)
-* C-c C-t C-t:                           ESS developer.        (line 50)
-* C-c C-t l:                             ESS developer.        (line 68)
+* C-c C-t C-a:                           ESS developer.        (line 54)
+* C-c C-t C-r:                           ESS developer.        (line 58)
+* C-c C-t C-t:                           ESS developer.        (line 49)
+* C-c C-t l:                             ESS developer.        (line 67)
 * C-c C-v:                               Hot keys.             (line 67)
 * C-c C-w:                               Clean.                (line 11)
 * C-c C-x:                               Hot keys.             (line 24)
@@ -5288,10 +5287,10 @@ Function and program index
 * ess-cleanup:                           Hot keys.            (line  72)
 * ess-cleanup <1>:                       Help.                (line 172)
 * ess-describe-help-mode:                Help.                (line  21)
-* ess-developer:                         ESS developer.       (line  49)
-* ess-developer-add-package:             ESS developer.       (line  54)
-* ess-developer-load-package:            ESS developer.       (line  67)
-* ess-developer-remove-package:          ESS developer.       (line  58)
+* ess-developer:                         ESS developer.       (line  48)
+* ess-developer-add-package:             ESS developer.       (line  53)
+* ess-developer-load-package:            ESS developer.       (line  66)
+* ess-developer-remove-package:          ESS developer.       (line  57)
 * ess-display-help-on-object:            Hot keys.            (line  66)
 * ess-display-help-on-object <1>:        Help.                (line   8)
 * ess-display-help-on-object <2>:        Help.                (line  25)
@@ -5632,57 +5631,57 @@ Node: Editing documentation140798
 Node: R documentation files141340
 Node: Roxygen145260
 Node: ESS developer149595
-Node: Extras156098
-Node: ESS ElDoc157081
-Node: Handy commands158604
-Node: Highlighting159799
-Node: Parens161128
-Node: Graphics161709
-Node: printer162218
-Node: X11162974
-Node: winjava163313
-Node: Imenu163725
-Node: Toolbar164566
-Node: TAGS164974
-Node: Rdired166326
-Node: Rutils167378
-Node: Org169754
-Node: Sweave and AUCTeX170696
-Node: ESS for S172820
-Node: ESS(S)--Editing files173255
-Node: iESS(S)--Inferior ESS processes174372
-Node: ESS-help--assistance with viewing help180040
-Node: Philosophies for using ESS(S)180360
-Node: Scenarios for use (possibilities--based on actual usage)181479
-Node: Customization Examples and Solutions to Problems186162
-Node: ESS for SAS187899
-Node: ESS(SAS)--Design philosophy188622
-Node: ESS(SAS)--Editing files189575
-Node: ESS(SAS)--TAB key191429
-Node: ESS(SAS)--Batch SAS processes192795
-Node: ESS(SAS)--Function keys for batch processing197824
-Node: iESS(SAS)--Interactive SAS processes207310
-Node: iESS(SAS)--Common problems211064
-Node: ESS(SAS)--Graphics212588
-Node: ESS(SAS)--Windows213371
-Node: ESS for BUGS213949
-Node: ESS(BUGS)--Model files214964
-Node: ESS(BUGS)--Command files215744
-Node: ESS(BUGS)--Log files216289
-Node: ESS for JAGS216626
-Node: ESS(JAGS)--Model files217614
-Node: ESS(JAGS)--Command files220048
-Node: ESS(JAGS)--Log files220823
-Node: Mailing lists/bug reports221119
-Node: Bugs221383
-Node: Reporting Bugs223008
-Node: Mailing Lists223821
-Node: Help with emacs224575
-Node: Customization225130
-Node: Indices225893
-Node: Key index226068
-Node: Function and program index231501
-Node: Variable index241077
-Node: Concept index244208
+Node: Extras156087
+Node: ESS ElDoc157070
+Node: Handy commands158593
+Node: Highlighting159788
+Node: Parens161117
+Node: Graphics161698
+Node: printer162207
+Node: X11162963
+Node: winjava163302
+Node: Imenu163714
+Node: Toolbar164555
+Node: TAGS164963
+Node: Rdired166315
+Node: Rutils167367
+Node: Org169743
+Node: Sweave and AUCTeX170685
+Node: ESS for S172809
+Node: ESS(S)--Editing files173244
+Node: iESS(S)--Inferior ESS processes174361
+Node: ESS-help--assistance with viewing help180029
+Node: Philosophies for using ESS(S)180349
+Node: Scenarios for use (possibilities--based on actual usage)181468
+Node: Customization Examples and Solutions to Problems186151
+Node: ESS for SAS187888
+Node: ESS(SAS)--Design philosophy188611
+Node: ESS(SAS)--Editing files189564
+Node: ESS(SAS)--TAB key191418
+Node: ESS(SAS)--Batch SAS processes192784
+Node: ESS(SAS)--Function keys for batch processing197813
+Node: iESS(SAS)--Interactive SAS processes207299
+Node: iESS(SAS)--Common problems211053
+Node: ESS(SAS)--Graphics212577
+Node: ESS(SAS)--Windows213360
+Node: ESS for BUGS213938
+Node: ESS(BUGS)--Model files214953
+Node: ESS(BUGS)--Command files215733
+Node: ESS(BUGS)--Log files216278
+Node: ESS for JAGS216615
+Node: ESS(JAGS)--Model files217603
+Node: ESS(JAGS)--Command files220037
+Node: ESS(JAGS)--Log files220812
+Node: Mailing lists/bug reports221108
+Node: Bugs221372
+Node: Reporting Bugs222997
+Node: Mailing Lists223810
+Node: Help with emacs224564
+Node: Customization225119
+Node: Indices225882
+Node: Key index226057
+Node: Function and program index231490
+Node: Variable index241066
+Node: Concept index244197
 
 End Tag Table

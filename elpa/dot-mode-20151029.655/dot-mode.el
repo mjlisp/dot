@@ -1,5 +1,5 @@
-;;; dot-mode.el - minor mode to repeat typing or commands
-;; Version: 20140128.1716
+;;; dot-mode.el --- minor mode to repeat typing or commands
+;; Package-Version: 20151029.655
 ;;; Copyright (C) 1995 James Gillespie
 ;;; Copyright (C) 2000 Robert Wyrick (rob@wyrick.org)
 ;;

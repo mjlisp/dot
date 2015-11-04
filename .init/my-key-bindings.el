@@ -101,6 +101,9 @@
 (autoload 'smart-compile "smart-compile" nil t)
 (global-set-key (kbd "H-c") 'smart-compile)
 
+(autoload 'run-bc "run-bc" nil t)
+(global-set-key (kbd "H-e") 'run-bc)
+
 (global-set-key (kbd "M-s-s")
 		(lambda ()
 		  (interactive)

@@ -213,6 +213,7 @@
 (require 'hexo-utils)
 (require 'SHELX-mode)
 (require 'emoji)
+(require 'bc-mode)
 
 ;; test
 (load "~/.emacs.d/.init/test")

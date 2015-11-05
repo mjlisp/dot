@@ -69,7 +69,8 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	   (read-string "Expression: "))
 	 current-prefix-arg))
   (let ((buffer (get-buffer-create inferior-bc-buffer))
-	(output))
+	(output)
+	(try 30))
     (unless (comint-check-proc buffer)
       (with-current-buffer buffer
 	(make-comint (substring inferior-bc-buffer 1 -1)
@@ -80,13 +81,18 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 		  'remove--truncate-slash nil t)))
     (comint-send-string buffer expr)
     (comint-send-string buffer "\n")
-    (setq output (with-current-buffer buffer
-      (goto-char comint-last-output-start)
-      (buffer-substring (point) (line-end-position))))
-    (if (and replace output)
-	(when (use-region-p)
-	  (delete-region (region-beginning) (region-end))
-	  (insert output))
-      (message "Result: %s" output))))
+    (while (or comint-last-output-start
+	       (>= try 0))
+      (sit-for 0.1)
+      (setq try (1- try)))
+    (when comint-last-output-start
+      (setq output (with-current-buffer buffer
+		     (goto-char comint-last-output-start)
+		     (buffer-substring (point) (line-end-position))))
+      (if (and replace output)
+	  (when (use-region-p)
+	    (delete-region (region-beginning) (region-end))
+	    (insert output))
+	(message "Result: %s" output)))))
 
 (provide 'bc-mode)

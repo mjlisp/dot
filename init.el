@@ -25,7 +25,7 @@
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(electric-pair-mode t)
- '(ess-directory-containing-R "E:" t)
+ '(ess-directory-containing-R "E:")
  '(ess-eval-visibly (quote nowait))
  '(font-lock-maximum-decoration t)
  '(gdb-many-windows t)
@@ -93,7 +93,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (git-commit hydra linum-relative visual-fill-column writegood-mode langtool ess async auto-complete auto-complete-pcmp dash dired+ js2-mode julia-mode log4e magit-popup markdown-mode math-symbol-lists mew multiple-cursors org packed pandoc-mode php-mode popup powerline s simple-httpd skewer-mode synonyms with-editor yasnippet yaxception uimage auto-compile rainbow-delimiters w32-browser srefactor yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes js2-refactor js-comint htmlize go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
+    (magit git-commit hydra linum-relative visual-fill-column writegood-mode langtool ess async auto-complete auto-complete-pcmp dash dired+ js2-mode julia-mode log4e magit-popup markdown-mode math-symbol-lists mew multiple-cursors org packed pandoc-mode php-mode popup powerline s simple-httpd skewer-mode synonyms with-editor yasnippet yaxception uimage auto-compile rainbow-delimiters w32-browser srefactor yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes js2-refactor js-comint htmlize go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)

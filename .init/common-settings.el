@@ -80,3 +80,6 @@
   (auto-compile-on-save-mode 1))
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)

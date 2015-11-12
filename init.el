@@ -175,8 +175,6 @@
 (when (string-equal system-type "windows-nt")
   (load "~/.emacs.d/.init/common-win"))
 
-(global-hl-line-mode)
-
 ;; 一般的设置
 (load "~/.emacs.d/.init/common-settings")
 
@@ -206,17 +204,6 @@
 
 (load-theme 'my-wheatgrass t)
 (put 'dired-find-alternate-file 'disabled nil)
-
-;; Load the mode written by me.
-(add-to-list 'load-path "~/.emacs.d/local-mode")
-(autoload 'astyle "astyle-utils" nil t)
-;; (require 'astyle-utils)
-(autoload 'hexo-new "astyle-utils" nil t)
-(autoload 'hexo-deploy "hexo-utils" nil t)
-;; (require 'hexo-utils)
-(require 'SHELX-mode)
-(require 'emoji)
-(require 'bc-mode)
 
 ;; test
 ;; (load "~/.emacs.d/.init/test")

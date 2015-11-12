@@ -1,12 +1,11 @@
 ;; Some Common Settings
 
+(global-hl-line-mode)
+
 (set-register ?e '(file . "~/.emacs.d/"))
 (set-register ?i '(file . "~/.emacs.d/.init/"))
 (set-register ?h '(file . "~/repo/hexo-blog"))
 (set-register ?r '(file . "~/repo/"))
-
-;; 语法加亮
-(global-font-lock-mode 1)
 
 ;; 位置
 (size-indication-mode 1)
@@ -16,7 +15,7 @@
 (display-time-mode 1)
 
 ;; 不闪
-(setq ring-bell-function 'ignore)
+(setq-default ring-bell-function 'ignore)
 
 ;; 习惯使然 光标形状
 (setq-default cursor-type 'bar)
@@ -31,9 +30,6 @@
 			    (abbreviate-file-name
 			     (buffer-file-name)))) "/)") ""))
 	" - Emacs rules!"))
-
-;; 选择文字输入后自动替换 习惯啦
-(delete-selection-mode 1)
 
 ;;  纠正org-mode的换号问题
 (add-hook 'org-mode-hook
@@ -83,3 +79,14 @@
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
+
+;; Load the mode written by me.
+(add-to-list 'load-path "~/.emacs.d/local-mode")
+(autoload 'astyle "astyle-utils" nil t)
+;; (require 'astyle-utils)
+(autoload 'hexo-new "hexo-utils" nil t)
+(autoload 'hexo-deploy "hexo-utils" nil t)
+;; (require 'hexo-utils)
+(require 'SHELX-mode)
+(require 'emoji)
+(require 'bc-mode)

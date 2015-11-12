@@ -35,10 +35,7 @@
 		(lambda ()
 		  (interactive)
 		  (if (not auto-complete-mode)
-		      (auto-complete-mode 1)
-		    )
-		  (ac-complete-english-words)
-		  )
-		)
+		      (auto-complete-mode 1))
+		  (ac-complete-english-words)))
 
 (defalias 'acm 'auto-complete-mode)

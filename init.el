@@ -1,3 +1,5 @@
+(setq gc-cons-threshold (* 50 1024 1024))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,7 +95,7 @@
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (magit git-commit hydra linum-relative visual-fill-column writegood-mode langtool ess async auto-complete auto-complete-pcmp dash dired+ js2-mode julia-mode log4e magit-popup markdown-mode math-symbol-lists mew multiple-cursors org packed pandoc-mode php-mode popup powerline s simple-httpd skewer-mode synonyms with-editor yasnippet yaxception uimage auto-compile rainbow-delimiters w32-browser srefactor yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes js2-refactor js-comint htmlize go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
+    (magit git-commit hydra linum-relative visual-fill-column writegood-mode langtool ess async auto-complete auto-complete-pcmp dash dired+ js2-mode julia-mode log4e markdown-mode math-symbol-lists mew multiple-cursors org packed pandoc-mode php-mode popup powerline s simple-httpd skewer-mode synonyms yasnippet yaxception uimage auto-compile rainbow-delimiters w32-browser srefactor yaoddmuse yaml-mode vlf smart-compile readline-complete rainbow-mode nlinum loc-changes js2-refactor js-comint htmlize go-mode gnuplot-mode fic-mode fasm-mode dot-mode disaster dired-k cygwin-mount csv-mode bash-completion auto-complete-auctex auctex alpha ac-octave ac-math ac-js2 ac-etags ac-dabbrev ac-c-headers)))
  '(preview-TeX-style-dir "" t)
  '(preview-auto-cache-preamble t)
  '(preview-default-document-pt 25.0)
@@ -173,9 +175,6 @@
 (when (string-equal system-type "windows-nt")
   (load "~/.emacs.d/.init/common-win"))
 
-(when (and (require 'alpha) (featurep 'alpha))
-  (transparency-set-value 85))
-
 (global-hl-line-mode)
 
 ;; 一般的设置
@@ -192,6 +191,8 @@
   (load "~/.emacs.d/.init/auto-complete-settings"))
 
 (when (or (display-graphic-p) (daemonp))
+  (when (and (require 'alpha) (featurep 'alpha))
+    (transparency-set-value 85))
   ;; 字体设置
   (load "~/.emacs.d/.init/font-settings")
   (add-to-list 'default-frame-alist '(height . 35))
@@ -208,14 +209,17 @@
 
 ;; Load the mode written by me.
 (add-to-list 'load-path "~/.emacs.d/local-mode")
-(require 'astyle-utils)
-(require 'hexo-utils)
+(autoload 'astyle "astyle-utils" nil t)
+;; (require 'astyle-utils)
+(autoload 'hexo-new "astyle-utils" nil t)
+(autoload 'hexo-deploy "hexo-utils" nil t)
+;; (require 'hexo-utils)
 (require 'SHELX-mode)
 (require 'emoji)
 (require 'bc-mode)
 
 ;; test
-(load "~/.emacs.d/.init/test")
+;; (load "~/.emacs.d/.init/test")
 
 ;; (load "~/.emacs.d/paradox-token.el")
 (custom-set-faces

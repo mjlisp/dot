@@ -107,11 +107,17 @@
 ;;         synTable))
 
 ;; Open .ins and .res files with SHELX-mode
-
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.ins\\'" . SHELX-mode))
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.res\\'" . SHELX-mode))
+
+(defvar SHELX-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map prog-mode-map)
+    (define-key map "\C-c\C-c" 'SH-adjust-AFIX)
+    map)
+  "Keymap for SHELX-mode.")
 
 ;;;###autoload
 (define-derived-mode SHELX-mode prog-mode
@@ -128,6 +134,7 @@
   
   ;; code for syntax highlighting
   (setq font-lock-defaults '((SHELX-font-lock-keywords)))
+  (use-local-map SHELX-mode-map)
   )
 
 ;;;###autoload

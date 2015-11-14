@@ -7,7 +7,7 @@
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 2015
 ;; Version: 1.5
-;; Package-Version: 20151006.227
+;; Package-Version: 20151112.1441
 ;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -87,12 +87,12 @@ in which `visual-line-mode' is active as well."
 
 (defun visual-fill-column-mode--enable ()
   "Set up `visual-fill-column-mode' for the current buffer."
-  (add-hook 'window-configuration-change-hook #'visual-fill-column--adjust-window nil t)
+  (add-hook 'window-configuration-change-hook #'visual-fill-column--adjust-window 'append 'local)
   (visual-fill-column--adjust-window))
 
 (defun visual-fill-column-mode--disable ()
   "Disable `visual-fill-column-mode' for the current buffer."
-  (remove-hook 'window-configuration-change-hook #'visual-fill-column--adjust-window t)
+  (remove-hook 'window-configuration-change-hook #'visual-fill-column--adjust-window 'local)
   (set-window-fringes (selected-window) nil)
   (set-window-margins (selected-window) 0 0))
 

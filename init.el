@@ -168,8 +168,6 @@
 ;; 键绑定
 (load "~/.emacs.d/.init/my-key-bindings")
 
-;; (profiler-start 'cpu)
-
 (package-initialize)
 
 (when (string-equal system-type "windows-nt")
@@ -209,10 +207,5 @@
 ;; (load "~/.emacs.d/.init/test")
 
 ;; (load "~/.emacs.d/paradox-token.el")
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 (put 'upcase-region 'disabled nil)

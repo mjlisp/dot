@@ -17,19 +17,26 @@
 (defun make-a-long-sentence (start end)
   "make a long sentence and also work on region"
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
-		 (list (line-beginning-position)
-		       (if (eolp)
+		 (list (point)
+		       (if (and (eolp) (not (eobp)))
 			   (1+ (line-end-position))
 			 (line-end-position)))))
-  (goto-char start)
-  (while (< (point) end)
-    (end-of-line)
-    (when (and (char-before) (char-equal (char-before) ?-))
-      (delete-char -1))
-    (if (and (char-before) (string-match "\\cc" (char-to-string (char-before))))
-	(delete-char 1)
-      (delete-indentation -1))) ;一个现成函数 但要处理连字符
-  (message "make-a-long-sentence completely."))
+      (while (< (point) end)
+	(end-of-line)
+	(when (and (char-before) (char-equal (char-before) ?-))
+	  (delete-char -1))
+	(if (and (char-before) (string-match "\\cc" (char-to-string (char-before))))
+	    (delete-char 1)
+	  (delete-indentation -1)))	;一个现成函数 但要处理连字符
+      (message "make-a-long-sentence completely."))
+  ;; (save-excursion
+  ;;   (save-restriction
+  ;;     (narrow-to-region start end)
+  ;;     (while (re-search-forward "\\s +\\([.,。，]\\)" nil t)
+  ;; 	(replace-match "\\1" nil nil))
+  ;;     (goto-char (point-min))
+  ;;     (while (re-search-forward "\\(\\S +[.,]\\)\\(\\s +\\)" nil t)
+  ;; 	(replace-match "\\1 " nil nil))))
 
 (global-set-key (kbd "H-j") 'make-a-long-sentence)
 

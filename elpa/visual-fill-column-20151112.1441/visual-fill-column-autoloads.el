@@ -1,10 +1,10 @@
 ;;; visual-fill-column-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "visual-fill-column" "visual-fill-column.el"
-;;;;;;  (22056 15736 0 0))
+;;;;;;  (22086 38556 0 0))
 ;;; Generated autoloads from visual-fill-column.el
 
 (autoload 'visual-fill-column-mode "visual-fill-column" "\

@@ -60,11 +60,3 @@
 		     (set-buffer-process-coding-system
 		      'utf-8-unix 'utf-8-unix))))
       '(inferior-js-mode-hook))
-
-(defun ss ()
-  (interactive)
-  (unless (process-status "ShadowSocks")
-    ;; (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "ss-local" "-u" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
-    (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "C:/msys64/mingw64/lib/node_modules/shadowsocks/bin/sslocal" "-c" "C:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
-    ))
-(ss)

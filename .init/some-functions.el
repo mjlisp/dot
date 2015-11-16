@@ -80,3 +80,14 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
       (message "Result: %s" output))))
 
 (global-set-key (kbd "H-e") 'run-calc)
+
+(defun ss ()
+  (interactive)
+  (unless (process-status "ShadowSocks")
+    ;; (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "ss-local" "-u" "-c" "I:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
+    (when (string-equal system-type "windows-nt")
+      (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "C:/msys64/mingw64/lib/node_modules/shadowsocks/bin/sslocal" "-c" "C:/msys64/etc/shadowsocks/config.json") 'undecided-dos))
+    (when (string-equal system-type "gnu/linux")
+      (start-process "ShadowSocks" "*ShadowSocks Server*" "systemctl" "start" "shadowsocks@bandwagon"))))
+
+(ss)

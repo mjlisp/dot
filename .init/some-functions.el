@@ -15,20 +15,27 @@
                        (line-beginning-position 2)))))
 
 (defun make-a-long-sentence (start end)
-  "make a long sentence and also work on region"
+  "make a long sentence and also works on region"
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
 		 (list (point)
-		       (if (and (eolp) (not (eobp)))
+		       (if (<= (1+ (line-end-position)) (point-max))
 			   (1+ (line-end-position))
 			 (line-end-position)))))
-      (while (< (point) end)
+  (save-excursion
+    (save-restriction
+      (narrow-to-region start end)
+      (while (< (point) (point-max))
 	(end-of-line)
-	(when (and (char-before) (char-equal (char-before) ?-))
-	  (delete-char -1))
-	(if (and (char-before) (string-match "\\cc" (char-to-string (char-before))))
-	    (delete-char 1)
-	  (delete-indentation -1)))	;一个现成函数 但要处理连字符
-      (message "make-a-long-sentence completely."))
+	(cond
+	 ((and (char-before) (char-equal (char-before) ?-))
+	  (delete-char -1)
+	  (delete-indentation -1)
+	  (delete-horizontal-space))
+        ((and (char-before) (string-match "\\cc" (char-to-string (char-before))))
+	  (delete-indentation -1)
+	  (delete-horizontal-space))
+	(t (delete-indentation -1)))
+      (message "make-a-long-sentence completely.")))))
   ;; (save-excursion
   ;;   (save-restriction
   ;;     (narrow-to-region start end)

@@ -31,6 +31,7 @@
 
 (set-fontset-font t ?– "Symbola")
 (set-fontset-font t ?′ "Symbola")
+(set-fontset-font t ?″ "Symbola")
 
 ;; (set-fontset-font t ;; (frame-parameter nil 'font)
 ;; 		    'symbol

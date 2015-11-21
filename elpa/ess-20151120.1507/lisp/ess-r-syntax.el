@@ -187,26 +187,29 @@ return the prefix."
 (defun ess-skip-blanks-backward (&optional newlines)
   "Skip blanks and newlines backward, taking end-of-line comments
 into account."
-  (when (and (/= (point) (point-min))
-             (ess-any
-               ((/= 0 (skip-chars-backward " \t")))
-               ((when (and newlines
-                           (= (point) (line-beginning-position)))
-                  (forward-line -1)
-                  (goto-char (line-end-position))
-                  (ess-climb-comment)
-                  (ess-skip-blanks-backward newlines)))))
-    t))
+  (when (ess-skip-blanks-backward-1)
+    (prog1 t
+      (when newlines
+        (while (= (point) (line-beginning-position))
+          (forward-line -1)
+          (goto-char (line-end-position))
+          (ess-climb-comment)
+          (ess-skip-blanks-backward-1))))))
+
+(defun ess-skip-blanks-backward-1 ()
+  (and (/= (point) (point-min))
+       (/= 0 (skip-chars-backward " \t"))))
 
 (defun ess-skip-blanks-forward (&optional newlines)
   "Skip blanks and newlines forward, taking end-of-line comments
 into account."
-  (skip-chars-forward " \t")
-  (when (and newlines
-             (= (point) (ess-code-end-position)))
-    (forward-line)
-    (ess-back-to-indentation)
-    (ess-skip-blanks-forward newlines)))
+  (when (skip-chars-forward " \t")
+    (prog1 t
+      (when newlines
+        (while (= (point) (ess-code-end-position))
+          (forward-line)
+          (ess-back-to-indentation)
+          (skip-chars-forward " \t"))))))
 
 (defun ess-jump-char (char)
   (ess-save-excursion-when-nil
@@ -215,7 +218,8 @@ into account."
       (goto-char (match-end 0)))))
 
 (defun ess-climb-comment ()
-  (when (ess-point-in-comment-p)
+  (when (and (ess-point-in-comment-p)
+             (not (ess-roxy-entry-p)))
     (prog1 (comment-beginning)
      (skip-chars-backward "#+[ \t]*"))))
 
@@ -709,7 +713,7 @@ expression."
 (defvar ess-R-operator-pattern "<-\\|:=\\|!=\\|%[^ \t]*%\\|[-:+*/><=&|~]"
   "Regular expression for an operator")
 
-(defvar ess-R-definition-op-pattern "<-\\|:=\\|~"
+(defvar ess-R-definition-op-pattern "<<?-\\|:=\\|~"
   "Regular expression for a definition operator")
 
 (defun ess-looking-at-operator-p ()
@@ -958,13 +962,9 @@ without curly braces."
 
 (defun ess-climb-expression (&optional ignore-ifelse)
   (ess-save-excursion-when-nil
-    (let ((climbed
-           (or (ess-climb-block ignore-ifelse)
-               (ess-climb-call)
-               (ess-climb-object))))
-      (if (and climbed ignore-ifelse)
-          (not (ess-block-opening-p))
-        climbed))))
+    (or (ess-climb-block ignore-ifelse)
+        (ess-climb-call)
+        (ess-climb-object))))
 
 (defun ess-jump-expression ()
   (or (ess-jump-block)

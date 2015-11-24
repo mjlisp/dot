@@ -1,9 +1,9 @@
 ;;; gnuplot-mode-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "gnuplot-mode" "gnuplot-mode.el" (21158 26860
+;;;### (autoloads nil "gnuplot-mode" "gnuplot-mode.el" (22099 45075
 ;;;;;;  0 0))
 ;;; Generated autoloads from gnuplot-mode.el
 
@@ -32,11 +32,6 @@ Send buffer to gnuplot, ensuring a final newline.  Doesn't
 require buffer to be visiting a file.
 
 \(fn)" t nil)
-
-;;;***
-
-;;;### (autoloads nil nil ("gnuplot-mode-pkg.el") (21158 26860 378451
-;;;;;;  0))
 
 ;;;***
 

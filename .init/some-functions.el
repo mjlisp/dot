@@ -17,13 +17,14 @@
 (defun make-a-long-sentence (start end)
   "make a long sentence and also works on region"
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
-		 (list (point)
+		 (list (line-end-position)
 		       (if (<= (1+ (line-end-position)) (point-max))
 			   (1+ (line-end-position))
 			 (line-end-position)))))
   (save-excursion
     (save-restriction
       (narrow-to-region start end)
+      (delete-trailing-whitespace (point-min) (point-max))
       (while (< (point) (point-max))
 	(end-of-line)
 	(cond

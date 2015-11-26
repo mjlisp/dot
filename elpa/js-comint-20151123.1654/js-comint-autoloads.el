@@ -1,13 +1,20 @@
 ;;; js-comint-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads (inferior-js-mode switch-to-js js-load-file-and-go
-;;;;;;  js-load-file js-send-buffer-and-go js-send-buffer js-send-last-sexp
-;;;;;;  js-send-last-sexp-and-go js-send-region-and-go js-send-region
-;;;;;;  run-js) "js-comint" "js-comint.el" (20872 33274 0 0))
+;;;### (autoloads nil "js-comint" "js-comint.el" (22100 12468 0 0))
 ;;; Generated autoloads from js-comint.el
+
+(autoload 'js-do-use-nvm "js-comint" "\
+Enable nvm.
+
+\(fn)" nil nil)
+
+(autoload 'js-select-node-version "js-comint" "\
+Use a given VERSION of node from nvm.
+
+\(fn &optional VERSION)" t nil)
 
 (autoload 'run-js "js-comint" "\
 Run an inferior Javascript process, input and output via buffer `*js*'.
@@ -18,7 +25,7 @@ Runs the hook `inferior-js-mode-hook' (after the `comint-mode-hook'
 is run).
 \(Type \\[describe-mode] in the process buffer for a list of commands.)
 
-\(fn CMD &optional DONT-SWITCH-P)" t nil)
+\(fn CMD &optional DONT-SWITCH-P)" nil nil)
 
 (autoload 'js-send-region "js-comint" "\
 Send the current region to the inferior Javascript process.
@@ -82,21 +89,13 @@ Javascript source.
     switch-to-js switches the current buffer to the Javascript process buffer.
     js-send-region sends the current region to the Javascript process.
 
-
 \(fn)" t nil)
 
 ;;;***
 
-;;;### (autoloads nil nil ("js-comint-pkg.el") (20872 33274 562000
-;;;;;;  0))
-
-;;;***
-
-(provide 'js-comint-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; js-comint-autoloads.el ends here

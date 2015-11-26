@@ -17,7 +17,7 @@
 (defun make-a-long-sentence (start end)
   "make a long sentence and also works on region"
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
-		 (list (line-end-position)
+		 (list (line-beginning-position)
 		       (if (<= (1+ (line-end-position)) (point-max))
 			   (1+ (line-end-position))
 			 (line-end-position)))))

@@ -26,6 +26,7 @@
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
  '(display-time-24hr-format t)
  '(display-time-mode t)
+ '(echo-keystrokes 0.1)
  '(electric-pair-mode t)
  '(ess-directory-containing-R "E:" t)
  '(ess-eval-visibly (quote nowait))

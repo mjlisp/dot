@@ -7,7 +7,7 @@
 ;;; Maintainer: Chen Bin <chenbin.sh@gmail.com>
 ;;; Created: 15 Feb 2014
 ;;; Version: 0.0.3
-;; Package-Version: 20151123.1654
+;; Package-Version: 20151126.1838
 ;;; URL: https://github.com/redguardtoo/js-comint
 ;;; Package-Requires: ((nvm "0.2.0"))
 ;;; Keywords: javascript, node, inferior-mode, convenience
@@ -89,10 +89,12 @@
   :group 'inferior-js)
 
 (defcustom inferior-js-program-command "node"
-  "JavScript interpreter.")
+  "JavScript interpreter."
+  :group 'inferior-js)
 
 (defcustom inferior-js-program-arguments '("--interactive")
-  "List of command line arguments to pass to the JavaScript interpreter.")
+  "List of command line arguments to pass to the JavaScript interpreter."
+  :group 'inferior-js)
 
 (defcustom inferior-js-mode-hook nil
   "*Hook for customizing inferior-js mode."
@@ -104,12 +106,13 @@
   :type 'boolean
   :group 'inferior-js)
 
+(defvar inferior-js-buffer nil
+  "Name of the inferior JavaScript buffer.")
+
 (defvar js-prompt-regexp "^\\(?:> \\)"
   "Prompt for `run-js'.")
 
 (defvar js-nvm-current-version nil "Current version of node.")
-
-(defvar inferior-js-buffer)
 
 (defun js-list-nvm-versions (prompt)
   "List all available node versions from nvm prompting the user with PROMPT.
@@ -164,10 +167,6 @@ of `inferior-js-program-command').
 Runs the hook `inferior-js-mode-hook' \(after the `comint-mode-hook'
 is run).
 \(Type \\[describe-mode] in the process buffer for a list of commands.)"
-  (when js-use-nvm
-    (unless js-nvm-current-version
-      (js-select-node-version)))
-  (setenv "NODE_NO_READLINE" "1")
   (interactive
    (list
     (when current-prefix-arg
@@ -179,12 +178,16 @@ is run).
                            inferior-js-program-command
                            inferior-js-program-arguments)
                           " ")))
+      (when js-use-nvm
+        (unless js-nvm-current-version
+          (js-select-node-version)))
+      (setenv "NODE_NO_READLINE" "1")
       (setq inferior-js-program-arguments (split-string cmd))
       (setq inferior-js-program-command (pop inferior-js-program-arguments)))))
   (if (not (comint-check-proc "*js*"))
-      (save-excursion
-        (set-buffer (apply 'make-comint "js" inferior-js-program-command
-                           nil inferior-js-program-arguments))
+      (with-current-buffer
+          (apply 'make-comint "js" inferior-js-program-command
+                 nil inferior-js-program-arguments)
         (inferior-js-mode)))
   (setq inferior-js-buffer "*js*")
   (if (not dont-switch-p)
@@ -264,8 +267,7 @@ is run).
   "Switch to the javascript process buffer.
 With argument, position cursor at end of buffer."
   (interactive "P")
-  (if (or (and inferior-js-buffer (get-buffer inferior-js-buffer))
-          (js-interactively-start-process))
+  (if (and inferior-js-buffer (get-buffer inferior-js-buffer))
       (pop-to-buffer inferior-js-buffer)
     (error "No current process buffer.  See variable `inferior-js-buffer'"))
   (when eob-p
@@ -295,6 +297,7 @@ Javascript source.
     switch-to-js switches the current buffer to the Javascript process buffer.
     js-send-region sends the current region to the Javascript process.
 "
+  :group 'inferior-js
   (use-local-map inferior-js-mode-map))
 
 (provide 'js-comint)

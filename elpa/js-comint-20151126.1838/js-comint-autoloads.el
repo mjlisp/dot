@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "js-comint" "js-comint.el" (22100 12468 0 0))
+;;;### (autoloads nil "js-comint" "js-comint.el" (22104 11016 0 0))
 ;;; Generated autoloads from js-comint.el
 
 (autoload 'js-do-use-nvm "js-comint" "\
@@ -25,7 +25,7 @@ Runs the hook `inferior-js-mode-hook' (after the `comint-mode-hook'
 is run).
 \(Type \\[describe-mode] in the process buffer for a list of commands.)
 
-\(fn CMD &optional DONT-SWITCH-P)" nil nil)
+\(fn CMD &optional DONT-SWITCH-P)" t nil)
 
 (autoload 'js-send-region "js-comint" "\
 Send the current region to the inferior Javascript process.

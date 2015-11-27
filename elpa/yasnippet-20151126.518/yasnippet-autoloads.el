@@ -1,9 +1,9 @@
 ;;; yasnippet-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "yasnippet" "yasnippet.el" (22080 57693 0 0))
+;;;### (autoloads nil "yasnippet" "yasnippet.el" (22103 53494 0 0))
 ;;; Generated autoloads from yasnippet.el
 
 (autoload 'yas-minor-mode "yasnippet" "\
@@ -45,7 +45,7 @@ See `yas-minor-mode' for more information on Yas minor mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("yasnippet-pkg.el") (22080 57686 0 0))
+;;;### (autoloads nil nil ("yasnippet-pkg.el") (22103 53486 0 0))
 
 ;;;***
 

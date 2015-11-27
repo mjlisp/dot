@@ -99,3 +99,15 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
       (start-process "ShadowSocks" "*ShadowSocks Server*" "systemctl" "start" "shadowsocks@bandwagon"))))
 
 (ss)
+
+(defun Sumatra-remove-unused-config ()
+  (interactive)
+  (while (re-search-forward "^.*FilePath = \\(.*\\.pdf\\)$" nil t)
+    (let ((filename
+	   (replace-regexp-in-string "\\\\"
+				     "/" (match-string 1) t t)))
+      (unless (file-exists-p filename)
+	(previous-logical-line)
+	(thing-at-point--beginning-of-sexp)
+	(kill-sexp)
+	(delete-blank-lines)))))

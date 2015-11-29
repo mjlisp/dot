@@ -193,8 +193,7 @@
   ;; 字体设置
   (load "~/.emacs.d/.init/font-settings")
   (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 110))
-  )
+  (add-to-list 'default-frame-alist '(width . 110)))
 
 ;; C语言编程
 (load "~/.emacs.d/.init/for-C-language")

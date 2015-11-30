@@ -49,6 +49,7 @@
 	("/opt/bin" . "/opt/man")
 	("/opt/sbin" . "/opt/man")
 	"C:/msys64/mingw64/share/man")))
+
 (when (and
        (featurep 'tex-site)
        (featurep 'tex-mik)

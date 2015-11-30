@@ -12,7 +12,6 @@
  '(ac-auto-show-menu 0.1)
  '(c-echo-syntactic-information-p t)
  '(column-number-mode t)
- '(compile-command "gcc -Wall -Ofast -mavx ")
  '(custom-safe-themes
    (quote
     ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "ff82ac6718ad6c69ddbd28f32c3544e8462c7c3d97afbe1a0c4a0773e48a96e2" default)))
@@ -134,7 +133,6 @@
      (octave-mode run-octave)
      ("\\.c\\'" . "gcc -Wall -fomit-frame-pointer -funroll-loops -Ofast -march=corei7-avx -msse4.2 -mavx -std=c11 %f -lm -o %n")
      ("\\.[Cc]+[Pp]*\\'" . "g++ -Wall -fomit-frame-pointer -funroll-loops -Ofast -march=corei7-avx -msse4.2 -mavx -std=c++11 %f -lm -o %n")
-     ("\\.m\\'" . "gcc -O2 %f -lobjc -lpthread -o %n")
      ("\\.java\\'" . "javac %f")
      ("\\.php\\'" . "php -l %f")
      ("\\.f90\\'" . "gfortran %f -o %n")
@@ -143,6 +141,7 @@
      ("\\.tex\\'" tex-file)
      ("\\.texi\\'" . "makeinfo %f")
      ("\\.\\(md\\|markdown\\)\\'" . "pandoc %f -f markdown -o %n.docx")
+     (text-mode . "pandoc %f -f markdown -o %n.docx")
      ("\\.mp\\'" . "mptopdf %f")
      ("\\.pl\\'" . "perl -cw %f")
      ("\\.rb\\'" . "ruby -cw %f"))))

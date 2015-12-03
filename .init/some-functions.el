@@ -25,6 +25,7 @@
     (save-restriction
       (narrow-to-region start end)
       (delete-trailing-whitespace (point-min) (point-max))
+      (goto-char (point-min))
       (while (< (point) (point-max))
 	(end-of-line)
 	(cond

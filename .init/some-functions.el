@@ -15,7 +15,7 @@
                        (line-beginning-position 2)))))
 
 (defun make-a-long-sentence (start end)
-  "make a long sentence and also works on region"
+  "Make a long sentence and also works on region."
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
 		 (list (line-beginning-position)
 		       (if (<= (1+ (line-end-position)) (point-max))
@@ -32,34 +32,50 @@
 	  (delete-char -1)
 	  (delete-indentation -1)
 	  (delete-horizontal-space))
-        ((and (char-before) (string-match "\\cc" (char-to-string (char-before))))
+	 ((and (char-before) (string-match "\\cc" (char-to-string (char-before))))
 	  (delete-indentation -1)
 	  (delete-horizontal-space))
-	(t (delete-indentation -1)))
-      (message "make-a-long-sentence completely.")))))
-  ;; (save-excursion
-  ;;   (save-restriction
-  ;;     (narrow-to-region start end)
-  ;;     (while (re-search-forward "\\s +\\([.,。，]\\)" nil t)
-  ;; 	(replace-match "\\1" nil nil))
-  ;;     (goto-char (point-min))
-  ;;     (while (re-search-forward "\\(\\S +[.,]\\)\\(\\s +\\)" nil t)
-  ;; 	(replace-match "\\1 " nil nil))))
+	 (t (delete-indentation -1))))
+      (when current-prefix-arg
+	(goto-char (point-min))
+	(while (re-search-forward "\\([,.]\\)\\([^[:blank:],.]\\)" nil t)
+	  (replace-match "\\1 \\2" nil nil))
+	(goto-char (point-min))
+	(while (re-search-forward "\\(\\.\\)[[:blank:]]+\\(,\\)" nil t)
+	  (replace-match "\\1\\2" nil nil)))))
+  (message "make-a-long-sentence completely."))
 
 (global-set-key (kbd "H-j") 'make-a-long-sentence)
 
-(defun dwim-make-a-long-sentence ()
-  "make a long sentence and also work on region"
-  (interactive)
-  (if (use-region-p)
-      (progn	; there is a text selection
-	(save-restriction
-	  (narrow-to-region (region-beginning) (region-end))
-	  (goto-char (point-min))
-	  (while (search-forward "\n" nil t) (replace-match "" nil t))))
-    (progn
-      (end-of-line)
-      (delete-char 1))))
+;; (defun fix-citation ((start end))
+;;   "Fix citation format."
+;;   (interactive (if (use-region-p) (list (region-beginning) (region-end))
+;; 		 (list (line-beginning-position) (line-end-position))))
+;;   (save-excursion
+;;     (save-restriction
+;;       (narrow-to-region start end)
+;;       (goto-char (point-min))
+;;       (while (re-search-forward "\\([,.]\\)\\([^[:blank:],.]\\)" nil t)
+;; 	(replace-match "\\1 \\2" nil nil))
+;;       (goto-char (point-min))
+;;       (while (re-search-forward "\\(\\.\\)[[:blank:]]+\\(,\\)" nil t)
+;; 	(replace-match "\\1\\2" nil nil))))
+;;   (message "Fix-citation completely."))
+
+;; (global-set-key (kbd "H-n") 'fix-citation)
+
+;; (defun dwim-make-a-long-sentence ()
+;;   "make a long sentence and also work on region"
+;;   (interactive)
+;;   (if (use-region-p)
+;;       (progn	; there is a text selection
+;; 	(save-restriction
+;; 	  (narrow-to-region (region-beginning) (region-end))
+;; 	  (goto-char (point-min))
+;; 	  (while (search-forward "\n" nil t) (replace-match "" nil t))))
+;;     (progn
+;;       (end-of-line)
+;;       (delete-char 1))))
 
 
 (defun bandwagon-shell ()

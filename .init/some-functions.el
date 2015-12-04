@@ -38,12 +38,14 @@
 	  (delete-horizontal-space))
 	 (t (delete-indentation -1))))
       (when current-prefix-arg
-	(goto-char (point-min))
-	(while (re-search-forward "\\([,.]\\)\\([^[:blank:],.]\\)" nil t)
-	  (replace-match "\\1 \\2" nil nil))
-	(goto-char (point-min))
-	(while (re-search-forward "\\(\\.\\)[[:blank:]]+\\(,\\)" nil t)
-	  (replace-match "\\1\\2" nil nil)))))
+	(dolist (pairs
+		 '(("\\([,.]\\)\\([^[:blank:],.]\\)" . "\\1 \\2")
+		   ("\\(\\.\\)[[:blank:]]+\\(,\\)" . "\\1\\2")
+		   ("\\[[:blank:]]+\\([.,]\\)" . "\\1")
+		   ))
+	  (goto-char (point-min))
+	  (while (re-search-forward (car pairs) nil t)
+	    (replace-match (cdr pairs) nil nil))))))
   (message "make-a-long-sentence completely."))
 
 (global-set-key (kbd "H-j") 'make-a-long-sentence)

@@ -1181,7 +1181,7 @@ Staging and applying changes is documented in info node
 (defun magit-diff-refresh-buffer (rev-or-range const _args files)
   "Refresh the current `magit-diff-mode' buffer.
 
-In such buffer the buffer-local value of `magit-refresh-args',
+In such buffers the buffer-local value of `magit-refresh-args'
 has the same form as the arguments of this function.  The value
 is set in `magit-mode-setup'."
   (setq header-line-format
@@ -1847,13 +1847,12 @@ are highlighted."
       t)))
 
 (defun magit-diff-highlight-recursive (section &optional selection)
-  (if (magit-section-match '(module-commit diffstat commit-header) section)
-      (magit-section-highlight section nil)
-    (pcase (magit-diff-scope section)
-      (`list (magit-diff-highlight-list section selection))
-      (`file (magit-diff-highlight-file section selection))
-      (`hunk (magit-diff-highlight-heading section selection)
-             (magit-diff-paint-hunk section selection t)))))
+  (pcase (magit-diff-scope section)
+    (`list (magit-diff-highlight-list section selection))
+    (`file (magit-diff-highlight-file section selection))
+    (`hunk (magit-diff-highlight-heading section selection)
+           (magit-diff-paint-hunk section selection t))
+    (_     (magit-section-highlight section nil))))
 
 (defun magit-diff-highlight-list (section &optional selection)
   (let ((beg (magit-section-start   section))

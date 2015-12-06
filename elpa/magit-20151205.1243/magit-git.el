@@ -696,7 +696,6 @@ string \"true\", otherwise return nil."
       (and (derived-mode-p 'magit-revision-mode)
            (car magit-refresh-args))))
 
-
 (defun magit-tag-at-point ()
   (magit-section-when tag))
 
@@ -819,13 +818,19 @@ where COMMITS is the number of commits in TAG but not in REV."
   (magit-list-refs (concat "refs/remotes/" remote)))
 
 (defun magit-list-containing-branches (&optional commit)
-  (--map (substring it 2) (magit-git-lines "branch" "--contains" commit)))
+  (--filter (not (string-match-p "\\`(HEAD" it))
+            (--map (substring it 2)
+                   (magit-git-lines "branch" "--contains" commit))))
 
 (defun magit-list-merged-branches (&optional commit)
-  (--map (substring it 2) (magit-git-lines "branch" "--merged" commit)))
+  (--filter (not (string-match-p "\\`(HEAD" it))
+            (--map (substring it 2)
+                   (magit-git-lines "branch" "--merged" commit))))
 
 (defun magit-list-unmerged-branches (&optional commit)
-  (--map (substring it 2) (magit-git-lines "branch" "--no-merged" commit)))
+  (--filter (not (string-match-p "\\`(HEAD" it))
+            (--map (substring it 2)
+                   (magit-git-lines "branch" "--no-merged" commit))))
 
 (defun magit-list-unmerged-to-upstream-branches ()
   (--filter (-when-let (upstream (magit-get-tracked-branch it))

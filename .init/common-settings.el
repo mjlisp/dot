@@ -77,9 +77,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
-(autoload 'dired-async-mode "dired-async.el" nil t)
-(dired-async-mode 1)
-
 ;; Load the mode written by me.
 (add-to-list 'load-path "~/.emacs.d/local-mode")
 (autoload 'astyle "astyle-utils" nil t)

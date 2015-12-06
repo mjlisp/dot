@@ -64,3 +64,6 @@
 		     (set-buffer-process-coding-system
 		      'utf-8-unix 'utf-8-unix))))
       '(inferior-js-mode-hook))
+
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)

@@ -130,3 +130,9 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	(thing-at-point--beginning-of-sexp)
 	(kill-sexp)
 	(delete-blank-lines)))))
+
+(defun my-repos ()
+  "Open my repos."
+  (interactive)
+  (magit-status-internal "~/repo/hexo-blog/source")
+  (magit-status-internal "~/.emacs.d/"))

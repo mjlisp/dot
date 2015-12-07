@@ -2,7 +2,7 @@
 
 ;; Setting English Font
 (set-face-attribute
- 'default nil :family "Inconsolata" :height 160) ;: height 130
+ 'default nil :family "Inconsolata" :height (if (string-equal system-type "windows-nt") 160 120))
 					  ;; DejaVu Sans
 					  ;; Inconsolata
 					  ;; Droid Sans Mono

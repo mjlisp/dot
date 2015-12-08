@@ -8,7 +8,7 @@
 					  ;; Droid Sans Mono
 					  ;; Source Code Pro
 
-(set-fontset-font t 'symbol "Inconsolata")
+(set-fontset-font t 'symbol (font-spec :name "Inconsolata"))
 
 ;; (set-fontset-font t 'unicode-bmp "STIX" nil 'append)
 ;; (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
@@ -18,20 +18,22 @@
 (dolist (charset '(han cjk-misc chinese-gbk))
   (set-fontset-font t ;; (frame-parameter nil 'font)
   		    charset
-		    (font-spec :family "冬青黑体简体中文 W3")))
+		    (font-spec :name "冬青黑体简体中文 W3")))
 					; 微软雅黑
 					; 冬青黑体简体中文 W3
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
 
 (set-fontset-font t 'unicode "Segoe UI Symbol" nil 'append)
-(set-fontset-font t 'unicode "Symbola" nil 'append)
-(set-fontset-font t '(#xE000 . #xF8FF) "STIX")
-(set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol")
+(set-fontset-font t '(#xE000 . #xF8FF) "STIX") ; Private Use Areas
+(set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol") ; Emoji
 
 (set-fontset-font t ?– "Symbola")
 (set-fontset-font t ?′ "Symbola")
 (set-fontset-font t ?″ "Symbola")
+
+(set-fontset-font "fontset-default" nil 
+                  (font-spec :name "Symbola"))
 
 ;; (set-fontset-font t ;; (frame-parameter nil 'font)
 ;; 		    'symbol

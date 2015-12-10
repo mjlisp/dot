@@ -58,9 +58,9 @@
   (require 'tex-mik)
   (require 'texmathp))
 
-(mapc (lambda (mode-hook)
+(mapc #'(lambda (mode-hook)
 	(add-hook mode-hook
-		  '(lambda ()
+		  #'(lambda ()
 		     (set-buffer-process-coding-system
 		      'utf-8-unix 'utf-8-unix))))
       '(inferior-js-mode-hook))

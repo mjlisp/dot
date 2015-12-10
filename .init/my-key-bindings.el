@@ -3,20 +3,17 @@
 ;; 不用C-z
 (define-prefix-command 'ctl-z-map)
 (global-set-key (kbd "C-z") 'ctl-z-map)
-(global-set-key (kbd "C-z r")
-		(lambda ()
-		  (interactive)
-		  (when (buffer-file-name)
-		    (revert-buffer buffer-file-name t))))
-(global-set-key (kbd "C-z C-r")
-		(lambda ()
-		  (interactive)
-		  (when (buffer-file-name)
-		    (revert-buffer buffer-file-name t))))
-(global-set-key (kbd "C-z c")
-		(lambda () (interactive) (erase-buffer)))
-(global-set-key (kbd "C-z C")
-		(lambda () (interactive) (erase-buffer)))
+
+(defun my-revert ()
+  (interactive)
+  (when (buffer-file-name)
+    (revert-buffer buffer-file-name t)))
+
+(global-set-key (kbd "C-z r") 'my-revert)
+(global-set-key (kbd "C-z C-r") 'my-revert)
+
+(global-set-key (kbd "C-z c") 'erase-buffer)
+(global-set-key (kbd "C-z C") 'erase-buffer)
 
 ;; 一个ESC是C-g 和一般的程序一样
 (global-set-key (kbd "<escape>") 'keyboard-quit)
@@ -31,18 +28,14 @@
       (global-set-key (kbd "C-<wheel-down>")
 		      'text-scale-decrease)
       (global-set-key (kbd "C-<wheel-up>")
-		      'text-scale-increase)
-      )
-  )
+		      'text-scale-increase)))
 
 (if (string-equal system-type "gnu/linux")
     (progn
       (global-set-key (kbd "C-<mouse-5>")
 		      'text-scale-decrease)
       (global-set-key (kbd "C-<mouse-4>")
-		      'text-scale-increase)
-      )
-  )
+		      'text-scale-increase)))
 
 ;; 加一个Shift+空格作为设定标记
 (global-set-key (kbd "S-SPC") 'set-mark-command)
@@ -63,14 +56,13 @@
 (global-set-key (kbd "H-g") 'magit-status)
 
 (global-set-key (kbd "H-b") 'switch-to-buffer)
-(global-set-key (kbd "H-k")
-		(lambda () (interactive) (kill-buffer nil)))
+(global-set-key (kbd "H-k") #'(lambda () (interactive) (kill-buffer nil)))
 
 (global-set-key (kbd "H-1") 'delete-other-windows)
 (global-set-key (kbd "H-0") 'delete-window)
 
 (global-set-key (kbd "H-m")
-		(lambda ()
+		#'(lambda ()
 		  (interactive)
 		  (when (active-minibuffer-window)
 		    (select-window
@@ -102,13 +94,13 @@
 (global-set-key (kbd "H-c") 'smart-compile)
 
 (global-set-key (kbd "M-s-s")
-		(lambda ()
+		#'(lambda ()
 		  (interactive)
 		  (switch-to-buffer "*scratch*" nil
 				    'force-same-window)))
 
 (add-hook 'js2-mode-hook
-	  '(lambda ()
+	  #'(lambda ()
 	     (local-set-key (kbd "C-x C-e")
 			    'js-send-last-sexp)
 	     (local-set-key (kbd "C-M-x")
@@ -122,11 +114,10 @@
 	     (local-set-key (kbd "C-c C-r")
 			    'js-send-region-and-go)
 	     (local-set-key (kbd "C-c l")
-			    'js-load-file-and-go)
-	     ))
+			    'js-load-file-and-go)))
 
 (add-hook 'js-mode-hook
-	  '(lambda ()
+	  '#'(lambda ()
 	     (local-set-key (kbd "C-x C-e")
 			    'js-send-last-sexp)
 	     (local-set-key (kbd "C-M-x")
@@ -140,13 +131,12 @@
 	     (local-set-key (kbd "C-c C-r")
 			    'js-send-region-and-go)
 	     (local-set-key (kbd "C-c l")
-			    'js-load-file-and-go)
-	     ))
+			    'js-load-file-and-go)))
 
 ; vi `.' command emulation
 (autoload 'dot-mode "dot-mode" nil t) 
 (global-set-key (kbd "C-.")
-		(lambda () (interactive)
+		#'(lambda () (interactive)
 		  (dot-mode 1)
 		  (message "Dot mode activated.")))
 
@@ -159,14 +149,10 @@ Repeated calls toggle back and forth between the most recent two buffers."
 
 (global-set-key (kbd "C-`") 'switch-to-previous-buffer)
 
-(global-set-key (kbd "C-<kp-4>")
-		'switch-to-buffer)
-(global-set-key (kbd "C-<kp-5>")
-		'shell)
-(global-set-key (kbd "C-<kp-6>")
-		'list-buffers)
-(global-set-key (kbd "C-<kp-7>")
-		'keyboard-quit)
+(global-set-key (kbd "C-<kp-4>") 'switch-to-buffer)
+(global-set-key (kbd "C-<kp-5>") 'shell)
+(global-set-key (kbd "C-<kp-6>") 'list-buffers)
+(global-set-key (kbd "C-<kp-7>") 'keyboard-quit)
 
 (require 'iso-transl)
 (iso-transl-define-keys

@@ -1,14 +1,14 @@
 ;; Auto Complete Settings
 
 ;; auto-complete的配置
-(require 'auto-complete)
-(require 'auto-complete-config)
-
-(setq ac-dictionary-directories (concat (elt (car (cdr (assq 'auto-complete package-alist))) 7) "/ac-dic"))
+;; (require 'auto-complete)
+;; (require 'auto-complete-config)
 
 (ac-config-default)
 
-(add-to-list 'ac-sources 'ac-source-dabbrev)
+;; (setq ac-dictionary-directories (concat (elt (car (cdr (assq 'auto-complete package-alist))) 7) "/ac-dic"))
+
+;; (add-to-list 'ac-sources 'ac-source-dabbrev)
 
 (when (display-graphic-p)
   (progn
@@ -27,12 +27,11 @@
 (ac-define-source english-words
   '((candidates . ac-english-candidates)
     (cache . t)
-    (symbol . "D")
-    ))
+    (symbol . "D")))
 
 ;; 根据词典补全英语
 (global-set-key (kbd "C-M-/")
-		(lambda ()
+		#'(lambda ()
 		  (interactive)
 		  (if (not auto-complete-mode)
 		      (auto-complete-mode 1))

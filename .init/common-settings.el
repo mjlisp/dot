@@ -33,9 +33,9 @@
 
 ;;  纠正org-mode的换号问题
 (add-hook 'org-mode-hook
-	  (lambda ()(setq truncate-lines nil)))
+	  #'(lambda ()(setq truncate-lines nil)))
 
-(mapc (lambda (mode)
+(mapc #'(lambda (mode)
 	(add-hook 'LaTeX-mode-hook mode))
       (list 'auto-fill-mode
 	    'LaTeX-math-mode
@@ -56,7 +56,7 @@
 (windmove-default-keybindings)
 
 (add-hook 'after-make-frame-functions
-	  (lambda (new-frame)
+	  #'(lambda (new-frame)
 	    (let* ((fullscreen (list (assq 'fullscreen (frame-parameters))))
 		   (alpha (list (assq 'alpha (frame-parameters)))))
 	      (select-frame new-frame)

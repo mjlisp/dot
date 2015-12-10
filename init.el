@@ -35,7 +35,7 @@
  '(global-prettify-symbols-mode t)
  '(global-semantic-decoration-mode t)
  '(global-semantic-highlight-func-mode t)
- '(global-semantic-idle-completions-mode t nil (semantic/idle))
+ ;; '(global-semantic-idle-completions-mode t nil (semantic/idle))
  '(global-semantic-idle-local-symbol-highlight-mode t nil (semantic/idle))
  '(global-semantic-idle-scheduler-mode t)
  '(global-semantic-idle-summary-mode t)

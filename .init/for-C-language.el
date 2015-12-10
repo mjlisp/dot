@@ -14,7 +14,7 @@
 (add-hook 'c-mode-common-hook
 	  #'(lambda ()
 	    (c-set-style "bsd")
-	    ;; (add-to-list 'ac-sources 'ac-source-semantic)
+	    (add-to-list 'ac-sources 'ac-source-semantic)
 	    ;; (local-set-key (kbd "C-c .") 'ac-complete-semantic)
 	    ))
 

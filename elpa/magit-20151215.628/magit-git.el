@@ -474,10 +474,15 @@ tracked file."
   (magit-git-items "diff-files" "-z" "--name-only"
                    (and nomodules "--ignore-submodules")))
 
-(defun magit-staged-files (&optional nomodules)
+(defun magit-staged-files (&optional nomodules files)
   (magit-git-items "diff-index" "-z" "--name-only" "--cached"
                    (and nomodules "--ignore-submodules")
-                   (magit-headish)))
+                   (magit-headish) "--" files))
+
+(defun magit-unstaged-files (&optional nomodules files)
+  (magit-git-items "diff-index" "-z" "--name-only"
+                   (and nomodules "--ignore-submodules")
+                   (magit-headish) "--" files))
 
 (defun magit-staged-binary-files ()
   (--mapcat (and (string-match "^-\t-\t\\(.+\\)" it)
@@ -886,6 +891,11 @@ where COMMITS is the number of commits in TAG but not in REV."
   (--map (substring it 51)
          (--filter (not (string-match-p "\\^{}$" it))
                    (magit-git-lines "ls-remote" "--tags" remote))))
+
+(defun magit-list-remote-branches (remote)
+  (--map (substring it 52)
+         (--filter (not (string-match-p "\\^{}$" it))
+                   (magit-git-lines "ls-remote" "--heads" remote))))
 
 (defun magit-get-submodules ()
   (--mapcat (and (string-match "^160000 [0-9a-z]\\{40\\} 0\t\\(.+\\)$" it)

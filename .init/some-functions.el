@@ -132,11 +132,3 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	  (thing-at-point--beginning-of-sexp))
 	(kill-sexp)
 	(delete-blank-lines)))))
-
-(defun my-repos-stage ()
-  "Stage my repos."
-  (interactive)
-  (dolist (dir '("~/.emacs.d/"
-		 "~/repo/hexo-blog/source"))
-    (let ((default-directory dir))
-      (start-process dir nil "git" "add" "."))))

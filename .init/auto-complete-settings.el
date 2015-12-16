@@ -33,7 +33,7 @@
 (global-set-key (kbd "C-M-/")
 		#'(lambda ()
 		  (interactive)
-		  (if (not auto-complete-mode)
+		  (unless auto-complete-mode
 		      (auto-complete-mode 1))
 		  (ac-complete-english-words)))
 

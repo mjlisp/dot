@@ -135,5 +135,17 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (defun my-commit ()
   (interactive)
-  (vc-dir "~/.emacs.d/")
-  (vc-dir "~/repo/hexo-blog"))
+  (let ((display-buffer-alist
+	 '(("\\*git\\*.*" display-buffer-no-window (nil))))
+	(async-shell-command-buffer 'new-buffer)
+	(default-directory))
+    (setq default-directory "~/.emacs.d/")
+    (async-shell-command "git add . && git commit -am \"Update.\"" "*git*")
+    (setq default-directory "~/repo/hexo-blog/source/")
+    (async-shell-command "git add . && git commit -am \"Add posts.\"" "*git*")
+    (run-with-timer 1 nil
+		    #'(lambda ()
+			(mapc #'(lambda (buf)
+				  (when (string-match-p "\\*git\\*.*" (buffer-name buf))
+				    (kill-buffer buf)))
+			      (buffer-list))))))

@@ -4,7 +4,8 @@
 
 (set-register ?e '(file . "~/.emacs.d/"))
 (set-register ?i '(file . "~/.emacs.d/.init/"))
-(set-register ?h '(file . "~/repo/hexo-blog"))
+(set-register ?h '(file . "~/repo/hexo-blog/"))
+(set-register ?s '(file . "~/repo/hexo-blog/source/"))
 (set-register ?r '(file . "~/repo/"))
 
 ;; 位置

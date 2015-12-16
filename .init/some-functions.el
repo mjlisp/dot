@@ -119,7 +119,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (ss)
 
-(defun Sumatra-remove-unused-config ()
+(defun my-Sumatra-remove-unused-config ()
   (interactive)
   (while (re-search-forward "^.*FilePath = \\(.*\\.pdf\\)$" nil t)
     (let ((filename
@@ -127,12 +127,16 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 				     "/" (match-string 1) t t)))
       (unless (file-exists-p filename)
 	(previous-logical-line)
-	(thing-at-point--beginning-of-sexp)
+        (if (version<= emacs-version "25.1")
+	    (beginning-of-sexp)
+	  (thing-at-point--beginning-of-sexp))
 	(kill-sexp)
 	(delete-blank-lines)))))
 
-(defun my-repos ()
-  "Open my repos."
+(defun my-repos-stage ()
+  "Stage my repos."
   (interactive)
-  (magit-status-internal "~/repo/hexo-blog/source")
-  (magit-status-internal "~/.emacs.d/"))
+  (dolist (dir '("~/.emacs.d/"
+		 "~/repo/hexo-blog/source"))
+    (let ((default-directory dir))
+      (start-process dir nil "git" "add" "."))))

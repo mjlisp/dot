@@ -1,9 +1,9 @@
 ;;; math-symbol-lists-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("math-symbol-lists.el") (21987 42963 0
+;;;### (autoloads nil nil ("math-symbol-lists.el") (22128 50357 0
 ;;;;;;  0))
 
 ;;;***

@@ -3,7 +3,7 @@
 ;; Copyright (C) 2014 Free Software Foundation, Inc.
 ;; Author: Vitalie Spinu
 ;; URL: https://github.com/vspinu/math-symbol-lists
-;; Package-Version: 20150830.1633
+;; Package-Version: 20151215.1043
 ;; Keywords: Unicode, symbols, mathematics
 ;; Version: 1.0
 ;;
@@ -3029,7 +3029,7 @@
     "item" "itemindent" "itemsep" "itshape" "kill"
     "label" "labelenumi" "labelenumii" "labelenumiii" "labelenumiv"
     "labelitemi" "labelitemii" "labelitemiii" "labelitemiv" "labelsep"
-    "labelwidth" "land" "LARGE" "Large" "large" "LaTeX" "le" "leadsto"
+    "labelwidth" "land" "LARGE" "Large" "large" "LaTeX" "le" "left" "leadsto"
     "lefteqn" "leftmargin" "leftmargini" "leftmarginii" "leftmarginiii"
     "leftmarginiv" "leftmarginv" "leftmarginvi" "line" "linebreak"
     "linethickness" "linewidth" "listoffigures" "listoftables" "listparindent"

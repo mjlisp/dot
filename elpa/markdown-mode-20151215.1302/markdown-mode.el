@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20151214.2257
+;; Package-Version: 20151215.1302
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -1273,10 +1273,12 @@ Function is called repeatedly until it returns nil. For details, see
   (save-excursion
     (goto-char start)
     (unless (looking-back "\n\n" nil)
-      (let ((found (or (re-search-backward "\n\n" nil t) (point-min))))
+      (let ((first (or (re-search-backward "\n\n" nil t) (point-min)))
+            (last end))
         (goto-char end)
         (when (re-search-forward "\n\n" nil t)
-          (cons (match-beginning 0) found))))))
+          (setq last (match-end 0)))
+        (cons first last)))))
 
 (defun markdown-syntax-propertize-pre-blocks (start end)
   "Match preformatted text blocks from START to END."
@@ -1332,13 +1334,11 @@ Function is called repeatedly until it returns nil. For details, see
   (save-excursion
     (goto-char start)
     (while (re-search-forward "^\\([~]\\{3,\\}\\)" end t)
-      (beginning-of-line)
-      (let ((beg (point)))
-        (forward-line)
+      (let ((beg (match-beginning 1)))
         (when (re-search-forward
                (concat "^" (match-string 1) "~*") end t)
-               (put-text-property beg (match-end 0) 'markdown-fenced-code
-                                  (list beg (point))))))))
+          (put-text-property beg (match-end 0) 'markdown-fenced-code
+                             (list beg (point))))))))
 
 (defun markdown-syntax-propertize-gfm-code-blocks (start end)
   "Match GFM code blocks from START to END."
@@ -1366,23 +1366,33 @@ Function is called repeatedly until it returns nil. For details, see
                 (not (markdown-code-block-at-pos-p (match-beginning 0))))
       (put-text-property (match-beginning 0) (match-end 0)
                          'markdown-blockquote
-                         (list (match-beginning 0) (match-end 0)
-                               (match-beginning 1) (match-end 1)
-                               (match-beginning 2) (match-end 2))))))
+                         (match-data t)))))
+
+(defun markdown-syntax-propertize-headings-generic (symbol regex start end)
+  "Match headings of type SYMBOL with REGEX from START to END."
+  (save-excursion
+    (goto-char start)
+    (while (re-search-forward regex end t)
+      (unless (or (markdown-code-block-at-pos-p (match-beginning 0))
+                  (get-text-property (match-beginning 0) 'markdown-heading))
+        (put-text-property (match-beginning 0) (match-end 0)
+                           'markdown-heading t)
+        (put-text-property (match-beginning 0) (match-end 0)
+                           symbol (match-data t))))))
 
 (defun markdown-syntax-propertize-comments (start end)
   "Match HTML comments from the START to END."
   (save-excursion
     (goto-char start)
     (while (re-search-forward markdown-regex-comment-start end t)
-      (when (and (not (markdown-code-at-point-p))
-                 (not (markdown-code-block-at-point-p)))
-        (let ((open-beg (match-beginning 0)))
-          (when (re-search-forward markdown-regex-comment-end end t)
-            (put-text-property open-beg (1+ open-beg)
-                               'syntax-table (string-to-syntax "<"))
-            (put-text-property (1- (match-end 0)) (match-end 0)
-                               'syntax-table (string-to-syntax ">"))))))))
+      (let ((open-beg (match-beginning 0)))
+        (when (and (not (markdown-code-at-point-p))
+                   (not (markdown-code-block-at-point-p))
+                   (re-search-forward markdown-regex-comment-end end t))
+          (put-text-property open-beg (1+ open-beg)
+                             'syntax-table (string-to-syntax "<"))
+          (put-text-property (1- (match-end 0)) (match-end 0)
+                             'syntax-table (string-to-syntax ">")))))))
 
 (defun markdown-syntax-propertize (start end)
   "See `syntax-propertize-function'."
@@ -1390,10 +1400,35 @@ Function is called repeatedly until it returns nil. For details, see
   (remove-text-properties start end '(markdown-fenced-code))
   (remove-text-properties start end '(markdown-pre))
   (remove-text-properties start end '(markdown-blockquote))
+  (remove-text-properties start end '(markdown-heading))
+  (remove-text-properties start end '(markdown-heading-1-setext))
+  (remove-text-properties start end '(markdown-heading-2-setext))
+  (remove-text-properties start end '(markdown-heading-1-atx))
+  (remove-text-properties start end '(markdown-heading-2-atx))
+  (remove-text-properties start end '(markdown-heading-3-atx))
+  (remove-text-properties start end '(markdown-heading-4-atx))
+  (remove-text-properties start end '(markdown-heading-5-atx))
+  (remove-text-properties start end '(markdown-heading-6-atx))
   (markdown-syntax-propertize-gfm-code-blocks start end)
   (markdown-syntax-propertize-fenced-code-blocks start end)
   (markdown-syntax-propertize-pre-blocks start end)
   (markdown-syntax-propertize-blockquotes start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-1-setext markdown-regex-header-1-setext start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-2-setext markdown-regex-header-2-setext start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-6-atx markdown-regex-header-6-atx start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-5-atx markdown-regex-header-5-atx start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-4-atx markdown-regex-header-4-atx start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-3-atx markdown-regex-header-3-atx start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-2-atx markdown-regex-header-2-atx start end)
+  (markdown-syntax-propertize-headings-generic
+   'markdown-heading-1-atx markdown-regex-header-1-atx start end)
   (markdown-syntax-propertize-comments start end))
 
 
@@ -1672,35 +1707,35 @@ See `font-lock-syntactic-face-function' for details."
    (cons 'markdown-match-pre-blocks '((0 markdown-pre-face)))
    (cons 'markdown-match-blockquotes '((1 markdown-markup-face)
                                        (2 markdown-blockquote-face)))
-   (cons markdown-regex-header-1-setext '((1 markdown-header-face-1)
-                                          (2 markdown-header-rule-face)))
-   (cons markdown-regex-header-2-setext '((1 markdown-header-face-2)
-                                          (2 markdown-header-rule-face)))
-   (cons markdown-regex-header-6-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-6)
-                                       (3 markdown-header-delimiter-face)))
-   (cons markdown-regex-header-5-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-5)
-                                       (3 markdown-header-delimiter-face)))
-   (cons markdown-regex-header-4-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-4)
-                                       (3 markdown-header-delimiter-face)))
-   (cons markdown-regex-header-3-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-3)
-                                       (3 markdown-header-delimiter-face)))
-   (cons markdown-regex-header-2-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-2)
-                                       (3 markdown-header-delimiter-face)))
-   (cons markdown-regex-header-1-atx '((1 markdown-header-delimiter-face)
-                                       (2 markdown-header-face-1)
-                                       (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-1-setext '((1 markdown-header-face-1)
+                                            (2 markdown-header-rule-face)))
+   (cons 'markdown-match-heading-2-setext '((1 markdown-header-face-2)
+                                            (2 markdown-header-rule-face)))
+   (cons 'markdown-match-heading-6-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-6)
+                                         (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-5-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-5)
+                                         (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-4-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-4)
+                                         (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-3-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-3)
+                                         (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-2-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-2)
+                                         (3 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-1-atx '((1 markdown-header-delimiter-face)
+                                         (2 markdown-header-face-1)
+                                         (3 markdown-header-delimiter-face)))
    (cons 'markdown-match-multimarkdown-metadata '((1 markdown-metadata-key-face)
                                                   (2 markdown-markup-face)
                                                   (3 markdown-metadata-value-face)))
    (cons 'markdown-match-pandoc-metadata '((1 markdown-markup-face)
                                            (2 markdown-markup-face)
                                            (3 markdown-metadata-value-face)))
-   (cons markdown-regex-hr 'markdown-header-delimiter-face)
+   (cons 'markdown-match-hr 'markdown-header-delimiter-face)
    (cons 'markdown-match-code '((1 markdown-markup-face)
                                 (2 markdown-inline-code-face)
                                 (3 markdown-markup-face)))
@@ -2259,24 +2294,32 @@ GFM quoted code blocks.  Calls `markdown-code-block-at-pos-p'."
   "Match inline code from the point to LAST."
   (unless (bobp)
     (backward-char 1))
-  (cond ((and (re-search-forward markdown-regex-code last t)
-              (goto-char (match-beginning 0))
-              (not (markdown-code-block-at-point-p))
-              (goto-char (match-end 0)))
-         (set-match-data (list (match-beginning 1) (match-end 1)
-                               (match-beginning 2) (match-end 2)
-                               (match-beginning 3) (match-end 3)
-                               (match-beginning 4) (match-end 4)))
-         (goto-char (match-end 0))
-         t)
-        (t (forward-char 2) nil)))
+  (when (re-search-forward markdown-regex-code last t)
+    (cond
+     ;; In code block: move past it and recursively search again
+     ((markdown-code-block-at-point-p)
+      (while (and (markdown-code-block-at-point-p)
+                  (< (point) (point-max)))
+        (markdown-end-of-block))
+      (when (and (< (point) last))
+        (markdown-match-code last)))
+     ;; End of match out of range: return nil
+     ((> (match-end 0) last)
+      nil)
+     ;; Found: set match data and move point
+     (t
+      (set-match-data (list (match-beginning 1) (match-end 1)
+                            (match-beginning 2) (match-end 2)
+                            (match-beginning 3) (match-end 3)
+                            (match-beginning 4) (match-end 4)))
+      (goto-char (1+ (match-end 0)))))))
 
 (defun markdown-match-propertized-text (property last)
   "Match text with PROPERTY from point to LAST.
 Restore match data previously stored in PROPERTY."
   (let ((pos (if (eq (point) (point-min))
                  (point-min)
-               (next-single-char-property-change (point) property nil last))))
+               (next-single-char-property-change (1- (point)) property nil last))))
     (when (and pos (>= pos (point)))
       (goto-char pos)
       (let ((saved-match-data (get-text-property pos property)))
@@ -2309,6 +2352,50 @@ analysis."
 Use data stored in 'markdown-blockquote text property during syntax
 analysis."
   (markdown-match-propertized-text 'markdown-blockquote last))
+
+(defun markdown-match-heading-1-setext (last)
+  "Match level 1 setext headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-1-setext last))
+
+(defun markdown-match-heading-2-setext (last)
+  "Match level 2 setext headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-2-setext last))
+
+(defun markdown-match-heading-1-atx (last)
+  "Match level 1 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-1-atx last))
+
+(defun markdown-match-heading-2-atx (last)
+  "Match level 2 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-2-atx last))
+
+(defun markdown-match-heading-3-atx (last)
+  "Match level 3 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-3-atx last))
+
+(defun markdown-match-heading-4-atx (last)
+  "Match level 4 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-4-atx last))
+
+(defun markdown-match-heading-5-atx (last)
+  "Match level 5 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-5-atx last))
+
+(defun markdown-match-heading-6-atx (last)
+  "Match level 6 ATX headings from point to LAST."
+  (markdown-match-propertized-text 'markdown-heading-6-atx last))
+
+(defun markdown-match-hr (last)
+  "Match horizontal rules comments from the point to LAST."
+  (while (and (re-search-forward markdown-regex-hr last t)
+              (or (markdown-on-heading-p)
+                  (markdown-code-block-at-point-p))
+              (< (match-end 0) last))
+    (forward-line))
+  (cond ((thing-at-point-looking-at markdown-regex-hr)
+         (forward-line)
+         t)
+        (t nil)))
 
 (defun markdown-match-generic-metadata (regexp last)
   "Match generic metadata specified by REGEXP from the point to LAST."
@@ -2363,6 +2450,14 @@ This helps improve font locking for block constructs such as pre blocks."
         (when (re-search-forward "\n\n" nil t)
           (setq font-lock-end (match-beginning 0))
           (setq font-lock-beg found))))))
+
+(defun markdown-font-lock-extend-after-change-region (beg end old-len)
+  "Possibly extends font-lock region range from BEG and END was edited.
+Designed to be used as a `font-lock-extend-after-change-region-function'.
+OLD-LEN is the number of bytes of pre-change text replaced by the
+given range. Returns either a new regon (NEW-BEG . NEW-END) or nil to
+keep the default region."
+  (markdown-syntax-propertize-extend-region beg end))
 
 
 ;;; Syntax Table ==============================================================
@@ -4502,8 +4597,7 @@ Only visible heading lines are considered, unless INVISIBLE-OK is non-nil."
 (defun markdown-on-heading-p (&optional invisible-ok)
   "Return t if point is on a (visible) heading line.
 If INVISIBLE-OK is non-nil, an invisible heading line is ok too."
-  (and (outline-on-heading-p)
-       (not (markdown-code-block-at-point-p))))
+  (get-text-property (point) 'markdown-heading))
 
 (defun markdown-end-of-subtree (&optional invisible-OK)
   "Move to the end of the current subtree.
@@ -5481,6 +5575,8 @@ before regenerating font-lock rules for extensions."
   ;; Multiline font lock
   (add-hook 'font-lock-extend-region-functions
             'markdown-font-lock-extend-region)
+  (setq font-lock-extend-after-change-region-function
+        'markdown-font-lock-extend-after-change-region)
 
   ;; Anytime text changes make sure it gets fontified correctly
   (add-hook 'after-change-functions 'markdown-check-change-for-wiki-link t t)

@@ -32,9 +32,9 @@
 ;; 根据词典补全英语
 (global-set-key (kbd "C-M-/")
 		#'(lambda ()
-		  (interactive)
-		  (if (not auto-complete-mode)
+		    (interactive)
+		    (unless auto-complete-mode
 		      (auto-complete-mode 1))
-		  (ac-complete-english-words)))
+		    (ac-complete-english-words)))
 
 (defalias 'acm 'auto-complete-mode)

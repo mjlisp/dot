@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20151216.405
+;; Package-Version: 20151215.1302
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -1770,17 +1770,23 @@ See `font-lock-syntactic-face-function' for details."
                                                (4 markdown-markup-face)       ; :
                                                (5 markdown-url-face)          ; url
                                                (6 markdown-link-title-face))) ; "title" (optional)
-   (cons 'markdown-match-bold '((1 markdown-markup-face)
-                                (2 markdown-bold-face)
-                                (3 markdown-markup-face)))
-   (cons 'markdown-match-italic '((1 markdown-markup-face)
-                                  (2 markdown-italic-face)
-                                  (3 markdown-markup-face)))
+   (cons markdown-regex-bold '((3 markdown-markup-face)
+                               (4 markdown-bold-face)
+                               (5 markdown-markup-face)))
    (cons markdown-regex-uri 'markdown-link-face)
    (cons markdown-regex-email 'markdown-link-face)
    (cons markdown-regex-line-break '(1 markdown-line-break-face prepend))
    )
   "Syntax highlighting for Markdown files.")
+
+(defvar markdown-mode-font-lock-keywords-core
+  (list
+   (cons markdown-regex-italic '((2 markdown-markup-face)
+                                 (3 markdown-italic-face)
+                                 (4 markdown-markup-face)))
+   )
+  "Additional syntax highlighting for Markdown files.
+Includes features which are overridden by some variants.")
 
 (defconst markdown-mode-font-lock-keywords-math
   (list
@@ -2284,9 +2290,11 @@ GFM quoted code blocks.  Calls `markdown-code-block-at-pos-p'."
 
 ;;; Markdown Font Lock Matching Functions =====================================
 
-(defun markdown-match-inline-generic (regex last)
-  "Match inline REGEX from the point to LAST."
-  (when (re-search-forward regex last t)
+(defun markdown-match-code (last)
+  "Match inline code from the point to LAST."
+  (unless (bobp)
+    (backward-char 1))
+  (when (re-search-forward markdown-regex-code last t)
     (cond
      ;; In code block: move past it and recursively search again
      ((markdown-code-block-at-point-p)
@@ -2294,44 +2302,17 @@ GFM quoted code blocks.  Calls `markdown-code-block-at-pos-p'."
                   (< (point) (point-max)))
         (markdown-end-of-block))
       (when (and (< (point) last))
-        (markdown-match-inline-generic regex last)))
+        (markdown-match-code last)))
      ;; End of match out of range: return nil
      ((> (match-end 0) last)
       nil)
-     ;; Found: keep match data and return
-     (t t))))
-
-(defun markdown-match-code (last)
-  "Match inline code fragments from point to LAST."
-  (unless (bobp)
-    (backward-char 1))
-  (when (markdown-match-inline-generic markdown-regex-code last)
-    (set-match-data (list (match-beginning 1) (match-end 1)
-                          (match-beginning 2) (match-end 2)
-                          (match-beginning 3) (match-end 3)
-                          (match-beginning 4) (match-end 4)))
-    (goto-char (1+ (match-end 0)))))
-
-(defun markdown-match-bold (last)
-  "Match inline bold from the point to LAST."
-  (when (markdown-match-inline-generic markdown-regex-bold last)
-    (set-match-data (list (match-beginning 2) (match-end 2)
-                          (match-beginning 3) (match-end 3)
-                          (match-beginning 4) (match-end 4)
-                          (match-beginning 5) (match-end 5)))
-    (goto-char (1+ (match-end 0)))))
-
-(defun markdown-match-italic (last)
-  "Match inline italics from the point to LAST."
-  (when (markdown-match-inline-generic
-         (if (eq major-mode 'gfm-mode)
-             markdown-regex-gfm-italic markdown-regex-italic)
-         last)
-    (set-match-data (list (match-beginning 1) (match-end 1)
-                          (match-beginning 2) (match-end 2)
-                          (match-beginning 3) (match-end 3)
-                          (match-beginning 4) (match-end 4)))
-    (goto-char (1+ (match-end 0)))))
+     ;; Found: set match data and move point
+     (t
+      (set-match-data (list (match-beginning 1) (match-end 1)
+                            (match-beginning 2) (match-end 2)
+                            (match-beginning 3) (match-end 3)
+                            (match-beginning 4) (match-end 4)))
+      (goto-char (1+ (match-end 0)))))))
 
 (defun markdown-match-propertized-text (property last)
   "Match text with PROPERTY from point to LAST.
@@ -4533,11 +4514,7 @@ See `markdown-wiki-link-p' and `markdown-previous-wiki-link'."
       ;; At a link already, move past it.
       (goto-char (+ (match-end 0) 1)))
     ;; Search for the next wiki link and move to the beginning.
-    (while (and (re-search-forward markdown-regex-link-generic nil t)
-                (markdown-code-block-at-point-p)
-                (< (point) (point-max))))
-    (if (and (not (eq (point) opoint))
-             (or (markdown-link-p) (markdown-wiki-link-p)))
+    (if (re-search-forward markdown-regex-link-generic nil t)
         ;; Group 1 will move past non-escape character in wiki link regexp.
         ;; Go to beginning of group zero for all other link types.
         (goto-char (or (match-beginning 1) (match-beginning 0)))
@@ -4549,15 +4526,9 @@ See `markdown-wiki-link-p' and `markdown-previous-wiki-link'."
 If successful, return point.  Otherwise, return nil.
 See `markdown-wiki-link-p' and `markdown-next-wiki-link'."
   (interactive)
-  (let ((opoint (point)))
-    (while (and (re-search-backward markdown-regex-link-generic nil t)
-                (markdown-code-block-at-point-p)
-                (> (point) (point-min))))
-    (if (and (not (eq (point) opoint))
-             (or (markdown-link-p) (markdown-wiki-link-p)))
-        (goto-char (or (match-beginning 1) (match-beginning 0)))
-      (goto-char opoint)
-      nil)))
+  (if (re-search-backward markdown-regex-link-generic nil t)
+      (goto-char (or (match-beginning 1) (match-beginning 0)))
+    nil))
 
 (defun markdown-next-heading ()
   "Move to the next heading line of any level.
@@ -5117,7 +5088,6 @@ the rendered output."
 See `markdown-wiki-link-p' for more information."
   (let ((case-fold-search nil))
     (and (not (markdown-wiki-link-p))
-         (not (markdown-code-block-at-point-p))
          (or (thing-at-point-looking-at markdown-regex-link-inline)
              (thing-at-point-looking-at markdown-regex-link-reference)
              (thing-at-point-looking-at markdown-regex-uri)
@@ -5158,11 +5128,12 @@ returned by `match-data'.  Note that the potential wiki link name must
 be available via `match-string'."
   (let ((case-fold-search nil))
     (and (thing-at-point-looking-at markdown-regex-wiki-link)
-         (not (markdown-code-block-at-point-p))
          (or (not buffer-file-name)
              (not (string-equal (buffer-file-name)
                                 (markdown-convert-wiki-link-to-filename
-                                 (markdown-wiki-link-link))))))))
+                                 (markdown-wiki-link-link)))))
+         (not (save-match-data
+                (save-excursion))))))
 
 (defun markdown-wiki-link-link ()
   "Return the link part of the wiki link using current match data.
@@ -5246,17 +5217,18 @@ and highlight accordingly."
   (goto-char from)
   (save-match-data
     (while (re-search-forward markdown-regex-wiki-link to t)
-      (when (not (markdown-code-block-at-point-p))
-        (let ((highlight-beginning (match-beginning 1))
-              (highlight-end (match-end 1))
-              (file-name
-               (markdown-convert-wiki-link-to-filename
-                (markdown-wiki-link-link))))
-          (if (file-exists-p file-name)
-              (markdown-highlight-wiki-link
-               highlight-beginning highlight-end markdown-link-face)
+      (let ((highlight-beginning (match-beginning 1))
+            (highlight-end (match-end 1))
+            (file-name
+             (markdown-convert-wiki-link-to-filename
+              (markdown-wiki-link-link))))
+        (if (file-exists-p file-name)
             (markdown-highlight-wiki-link
-             highlight-beginning highlight-end markdown-missing-link-face)))))))
+             highlight-beginning highlight-end markdown-link-face)
+          (markdown-highlight-wiki-link
+           highlight-beginning highlight-end markdown-link-face)
+          (markdown-highlight-wiki-link
+           highlight-beginning highlight-end markdown-missing-link-face))))))
 
 (defun markdown-extend-changed-region (from to)
   "Extend region given by FROM and TO so that we can fontify all links.
@@ -5419,7 +5391,8 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
           (append
            (when markdown-enable-math
              markdown-mode-font-lock-keywords-math)
-           markdown-mode-font-lock-keywords-basic))
+           markdown-mode-font-lock-keywords-basic
+           markdown-mode-font-lock-keywords-core))
     (setq font-lock-defaults
           '(markdown-mode-font-lock-keywords
             nil nil nil nil
@@ -5640,7 +5613,12 @@ before regenerating font-lock rules for extensions."
                                           (4 markdown-strike-through-face)
                                           (5 markdown-markup-face))))
    ;; Basic Markdown features (excluding possibly overridden ones)
-   markdown-mode-font-lock-keywords-basic)
+   markdown-mode-font-lock-keywords-basic
+   ;; GFM features to match last
+   (list
+    (cons markdown-regex-gfm-italic '((2 markdown-markup-face)
+                                      (3 markdown-italic-face)
+                                      (4 markdown-markup-face)))))
   "Default highlighting expressions for GitHub Flavored Markdown mode.")
 
 ;;;###autoload

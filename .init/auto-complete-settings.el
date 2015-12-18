@@ -1,8 +1,8 @@
 ;; Auto Complete Settings
 
 ;; auto-complete的配置
-;; (require 'auto-complete)
-;; (require 'auto-complete-config)
+(require 'auto-complete)
+(require 'auto-complete-config)
 
 (ac-config-default)
 

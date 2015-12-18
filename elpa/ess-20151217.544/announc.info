@@ -7,7 +7,7 @@ File: announc.info,  Node: Announce
 1 ANNOUNCING ESS
 ****************
 
-The ESS Developers proudly announce the release of ESS 15.09-2
+The ESS Developers proudly announce the release of ESS 15.09-2 patched
 
    Emacs Speaks Statistics (ESS) provides an intelligent, consistent
 interface between the user and the software.  ESS interfaces with
@@ -1020,14 +1020,14 @@ Changes and New Features in 15.09:
 
 Tag Table:
 Node: Announce75
-Node: Latest Version1320
-Node: Current Features1852
-Node: Requirements3403
-Node: Stability4461
-Node: Mailing List4963
-Node: Reporting Bugs5693
-Node: Authors6493
-Node: License7069
-Node: New Features7717
+Node: Latest Version1328
+Node: Current Features1860
+Node: Requirements3411
+Node: Stability4469
+Node: Mailing List4971
+Node: Reporting Bugs5701
+Node: Authors6501
+Node: License7077
+Node: New Features7725
 
 End Tag Table

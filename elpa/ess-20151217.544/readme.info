@@ -7,6 +7,7 @@ File: readme.info,  Node: General Information
 *****************************
 
 This is the README file for the distribution of ESS version 15.09-2
+patched
 
    ESS is a GNU Emacs and XEmacs mode for interactive statistical
 programming and data analysis.  Languages supported: the S family (S,
@@ -1097,16 +1098,16 @@ File: readme.info,  Node: Authors,  Prev: Mailing Lists,  Up: General Informatio
 
 Tag Table:
 Node: General Information73
-Node: License1761
-Node: Stability2428
-Node: Requirements2935
-Node: Latest Version4001
-Node: Installation4543
-Node: Starting up6650
-Node: Current Features7033
-Node: New Features8591
-Node: Reporting Bugs48313
-Node: Mailing Lists49129
-Node: Authors49872
+Node: License1769
+Node: Stability2436
+Node: Requirements2943
+Node: Latest Version4009
+Node: Installation4551
+Node: Starting up6658
+Node: Current Features7041
+Node: New Features8599
+Node: Reporting Bugs48321
+Node: Mailing Lists49137
+Node: Authors49880
 
 End Tag Table

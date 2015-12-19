@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20151218.1149
+;; Package-Version: 20151218.1915
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -5298,10 +5298,19 @@ given range."
                ;; and ends at safe places.
                (multiple-value-bind (new-from new-to)
                    (markdown-extend-changed-region from to)
-                 ;; Unfontify existing fontification (start from scratch)
-                 (markdown-unfontify-region-wiki-links new-from new-to)
-                 ;; Now do the fontification.
-                 (markdown-fontify-region-wiki-links new-from new-to)))))
+                 (goto-char new-from)
+                 ;; Only refontify when the range contains text with a
+                 ;; wiki link face or if the wiki link regexp matches.
+                 (when (or (markdown-range-property-any
+                            new-from new-to 'font-lock-face
+                            (list markdown-link-face
+                                  markdown-missing-link-face))
+                           (re-search-forward
+                            markdown-regex-wiki-link new-to t))
+                   ;; Unfontify existing fontification (start from scratch)
+                   (markdown-unfontify-region-wiki-links new-from new-to)
+                   ;; Now do the fontification.
+                   (markdown-fontify-region-wiki-links new-from new-to))))))
        (and (not modified)
             (buffer-modified-p)
             (set-buffer-modified-p nil)))))

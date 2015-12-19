@@ -7,7 +7,7 @@
 ;; Maintainer: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; Package-Requires: ((emacs "24.1"))
 ;; Keywords: data yaml
-;; Package-Version: 20151215.1046
+;; Package-Version: 20151218.354
 ;; Version: 0.0.12
 
 ;; This file is not part of Emacs
@@ -147,7 +147,7 @@ that key is pressed to begin a block literal."
   "Regexp matching a single YAML hash key.")
 
 (defconst yaml-scalar-context-re
-  (concat "\\(?:^\\(?:--- \\)?\\|{\\|\\(?:[-,] +\\)+\\) *"
+  (concat "\\(?:^\\(?:--- \\)?\\|{\\|\\(?: *[-,] +\\)+\\) *"
           "\\(?:" yaml-bare-scalar-re " *: \\)?")
   "Regexp indicating the begininng of a scalar context.")
 
@@ -165,7 +165,7 @@ that key is pressed to begin a block literal."
   "Regexp matching a line beginning a YAML block literal.")
 
 (defconst yaml-nested-sequence-re
-  (concat "^\\(?: *- +\\)+"
+  (concat "^\\(?:\\(?: *- +\\)+\\|\\(:? *-$\\)\\)"
           "\\(?:" yaml-bare-scalar-re " *:\\(?: +.*\\)?\\)?$")
   "Regexp matching a line containing one or more nested YAML sequences.")
 

@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20151218.1915
+;; Package-Version: 20151218.2307
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -1772,6 +1772,14 @@ See `font-lock-syntactic-face-function' for details."
                                                (4 markdown-markup-face)       ; :
                                                (5 markdown-url-face)          ; url
                                                (6 markdown-link-title-face))) ; "title" (optional)
+   ;; Math mode $..$
+   (cons 'markdown-match-math-single '((1 markdown-markup-face prepend)
+                                       (2 markdown-math-face append)
+                                       (3 markdown-markup-face prepend)))
+   ;; Math mode $$..$$
+   (cons 'markdown-match-math-double '((1 markdown-markup-face prepend)
+                                       (2 markdown-math-face append)
+                                       (3 markdown-markup-face prepend)))
    (cons 'markdown-match-bold '((1 markdown-markup-face prepend)
                                 (2 markdown-bold-face append)
                                 (3 markdown-markup-face prepend)))
@@ -1786,18 +1794,10 @@ See `font-lock-syntactic-face-function' for details."
 
 (defconst markdown-mode-font-lock-keywords-math
   (list
-   ;; Math mode $..$
-   (cons markdown-regex-math-inline-single '((1 markdown-markup-face)
-                                             (2 markdown-math-face)
-                                             (3 markdown-markup-face)))
-   ;; Math mode $$..$$
-   (cons markdown-regex-math-inline-double '((1 markdown-markup-face)
-                                             (2 markdown-math-face)
-                                             (3 markdown-markup-face)))
    ;; Display mode equations with brackets: \[ \]
-   (cons markdown-regex-math-display '((1 markdown-markup-face)
-                                       (2 markdown-math-face)
-                                       (3 markdown-markup-face)))
+   (cons markdown-regex-math-display '((1 markdown-markup-face prepend)
+                                       (2 markdown-math-face append)
+                                       (3 markdown-markup-face prepend)))
    ;; Equation reference (eq:foo)
    (cons "\\((eq:\\)\\([[:alnum:]:_]+\\)\\()\\)" '((1 markdown-markup-face)
                                                    (2 markdown-reference-face)
@@ -2060,24 +2060,22 @@ upon failure."
     (setq indent (markdown-cur-line-indent))
     (while
         (cond
-         ;; Stop at beginning of buffer
-         ((bobp) (setq prev nil))
-         ;; Continue if current line is blank
-         ((markdown-cur-line-blank-p) t)
          ;; List item
          ((and (looking-at markdown-regex-list)
                (setq bounds (markdown-cur-list-item-bounds)))
           (cond
-           ;; Continue at item with greater indentation
-           ((> (nth 3 bounds) level) t)
-           ;; Stop and return point at item of equal indentation
-           ((= (nth 3 bounds) level)
+           ;; Stop and return point at item of lesser or equal indentation
+           ((<= (nth 3 bounds) level)
             (setq prev (point))
             nil)
-           ;; Stop and return nil at item with lesser indentation
-           ((< (nth 3 bounds) level)
-            (setq prev nil)
-            nil)))
+           ;; Stop at beginning of buffer
+           ((bobp) (setq prev nil))
+           ;; Continue at item with greater indentation
+           ((> (nth 3 bounds) level) t)))
+         ;; Stop at beginning of buffer
+         ((bobp) (setq prev nil))
+         ;; Continue if current line is blank
+         ((markdown-cur-line-blank-p) t)
          ;; Continue while indentation is the same or greater
          ((>= indent level) t)
          ;; Stop if current indentation is less than list item
@@ -2344,7 +2342,8 @@ Return nil otherwise."
         (cond
          ((markdown-range-property-any
            begin end 'face (list markdown-inline-code-face
-                                 markdown-bold-face))
+                                 markdown-bold-face
+                                 markdown-math-face))
           (goto-char (1+ (match-end 0)))
           (markdown-match-italic last))
          (t
@@ -2353,6 +2352,27 @@ Return nil otherwise."
                                 (match-beginning 3) (match-end 3)
                                 (match-beginning 4) (match-end 4)))
           (goto-char (1+ (match-end 0)))))))))
+
+(defun markdown-match-math-generic (regex last)
+  "Match quoted $..$ or $$..$$ math from point to LAST."
+  (when (and markdown-enable-math
+             (markdown-match-inline-generic regex last))
+    (let ((begin (match-beginning 1)) (end (match-end 1)))
+      (prog1
+          (if (markdown-range-property-any
+               begin end 'face (list markdown-inline-code-face
+                                     markdown-bold-face))
+              (markdown-match-math-generic regex last)
+            t)
+        (goto-char (1+ (match-end 0)))))))
+
+(defun markdown-match-math-single (last)
+  "Match single quoted $..$ math from point to LAST."
+  (markdown-match-math-generic markdown-regex-math-inline-single last))
+
+(defun markdown-match-math-double (last)
+  "Match double quoted $$..$$ math from point to LAST."
+  (markdown-match-math-generic markdown-regex-math-inline-double last))
 
 (defun markdown-match-propertized-text (property last)
   "Match text with PROPERTY from point to LAST.
@@ -2427,7 +2447,8 @@ analysis."
                   (markdown-code-block-at-point))
               (< (match-end 0) last))
     (forward-line))
-  (cond ((thing-at-point-looking-at markdown-regex-hr)
+  (beginning-of-line)
+  (cond ((looking-at markdown-regex-hr)
          (forward-line)
          t)
         (t nil)))
@@ -4244,7 +4265,7 @@ decrease the indentation by one level.
 With two \\[universal-argument] prefixes (i.e., when ARG is (16)),
 increase the indentation by one level."
   (interactive "p")
-  (let (bounds item-indent marker indent new-indent new-loc)
+  (let (bounds cur-indent marker indent new-indent new-loc)
     (save-match-data
       ;; Look for a list item on current or previous non-blank line
       (save-excursion
@@ -4280,13 +4301,23 @@ increase the indentation by one level."
             (unless (markdown-cur-line-blank-p)
               (insert "\n"))
             (insert markdown-unordered-list-item-prefix))
-        ;; Compute indentation for a new list item
-        (setq item-indent (nth 2 bounds))
+        ;; Compute indentation and marker for new list item
+        (setq cur-indent (nth 2 bounds))
         (setq marker (nth 4 bounds))
-        (setq indent (cond
-                      ((= arg 4) (max (- item-indent 4) 0))
-                      ((= arg 16) (+ item-indent 4))
-                      (t item-indent)))
+        (cond
+         ;; Dedent: decrement indentation, find previous marker.
+         ((= arg 4)
+          (setq indent (max (- cur-indent 4) 0))
+          (let ((prev-bounds
+                 (save-excursion
+                   (when (markdown-prev-list-item (- (nth 3 bounds) 1))
+                     (markdown-cur-list-item-bounds)))))
+            (when prev-bounds
+              (setq marker (nth 4 prev-bounds)))))
+         ;; Indent: increment indentation by 4, use same marker.
+         ((= arg 16) (setq indent (+ cur-indent 4)))
+         ;; Same level: keep current indentation and marker.
+         (t (setq indent cur-indent)))
         (setq new-indent (make-string indent 32))
         (goto-char new-loc)
         (cond
@@ -4295,7 +4326,7 @@ increase the indentation by one level."
           (if (= arg 16) ;; starting a new column indented one more level
               (insert (concat new-indent "1. "))
             ;; travel up to the last item and pick the correct number.  If
-            ;; the argument was nil, "new-indent = item-indent" is the same,
+            ;; the argument was nil, "new-indent = cur-indent" is the same,
             ;; so we don't need special treatment. Neat.
             (save-excursion
               (while (and (not (looking-at (concat new-indent "\\([0-9]+\\)\\(\\.[ \t]*\\)")))
@@ -5028,8 +5059,9 @@ current filename, but with the extension removed and replaced with .html."
   (interactive)
   (browse-url-of-file (markdown-export)))
 
-(defvar-local markdown-live-preview-buffer nil
+(defvar markdown-live-preview-buffer nil
   "Buffer used to preview markdown output in `markdown-live-preview-export'.")
+(make-variable-buffer-local 'markdown-live-preview-buffer)
 
 (defun markdown-live-preview-window-eww (file)
   "A `markdown-live-preview-window-function' for previewing with eww."
@@ -5428,9 +5460,9 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
   (when (eq major-mode 'markdown-mode)
     (setq markdown-mode-font-lock-keywords
           (append
+           markdown-mode-font-lock-keywords-basic
            (when markdown-enable-math
-             markdown-mode-font-lock-keywords-math)
-           markdown-mode-font-lock-keywords-basic))
+             markdown-mode-font-lock-keywords-math)))
     (setq font-lock-defaults
           '(markdown-mode-font-lock-keywords
             nil nil nil nil

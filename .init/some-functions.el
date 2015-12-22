@@ -119,7 +119,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (ss)
 
-(defun my-Sumatra-remove-unused-config ()
+(defun my-sumatra-remove-unused-config ()
   (interactive)
   (while (re-search-forward "^.*FilePath = \\(.*\\.pdf\\)$" nil t)
     (let ((filename

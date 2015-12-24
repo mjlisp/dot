@@ -278,50 +278,7 @@ to an existing popup using the following functions.
      DESC is a string describing the purpose of the argument, it is
      displayed in the popup.
 
-     If optional ENABLE is non-nil then the switch is on by default.
-
-     SWITCH is inserted after all other switches already defined for
-     POPUP, unless optional PREPEND is non-nil, in which case it is
-     placed first.  If optional AT is non-nil then it should be the KEY
-     of another switch already defined for POPUP, the argument is then
-     placed before or after AT, depending on PREPEND.
-
- -- Function: magit-define-popup-option popup key desc option &optional
-          reader value at prepend
-
-     In POPUP, define KEY as OPTION.
-
-     POPUP is a popup command defined using ‘magit-define-popup’.
-     OPTION is a string representing an argument that takes a value.
-     KEY is a character representing the second event in the sequence of
-     keystrokes used to set the argument’s value.  (The first event, the
-     prefix, is shared among all options, defaults to ‘=’, and can be
-     changed in ‘magit-popup-mode-keymap’).
-
-     DESC is a string describing the purpose of the argument, it is
-     displayed in the popup.
-
-     If optional VALUE is non-nil then the option is on by default, and
-     VALUE is its default value.
-
-     OPTION is inserted after all other options already defined for
-     POPUP, unless optional PREPEND is non-nil, in which case it is
-     placed first.  If optional AT is non-nil then it should be the KEY
-     of another option already defined for POPUP, the argument is then
-     placed before or after AT, depending on PREPEND.
-
- -- Function: magit-define-popup-action popup key desc command &optional
-          at prepend
-
-     In POPUP, define KEY as COMMAND.
-
-     POPUP is a popup command defined using ‘magit-define-popup’.
-     COMMAND can be any command but should usually consume the popup
-     arguments in its ‘interactive’ form.  KEY is a character
-     representing the event used invoke the action, i.e.  to
-     interactively call the COMMAND.
-
-     DESC is a string describing the purpose of the action, it is
+     If optional EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   describing the purpose of the action, it is
      displayed in the popup.
 
      COMMAND is inserted after all other commands already defined for
@@ -457,19 +414,19 @@ infix arguments, and then also one of its suffix commands.
        'magit-commands
        :man-page "git-tag"
        :switches '((?a "Annotate" "--annotate")
-                   (?s "Sign"     "--sign")
-                   (?f "Force"    "--force"))
+     	      (?s "Sign"     "--sign")
+     	      (?f "Force"    "--force"))
        :actions  '((?t "Create"   magit-tag)
-                   (?k "Delete"   magit-tag-delete)
-                   (?p "Prune"    magit-tag-prune))
+     	      (?k "Delete"   magit-tag-delete)
+     	      (?p "Prune"    magit-tag-prune))
        :default-action 'magit-tag)
 
      ;;;###autoload
      (defun magit-tag (name rev &optional args)
        "Create a new tag with the given NAME at REV."
        (interactive (list (magit-read-tag "Tag name")
-                          (magit-read-branch-or-commit "Place tag on")
-                          (magit-tag-arguments)))
+     		     (magit-read-branch-or-commit "Place tag on")
+     		     (magit-tag-arguments)))
        (magit-run-git-with-editor "tag" args name rev))
 
 * Menu:
@@ -692,8 +649,8 @@ Node: Usage4735
 Node: Customizing existing popups9392
 Node: Other options14920
 Node: Defining prefix and suffix commands16626
-Node: Defining prefix commands18778
-Node: Defining suffix commands25458
+Node: Defining prefix commands18722
+Node: Defining suffix commands25402
 
 End Tag Table
 

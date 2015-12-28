@@ -3,12 +3,6 @@
 ;; Setting English Font
 (set-face-attribute
  'default nil :family "Inconsolata" :height (if (string-equal system-type "windows-nt") 160 120))
-					  ;; DejaVu Sans
-					  ;; Inconsolata
-					  ;; Droid Sans Mono
-					  ;; Source Code Pro
-
-(set-fontset-font t 'symbol (font-spec :name "Inconsolata"))
 
 ;; (set-fontset-font t 'unicode-bmp "STIX" nil 'append)
 ;; (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
@@ -23,6 +17,7 @@
 					; 冬青黑体简体中文 W3
 					; Hiragino Sans GB W3
 					; 思源黑体 CN Regular
+					; Source Han Sans
 
 (set-fontset-font t 'unicode "Segoe UI Symbol" nil 'append)
 (set-fontset-font t '(#xE000 . #xF8FF) "STIX") ; Private Use Areas

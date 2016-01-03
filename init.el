@@ -107,6 +107,8 @@
     ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")) t)
  '(ps-print-header nil)
  '(ps-printer-name t t)
+ '(search-whitespace-regexp "[-_ 
+	]+")
  '(semantic-decoration-styles
    (quote
     (("semantic-decoration-on-includes" . t)

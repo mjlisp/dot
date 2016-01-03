@@ -19,9 +19,11 @@
 					; 思源黑体 CN Regular
 					; Source Han Sans
 
-(set-fontset-font t 'unicode "Segoe UI Symbol" nil 'append)
+(when (string-equal system-type "windows-nt")
+  (set-fontset-font t 'unicode "Segoe UI Symbol" nil 'append)
+  (set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol")) ; Emoji
+
 (set-fontset-font t '(#xE000 . #xF8FF) "STIX") ; Private Use Areas
-(set-fontset-font t '(#x1F600 . #x1F64F) "Segoe UI Symbol") ; Emoji
 
 (set-fontset-font t ?– "Symbola")
 (set-fontset-font t ?′ "Symbola")

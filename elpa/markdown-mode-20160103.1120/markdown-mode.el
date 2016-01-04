@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20160102.429
+;; Package-Version: 20160103.1120
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -5147,11 +5147,11 @@ buffer. Inverse of `markdown-live-preview-buffer'.")
 
 (defun markdown-live-preview-window-eww (file)
   "A `markdown-live-preview-window-function' for previewing with eww."
-  (if (eval-when-compile (featurep 'eww))
+  (if (featurep 'eww)
       (progn
         (eww-open-file file)
         (get-buffer "*eww*"))
-    (error "eww is not present on this version of emacs")))
+    (error "eww is not present or not loaded on this version of emacs")))
 
 (defun markdown-live-preview-window-serialize (buf)
   "Get window point and scroll data for all windows displaying BUF if BUF is

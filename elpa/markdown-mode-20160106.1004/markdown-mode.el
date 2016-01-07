@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.0
-;; Package-Version: 20160105.2049
+;; Package-Version: 20160106.1004
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -1221,13 +1221,10 @@ Group 2 matches the key sequence.")
 
 (defconst markdown-regex-gfm-code-block
   (concat
-   "^\\s *\\(```\\)[ ]?\\([^[:space:]]+\\|{[^}]*}\\)?"
+   "^\\s *\\(```\\)[ ]*\\([^[:space:]]+\\|{[^}]*}\\)?"
    "[[:space:]]*?\n"
    "\\(\\(?:.\\|\n\\)*?\\)?"
-   ;; the newline before the final line could have a ?, but then it gets mixed
-   ;; up with `markdown-regex-code'. this way, there always needs to be at least
-   ;; two newlines between the pair of triple backticks
-   "\n\\s *?\\(```\\)\\s *?$")
+   "\n?\\s *?\\(```\\)\\s *?$")
  "Regular expression matching opening of GFM code blocks.
 Group 1 matches the opening three backticks.
 Group 2 matches the language identifier (optional).
@@ -3299,16 +3296,18 @@ the region boundaries are not on empty lines, these are added
 automatically in order to have the correct markup."
   (interactive
    (list (let ((completion-ignore-case nil))
-           (markdown-clean-language-string
-            (completing-read
-             (format "Programming language [%s]: "
-                     (or markdown-gfm-last-used-language "none"))
-             (markdown-gfm-get-corpus)
-             nil 'confirm nil
-             'markdown-gfm-language-history
-             (or markdown-gfm-last-used-language
-                 (car markdown-gfm-additional-languages)))))))
-  (markdown-add-language-if-new lang)
+           (condition-case _err
+               (markdown-clean-language-string
+                (completing-read
+                 (format "Programming language [%s]: "
+                         (or markdown-gfm-last-used-language "none"))
+                 (markdown-gfm-get-corpus)
+                 nil 'confirm nil
+                 'markdown-gfm-language-history
+                 (or markdown-gfm-last-used-language
+                     (car markdown-gfm-additional-languages))))
+             (quit "")))))
+  (unless (string= lang "") (markdown-add-language-if-new lang))
   (when (> (length lang) 0) (setq lang (concat " " lang)))
   (if (markdown-use-region-p)
       (let ((b (region-beginning)) (e (region-end)))
@@ -3339,7 +3338,8 @@ automatically in order to have the correct markup."
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward markdown-regex-gfm-code-block nil t)
-        (markdown-add-language-if-new (match-string-no-properties 2))))))
+        (let ((lang (match-string-no-properties 2)))
+          (when lang (markdown-add-language-if-new lang)))))))
 
 
 ;;; Footnotes ======================================================================

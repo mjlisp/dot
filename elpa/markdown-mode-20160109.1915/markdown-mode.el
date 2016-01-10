@@ -31,7 +31,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160109.957
+;; Package-Version: 20160109.1915
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -3329,9 +3329,7 @@ automatically in order to have the correct markup."
         (markdown-ensure-blank-line-before)
         (insert "```" lang))
     (markdown-ensure-blank-line-before)
-    (insert "```" lang)
-    (newline 2)
-    (insert "```")
+    (insert "```" lang "\n\n```")
     (markdown-ensure-blank-line-after)
     (forward-line -1)))
 

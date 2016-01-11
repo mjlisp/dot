@@ -26,12 +26,13 @@
 ;; Copyright (C) 2015 Antonis Kanouras <antonis@metadosis.gr>
 ;; Copyright (C) 2015 Howard Melman <hmelman@gmail.com>
 ;; Copyright (C) 2015-2016 Danny McClanahan <danieldmcclanahan@gmail.com>
+;; Copyright (C) 2015-2016 Syohei Yoshida <syohex@gmail.com>
 
 ;; Author: Jason R. Blevins <jrblevin@sdf.org>
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160109.1915
+;; Package-Version: 20160110.715
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -817,7 +818,7 @@
 ;;   * Danny McClanahan <danieldmcclanahan@gmail.com> for live preview mode,
 ;;     completion of GFM programming language names, and `cl-lib' updates.
 ;;   * Syohei Yoshida <syohex@gmail.com> for better heading detection
-;;     and movement functions.
+;;     and movement functions, improved italic font lock.
 
 ;;; Bugs:
 
@@ -2444,6 +2445,7 @@ Return nil otherwise."
          ((markdown-range-property-any
            begin end 'face (list markdown-inline-code-face
                                  markdown-bold-face
+                                 markdown-list-face
                                  markdown-math-face))
           (goto-char (1+ (match-end 0)))
           (markdown-match-italic last))

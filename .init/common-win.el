@@ -67,3 +67,7 @@
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
+
+settings(add-to-list 'tramp-connection-properties
+                  (list (regexp-quote ".88.")
+                        "busybox" t))

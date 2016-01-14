@@ -16,7 +16,7 @@
 ;; (setq doc-view-ghostscript-program "gswin64c.exe")
 (setq ess-directory-containing-R "C:")
 (setq explicit-bash-args (quote ("--noediting" "-i")))
-(setq explicit-shell-file-name "/bin/bash")
+(setq shell-file-name "/bin/bash")
 (setenv "PATH" "C:\\msys64\\mingw64\\bin;C:\\msys64\\usr\\bin;C:\\msys64\\bin;C:\\Users\\Kel\\AppData\\Local\\Pandoc\\;C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\;E:\\msys\\opt\\Bin;E:\\autodock;C:\\Program Files\\7-zip;C:\\octave\\bin;C:\\Windows\\System32")
 (setenv "MSYSTEM" "MINGW64")
 (setq gnutls-trustfiles '("C:/msys64/usr/ssl/certs/ca-bundle.crt"))
@@ -67,7 +67,3 @@
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
-
-;; (add-to-list 'tramp-connection-properties
-;;                   (list (regexp-quote ".88.")
-;;                         "busybox" t))

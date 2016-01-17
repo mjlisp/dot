@@ -104,9 +104,9 @@
  '(ps-font-size (quote (9 . 10.5)))
  '(ps-lpr-switches
    (quote
-    ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")))
+    ("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2" "-sPAPERSIZE=a4")) t)
  '(ps-print-header nil)
- '(ps-printer-name t)
+ '(ps-printer-name t t)
  '(search-whitespace-regexp "[-_ 
 	]+")
  '(semantic-decoration-styles

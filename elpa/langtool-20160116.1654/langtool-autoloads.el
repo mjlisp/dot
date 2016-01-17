@@ -1,9 +1,9 @@
 ;;; langtool-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "langtool" "langtool.el" (22046 64370 0 0))
+;;;### (autoloads nil "langtool" "langtool.el" (22171 9198 0 0))
 ;;; Generated autoloads from langtool.el
 
 (defalias 'langtool-check 'langtool-check-buffer)

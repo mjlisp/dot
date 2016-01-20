@@ -99,40 +99,6 @@
 		  (switch-to-buffer "*scratch*" nil
 				    'force-same-window)))
 
-(add-hook 'js2-mode-hook
-	  #'(lambda ()
-	     (local-set-key (kbd "C-x C-e")
-			    'js-send-last-sexp)
-	     (local-set-key (kbd "C-M-x")
-			    'js-send-last-sexp-and-go)
-	     (local-set-key (kbd "C-c b")
-			    'js-send-buffer)
-	     (local-set-key (kbd "C-c C-b")
-			    'js-send-buffer-and-go)
-	     (local-set-key (kbd "C-c r")
-			    'js-send-region)
-	     (local-set-key (kbd "C-c C-r")
-			    'js-send-region-and-go)
-	     (local-set-key (kbd "C-c l")
-			    'js-load-file-and-go)))
-
-(add-hook 'js-mode-hook
-	  '#'(lambda ()
-	     (local-set-key (kbd "C-x C-e")
-			    'js-send-last-sexp)
-	     (local-set-key (kbd "C-M-x")
-			    'js-send-last-sexp-and-go)
-	     (local-set-key (kbd "C-c b")
-			    'js-send-buffer)
-	     (local-set-key (kbd "C-c C-b")
-			    'js-send-buffer-and-go)
-	     (local-set-key (kbd "C-c r")
-			    'js-send-region)
-	     (local-set-key (kbd "C-c C-r")
-			    'js-send-region-and-go)
-	     (local-set-key (kbd "C-c l")
-			    'js-load-file-and-go)))
-
 ; vi `.' command emulation
 (autoload 'dot-mode "dot-mode" nil t) 
 (global-set-key (kbd "C-.")

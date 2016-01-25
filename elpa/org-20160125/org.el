@@ -2483,7 +2483,7 @@ fast, while still showing the whole path to the entry."
   :type 'boolean)
 
 (defcustom org-refile-allow-creating-parent-nodes nil
-  "Non-nil means allow to create new nodes as refile targets.
+  "Non-nil means allow the creation of new nodes as refile targets.
 New nodes are then created by adding \"/new node name\" to the completion
 of an existing node.  When the value of this variable is `confirm',
 new node creation must be confirmed by the user (recommended).
@@ -5851,8 +5851,9 @@ prompted for."
   "Add link properties for plain links."
   (let (f hl)
     (when (and (re-search-forward (concat org-plain-link-re) limit t)
-	       (not (member 'org-tag
-			    (get-text-property (1- (match-beginning 0)) 'face)))
+	       (not (memq 'org-tag
+			  (get-text-property
+			   (max (1- (match-beginning 0)) (point-min)) 'face)))
 	       (not (org-in-src-block-p)))
       (org-remove-flyspell-overlays-in (match-beginning 0) (match-end 0))
       (setq f (get-text-property (match-beginning 0) 'face))
@@ -7195,7 +7196,7 @@ open and agenda-wise Org files."
 
 (defsubst org-entry-beginning-position ()
   "Return the beginning position of the current entry."
-  (save-excursion (outline-back-to-heading t) (point)))
+  (save-excursion (org-back-to-heading t) (point)))
 
 (defsubst org-entry-end-position ()
   "Return the end position of the current entry."
@@ -19120,11 +19121,12 @@ Some of the options can be changed using the variable
 		(case processing-type
 		  (mathjax
 		   ;; Prepare for MathJax processing.
-		   (if (eq (char-after beg) ?$)
-		       (save-excursion
-			 (delete-region beg end)
-			 (insert "\\(" (substring value 1 -1) "\\)"))
-		     (goto-char end)))
+		   (if (not (string-match "\\`\\$\\$?" value))
+		       (goto-char end)
+		     (delete-region beg end)
+		     (if (string= (match-string 0 value) "$$")
+			 (insert "\\[" (substring value 2 -2) "\\]")
+		       (insert "\\(" (substring value 1 -1) "\\)"))))
 		  ((dvipng imagemagick)
 		   ;; Process to an image.
 		   (incf cnt)

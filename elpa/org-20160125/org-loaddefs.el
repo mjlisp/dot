@@ -298,7 +298,7 @@ used to limit the exported source code blocks by language.
 ;;;;;;  org-search-view org-agenda-list org-batch-store-agenda-views
 ;;;;;;  org-store-agenda-views org-batch-agenda-csv org-batch-agenda
 ;;;;;;  org-agenda org-toggle-sticky-agenda) "org-agenda" "org-agenda.el"
-;;;;;;  (22164 39098))
+;;;;;;  (22177 51130))
 ;;; Generated autoloads from org-agenda.el
 
 (autoload 'org-toggle-sticky-agenda "org-agenda" "\
@@ -695,7 +695,7 @@ Set `org-capture-templates' to be similar to `org-remember-templates'.
 
 ;;;***
 
-;;;### (autoloads nil "org-clock" "org-clock.el" "4cf90ac545ab74df4b9ee2e600f5ce0f")
+;;;### (autoloads nil "org-clock" "org-clock.el" "e8507079fcd09de3934a80aa18acea68")
 ;;; Generated autoloads from org-clock.el
 
 (autoload 'org-resolve-clocks "org-clock" "\
@@ -828,7 +828,7 @@ Otherwise, return nil.
 ;;;### (autoloads (org-agenda-columns org-insert-columns-dblock org-dblock-write:columnview
 ;;;;;;  org-columns-number-to-string org-columns-compute org-columns
 ;;;;;;  org-columns-get-format-and-top-level org-columns-remove-overlays)
-;;;;;;  "org-colview" "org-colview.el" (22161 62906))
+;;;;;;  "org-colview" "org-colview.el" (22176 30266))
 ;;; Generated autoloads from org-colview.el
 
 (autoload 'org-columns-remove-overlays "org-colview" "\
@@ -918,7 +918,7 @@ tree can be found.
 
 ;;;### (autoloads (org-element-context org-element-at-point org-element-cache-refresh
 ;;;;;;  org-element-cache-reset org-element-interpret-data org-element-update-syntax)
-;;;;;;  "org-element" "org-element.el" "360b97efb68af5557afe67090bb1052e")
+;;;;;;  "org-element" "org-element.el" "306ed409f115d591fc33d23848b5e693")
 ;;; Generated autoloads from org-element.el
 
 (autoload 'org-element-update-syntax "org-element" "\
@@ -991,7 +991,7 @@ Providing it allows for quicker computation.
 ;;;***
 
 ;;;### (autoloads (org-feed-show-raw-feed org-feed-goto-inbox org-feed-update
-;;;;;;  org-feed-update-all) "org-feed" "org-feed.el" "ec7d80869a0195719e24f38c33c0e798")
+;;;;;;  org-feed-update-all) "org-feed" "org-feed.el" "d0f9ed4388a963a1ef1623799a68a0f0")
 ;;; Generated autoloads from org-feed.el
 
 (autoload 'org-feed-update-all "org-feed" "\
@@ -2000,7 +2000,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (22172 32613))
+;;;;;;  (22181 47591))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -2026,7 +2026,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (22171 12346))
+;;;;;;  "org" "org.el" (22181 47587))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -2247,7 +2247,7 @@ Call the customize function with org as argument.
 
 ;;;***
 
-;;;### (autoloads nil "ox" "ox.el" "fcde4c4050105adc8646607834fe4354")
+;;;### (autoloads nil "ox" "ox.el" "2dbc3c1eeadf829ede3ade4b2c1dd575")
 ;;; Generated autoloads from ox.el
 
 (autoload 'org-export-as "ox" "\
@@ -2415,7 +2415,7 @@ When ARG is \\[universal-argument] \\[universal-argument], display the asynchron
 
 ;;;***
 
-;;;### (autoloads nil "ox-ascii" "ox-ascii.el" "2533780a86009a527542127d3ddca11b")
+;;;### (autoloads nil "ox-ascii" "ox-ascii.el" "d36cd85c66e47bedef9b25e160afdd6e")
 ;;; Generated autoloads from ox-ascii.el
 
 (autoload 'org-ascii-export-as-ascii "ox-ascii" "\
@@ -2763,7 +2763,7 @@ Return output file name.
 
 ;;;### (autoloads (org-icalendar-combine-agenda-files org-icalendar-export-agenda-files
 ;;;;;;  org-icalendar-export-to-ics) "ox-icalendar" "ox-icalendar.el"
-;;;;;;  "41ba3190f6286410dc0ebc1fc03f3b1d")
+;;;;;;  "0420c450f1da4a87e24a8afbc23f75f3")
 ;;; Generated autoloads from ox-icalendar.el
 
 (autoload 'org-icalendar-export-to-ics "ox-icalendar" "\
@@ -3158,7 +3158,7 @@ Return output file name.
 
 ;;;### (autoloads (org-publish-current-project org-publish-current-file
 ;;;;;;  org-publish-all org-publish) "ox-publish" "ox-publish.el"
-;;;;;;  "5529e719def433d47f469bb3e7f2f40e")
+;;;;;;  "a6e792ca3583d341a674e11cecfdd6e9")
 ;;; Generated autoloads from ox-publish.el
 
 (defalias 'org-publish-project 'org-publish)
@@ -3228,7 +3228,7 @@ this command to convert it.
 
 ;;;### (autoloads (org-export-dispatch org-export-to-file org-export-to-buffer
 ;;;;;;  org-export-insert-default-template org-export-replace-region-by
-;;;;;;  org-export-string-as org-export-as) "ox" "ox.el" "a4e6a5f68f20a50cd4dc39170c327e08")
+;;;;;;  org-export-string-as org-export-as) "ox" "ox.el" "666ded911b08be6cee87ae459dc28b1c")
 ;;; Generated autoloads from ox.el
 
 (autoload 'org-export-as "ox" "\

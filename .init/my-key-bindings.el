@@ -83,11 +83,11 @@
 	  ))
 
 ;; 扩展缩写 M-'
-(global-set-key (kbd "M-'") 'expand-abbrev)
+;; (global-set-key (kbd "M-'") 'expand-abbrev)
 
 ;; (require 'misc)
 (autoload 'copy-from-above-command "misc" nil t)
-(global-set-key (kbd "H-y") 'copy-from-above-command)
+(global-set-key (kbd "s-y") 'copy-from-above-command)
 
 ;; (require 'smart-compile)
 (autoload 'smart-compile "smart-compile" nil t)

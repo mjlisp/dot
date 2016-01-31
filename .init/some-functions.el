@@ -86,6 +86,12 @@
   (let ((default-directory "/sshx:root@104.224.170.13#29876:"))
     (shell (generate-new-buffer-name "*bandwagon*"))))
 
+(defun pandorabox-shell ()
+  (interactive)
+  (let ((default-directory "/sshx:root@192.168.88.1:")
+	(shell-file-name "/bin/sh"))
+    (shell (generate-new-buffer-name "*PandoraBox*"))))
+
 (defun run-calc (expr &optional replace)
   "Calculate the `expr' using GNU bc.
 If called interactively, the user is asked for input.  If called on

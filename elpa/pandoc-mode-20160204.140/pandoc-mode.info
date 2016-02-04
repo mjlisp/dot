@@ -41,8 +41,8 @@ that you can, for example, write your text in Markdown and then
 translate it to HTML for online reading, PDF for offline reading and
 Texinfo for reading in Emacs, all with just a few keystrokes.
 
-The current version of ‘pandoc-mode’ is 2.13 and is compatible with
-Pandoc version 1.13.
+The current version of ‘pandoc-mode’ is 2.14 and is compatible with
+Pandoc version 1.16.
 
 
 File: pandoc-mode.info,  Node: Installation,  Next: Usage,  Prev: Introduction,  Up: Top
@@ -497,7 +497,7 @@ the text before sending it to Pandoc.  This is done with so-called
 ‘@@’-directives, which trigger an Elisp function and are then replaced
 with the output of that function.  A ‘@@’-directive takes the form
 ‘@@directive’, where ‘directive’ can be any user-defined string (see
-*note how to define directive strings: #defining--directives.).  Before
+*note How to define directive strings: #defining--directives.).  Before
 Pandoc is called, Emacs searches the text for these directives and
 replaces them with the output of the functions they call.
 
@@ -511,7 +511,7 @@ Now you can define a directive ‘@@date’ that calls this function.  The
 effect is that every time you write ‘@@date’ in your document, it is
 replaced with the current date.
 
-Note that the function that the directive calls must have one argument.
+Note that the function that the directive calls must have one argument,
 which is used to pass the output format to the function (as a string).
 This way you can have your directives do different things depending on
 the output format.  This argument can be called anything you like.  In
@@ -535,7 +535,7 @@ as follows:
                  (format-time-string "%d %b %Y")))
 
 This way, you could write ‘@@date’ to get just the date, and
-‘@@date{Cologne}’ to get "Cologne, 30 Okt 2015".
+‘@@date{Cologne}’ to get "Cologne, 02 Feb 2016".
 
 Two directives have been predefined: ‘@@lisp’ and ‘@@include’.  Both of
 these take an argument.  ‘@@lisp’ can be used to include Elisp code in

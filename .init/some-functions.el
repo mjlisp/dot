@@ -125,7 +125,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
     (when (string-equal system-type "gnu/linux")
       (start-process "ShadowSocks" "*ShadowSocks Server*" "systemctl" "start" "shadowsocks@bandwagon"))))
 
-(ss)
+;; (ss)
 
 (defun my-sumatra-remove-unused-config ()
   (interactive)

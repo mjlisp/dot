@@ -84,7 +84,7 @@
 (defun bandwagon-shell ()
   (interactive)
   (let ((default-directory "/sshx:root@104.224.170.13#29876:"))
-    (shell (generate-new-buffer-name "*bandwagon*"))))
+    (shell (generate-new-buffer-name "*Bandwagon*"))))
 
 (defun pandorabox-shell ()
   (interactive)

@@ -14,7 +14,7 @@
 ;;;;;;  org-babel-execute-src-block org-babel-pop-to-session-maybe
 ;;;;;;  org-babel-load-in-session-maybe org-babel-expand-src-block-maybe
 ;;;;;;  org-babel-view-src-block-info org-babel-execute-maybe org-babel-execute-safely-maybe)
-;;;;;;  "ob-core" "ob-core.el" "9eca704a7eb1a718c5dd4e84dc1d9f36")
+;;;;;;  "ob-core" "ob-core.el" "ee83b8920bd29f8ac10c08e0b4271f48")
 ;;; Generated autoloads from ob-core.el
 
 (autoload 'org-babel-execute-safely-maybe "ob-core" "\
@@ -298,7 +298,7 @@ used to limit the exported source code blocks by language.
 ;;;;;;  org-search-view org-agenda-list org-batch-store-agenda-views
 ;;;;;;  org-store-agenda-views org-batch-agenda-csv org-batch-agenda
 ;;;;;;  org-agenda org-toggle-sticky-agenda) "org-agenda" "org-agenda.el"
-;;;;;;  (22177 51130))
+;;;;;;  (22194 60218))
 ;;; Generated autoloads from org-agenda.el
 
 (autoload 'org-toggle-sticky-agenda "org-agenda" "\
@@ -652,8 +652,8 @@ Extract anniversaries from BBDB for display in the agenda.
 ;;;***
 
 ;;;### (autoloads (org-capture-import-remember-templates org-capture
-;;;;;;  org-capture-string) "org-capture" "org-capture.el" (22161
-;;;;;;  62906))
+;;;;;;  org-capture-string) "org-capture" "org-capture.el" (22200
+;;;;;;  12002))
 ;;; Generated autoloads from org-capture.el
 
 (autoload 'org-capture-string "org-capture" "\
@@ -892,7 +892,7 @@ Turn on or update column view in the agenda.
 ;;;***
 
 ;;;### (autoloads (org-check-version) "org-compat" "org-compat.el"
-;;;;;;  (22187 570))
+;;;;;;  (22193 39354))
 ;;; Generated autoloads from org-compat.el
 
 (autoload 'org-check-version "org-compat" "\
@@ -2000,7 +2000,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (22190 62565))
+;;;;;;  (22200 12006))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -2026,7 +2026,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (22187 570))
+;;;;;;  "org" "org.el" (22197 36410))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -2655,7 +2655,7 @@ Return output file name.
 
 ;;;### (autoloads (org-html-publish-to-html org-html-export-to-html
 ;;;;;;  org-html-convert-region-to-html org-html-export-as-html org-html-htmlize-generate-css)
-;;;;;;  "ox-html" "ox-html.el" "8d9e21fbca3956b4966f88b6629fec27")
+;;;;;;  "ox-html" "ox-html.el" "be510b0f85b906342b6f60ca8ba364a9")
 ;;; Generated autoloads from ox-html.el
 
 (put 'org-html-head-include-default-style 'safe-local-variable 'booleanp)

@@ -88,3 +88,6 @@
 (require 'SHELX-mode)
 (require 'emoji)
 (require 'bc-mode)
+
+;; Open shell in the same window.
+(add-to-list 'display-buffer-alist '("*shell*" display-buffer-same-window))

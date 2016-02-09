@@ -1,4 +1,4 @@
-;;; pandoc-mode.el --- Minor mode for interacting with Pandoc
+;;; pandoc-mode.el --- Minor mode for interacting with Pandoc  -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2009-2015 Joost Kremers
 
@@ -358,11 +358,11 @@ with the @@-directives."
               (insert (funcall directive-fn output-format))
               (goto-char @@-beg))))))))
 
-(defun pandoc--process-lisp-directive (output-format lisp)
+(defun pandoc--process-lisp-directive (_ lisp)
   "Process @@lisp directives."
   (format "%s" (eval (car (read-from-string lisp)))))
 
-(defun pandoc--process-include-directive (output-format include-file)
+(defun pandoc--process-include-directive (_ include-file)
   "Process @@include directives."
   (with-temp-buffer
     (insert-file-contents include-file)
@@ -436,7 +436,9 @@ also ignored in this case."
               pandoc--options)
         (let ((option-list (pandoc--format-all-options filename pdf)))
           (insert-buffer-substring-no-properties buffer (car region) (cdr region))
-          (message "Running %s..." (file-name-nondirectory pandoc--local-binary))
+          (message "Running %s on %s"
+                   (file-name-nondirectory pandoc--local-binary)
+                   (file-name-nondirectory filename))
           (pandoc-process-directives (pandoc--get 'write))
           (with-pandoc-output-buffer
             (erase-buffer)
@@ -445,18 +447,29 @@ also ignored in this case."
                 (coding-system-for-write 'utf-8))
             (if pandoc-use-async
                 (let ((process (apply #'start-process "pandoc-process" pandoc--output-buffer pandoc--local-binary option-list)))
-                  (set-process-sentinel process (lambda (p e)
+                  (set-process-sentinel process (lambda (_ e)
                                                   (if (string-equal e "finished\n")
                                                       (progn
                                                         (run-hooks 'pandoc-async-success-hook)
-                                                        (message "Running %s... Finished." (file-name-nondirectory pandoc--local-binary)))
-                                                    (message "Error in %s process." (file-name-nondirectory pandoc--local-binary))
-                                                    (display-buffer pandoc--output-buffer))))
+                                                        (message "%s: %s exited successfully"
+                                                                 (file-name-nondirectory filename)
+                                                                 (file-name-nondirectory pandoc--local-binary)))
+                                                    (message "%s: Error in %s process"
+                                                             (file-name-nondirectory filename)
+                                                             (file-name-nondirectory pandoc--local-binary))
+                                                    (display-buffer pandoc--output-buffer))
+                                                  (if (fboundp 'notifications-notify)
+                                                      (notifications-notify :title "Pandoc"
+                                                                            :body (current-message)))))
                   (process-send-region process (point-min) (point-max))
                   (process-send-eof process))
               (if (= 0 (apply #'call-process-region (point-min) (point-max) pandoc--local-binary nil pandoc--output-buffer t option-list))
-                  (message "Running %s... Finished." (file-name-nondirectory pandoc--local-binary))
-                (message "Error in %s process." (file-name-nondirectory pandoc--local-binary))
+                  (message "%s: %s exited successfully"
+                           (file-name-nondirectory filename)
+                           (file-name-nondirectory pandoc--local-binary))
+                (message "%s: Error in %s process"
+                         (file-name-nondirectory filename)
+                         (file-name-nondirectory pandoc--local-binary))
                 (display-buffer pandoc--output-buffer)))))))))
 
 (defun pandoc-run-pandoc (prefix)
@@ -826,7 +839,7 @@ file."
   (pandoc--set 'master-file (buffer-file-name))
   (pandoc--save-settings 'project (pandoc--get 'write)))
 
-(defun pandoc-toggle-interactive (prefix option)
+(defun pandoc-toggle-interactive (prefix)
   "Toggle one of pandoc's binary options.
 If called with the prefix argument C-u - (or M--), the options is
 unset. If called with any other prefix argument, the option is

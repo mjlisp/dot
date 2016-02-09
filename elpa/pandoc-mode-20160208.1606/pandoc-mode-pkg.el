@@ -1,4 +1,4 @@
-(define-package "pandoc-mode" "20160204.140" "Minor mode for interacting with Pandoc"
+(define-package "pandoc-mode" "20160208.1606" "Minor mode for interacting with Pandoc"
   '((hydra "0.10.0")
     (dash "2.10.0"))
   :keywords

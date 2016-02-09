@@ -32,7 +32,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160121.528
+;; Package-Version: 20160208.1004
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -82,12 +82,8 @@
 ;;     git clone git://jblevins.org/git/markdown-mode.git
 ;;     git clone https://github.com/jrblevin/markdown-mode.git
 ;;
-;; [![Build Status][status]][travis]
-;;
 ;;  [devel.el]: http://jblevins.org/git/markdown-mode.git/plain/markdown-mode.el
 ;;  [GitHub]: https://github.com/jrblevin/markdown-mode/
-;;  [travis]: https://travis-ci.org/jrblevin/markdown-mode
-;;  [status]: https://travis-ci.org/jrblevin/markdown-mode.svg?branch=master
 ;;
 ;; markdown-mode is also available in several package managers, including:
 ;;
@@ -2910,7 +2906,7 @@ be used to populate the title attribute when converted to XHTML."
         (insert url)
       ;; When no URL is given, leave cursor at END following the colon
       (setq end (point)))
-    (when title
+    (when (> (length title) 0)
       (insert " \"" title "\""))
     (unless (looking-at "\n")
       (insert "\n"))
@@ -5271,8 +5267,13 @@ Return the name of the output buffer used."
                          output-buffer-name)))
        ;; Pass region to `markdown-command' via stdin
        (t
-        (shell-command-on-region begin-region end-region markdown-command
-                                 output-buffer-name))))
+        (let ((buf (get-buffer-create output-buffer-name)))
+          (with-current-buffer buf
+            (setq buffer-read-only nil)
+            (erase-buffer))
+          (call-process-region begin-region end-region
+                               shell-file-name nil buf nil
+                               shell-command-switch markdown-command)))))
     output-buffer-name))
 
 (defun markdown-standalone (&optional output-buffer-name)

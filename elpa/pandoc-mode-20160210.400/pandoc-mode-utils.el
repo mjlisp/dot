@@ -5,7 +5,7 @@
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 31 Oct 2009
-;; Version: 2.14
+;; Version: 2.15
 ;; Keywords: text, pandoc
 ;; Package-Requires: ((hydra "0.10.0") (dash "2.10.0"))
 
@@ -474,7 +474,7 @@ being considered as an input or an output format."
 
 (defun pandoc--extension-active-p (extension rw)
   "Return T if EXTENSION is active in the current buffer.
-RW is either 'read or 'write, indicating whether to test for the
+RW is either `read' or `write', indicating whether to test for the
 input or the output format.
 
 An extension is active either if it's part of the in/output
@@ -622,7 +622,7 @@ the option can have a default value."
 (defmacro define-pandoc-number-option (option hydra prompt)
   "Define OPTION as a numeric option.
 The option is added to `pandoc--options' and to
-`pandoc--cli-options'. Furthermore, a menu entry is created and a
+`pandoc--cli-options'.  Furthermore, a menu entry is created and a
 function to set/unset the option.
 
 The function to set the option can be called with the prefix

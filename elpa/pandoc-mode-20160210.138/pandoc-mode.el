@@ -440,37 +440,37 @@ also ignored in this case."
                    (file-name-nondirectory pandoc--local-binary)
                    (file-name-nondirectory filename))
           (pandoc-process-directives (pandoc--get 'write))
-          (with-pandoc-output-buffer
-            (erase-buffer)
-            (insert (format "Running `%s %s'\n\n" pandoc--local-binary (mapconcat #'identity option-list " "))))
+          (with-current-buffer (get-buffer-create pandoc--output-buffer)
+            (erase-buffer))
+          (pandoc--log 'log "%s\n%s" (make-string 50 ?=) (current-time-string))
+          (pandoc--log 'log "Calling %s with:\n\n%s %s" (file-name-nondirectory pandoc--local-binary) pandoc--local-binary (mapconcat #'identity option-list " "))
 	  (let ((coding-system-for-read 'utf-8)
-                (coding-system-for-write 'utf-8))
-            (if pandoc-use-async
-                (let ((process (apply #'start-process "pandoc-process" pandoc--output-buffer pandoc--local-binary option-list)))
-                  (set-process-sentinel process (lambda (_ e)
-                                                  (if (string-equal e "finished\n")
-                                                      (progn
-                                                        (run-hooks 'pandoc-async-success-hook)
-                                                        (message "%s: %s exited successfully"
-                                                                 (file-name-nondirectory filename)
-                                                                 (file-name-nondirectory pandoc--local-binary)))
-                                                    (message "%s: Error in %s process"
-                                                             (file-name-nondirectory filename)
-                                                             (file-name-nondirectory pandoc--local-binary))
-                                                    (display-buffer pandoc--output-buffer))
-                                                  (if (fboundp 'notifications-notify)
-                                                      (notifications-notify :title "Pandoc"
-                                                                            :body (current-message)))))
-                  (process-send-region process (point-min) (point-max))
-                  (process-send-eof process))
+                (coding-system-for-write 'utf-8)
+                (log-success (lambda (file binary)
+                               (pandoc--log 'message "%s: %s finished successfully"
+                                      (file-name-nondirectory file)
+                                      (file-name-nondirectory binary))))
+                (log-failure (lambda (file binary)
+                               (pandoc--log 'message "%s: Error in %s process"
+                                      (file-name-nondirectory file)
+                                      (file-name-nondirectory binary)))))
+            (cond
+             (pandoc-use-async
+              (let ((process (apply #'start-process "pandoc-process" pandoc--output-buffer pandoc--local-binary option-list)))
+                (set-process-sentinel process (lambda (_ e)
+                                                (cond
+                                                 ((string-equal e "finished\n")
+                                                  (run-hooks 'pandoc-async-success-hook)
+                                                  (funcall log-success filename pandoc--local-binary))
+                                                 (t (funcall log-failure filename pandoc--local-binary)
+                                                    (display-buffer pandoc--output-buffer)))))
+                (process-send-region process (point-min) (point-max))
+                (process-send-eof process)))
+             ((not pandoc-use-async)
               (if (= 0 (apply #'call-process-region (point-min) (point-max) pandoc--local-binary nil pandoc--output-buffer t option-list))
-                  (message "%s: %s exited successfully"
-                           (file-name-nondirectory filename)
-                           (file-name-nondirectory pandoc--local-binary))
-                (message "%s: Error in %s process"
-                         (file-name-nondirectory filename)
-                         (file-name-nondirectory pandoc--local-binary))
-                (display-buffer pandoc--output-buffer)))))))))
+                  (funcall log-success filename pandoc--local-binary)
+                (funcall log-failure filename pandoc--local-binary)
+                (display-buffer pandoc--output-buffer))))))))))
 
 (defun pandoc-run-pandoc (prefix)
   "Run pandoc on the current document.
@@ -482,11 +482,11 @@ If the region is active, pandoc is run on the region instead of
 the buffer."
   (interactive "P")
   (pandoc--call-external (if prefix
-                             (completing-read "Output format to use: " pandoc--output-formats nil t)
-                           nil)
-                         nil
-                         (if (use-region-p)
-                             (cons (region-beginning) (region-end)))))
+                       (completing-read "Output format to use: " pandoc--output-formats nil t)
+                     nil)
+                   nil
+                   (if (use-region-p)
+                       (cons (region-beginning) (region-end)))))
 
 (defun pandoc-convert-to-pdf (prefix)
   "Convert the current document to pdf.
@@ -499,13 +499,13 @@ options are unset except for the input and output formats.
 
 If the region is active, pandoc is run on the region instead of
 the buffer."
-(interactive "P")
-(pandoc--call-external (if (or prefix (not (member (pandoc--get 'write) '("latex" "beamer"))))
-                           "latex"
-                         nil)
-                       t
-                       (if (use-region-p)
-                           (cons (region-beginning) (region-end)))))
+  (interactive "P")
+  (pandoc--call-external (if (or prefix (not (member (pandoc--get 'write) '("latex" "beamer"))))
+                       "latex"
+                     nil)
+                   t
+                   (if (use-region-p)
+                       (cons (region-beginning) (region-end)))))
 
 (defun pandoc-set-default-format ()
   "Sets the current output format as default.
@@ -692,7 +692,7 @@ options and their values."
   (display-buffer pandoc--output-buffer))
 
 (defun pandoc-view-settings ()
-  "Displays the settings file in the *Pandoc output* buffer."
+  "Displays the settings file in a *Help* buffer."
   (interactive)
   ;; remove all options that do not have a value.
   (let* ((remove-defaults (lambda (alist)
@@ -708,13 +708,16 @@ options and their values."
     (when write-extensions
       (setcdr write-extensions (funcall remove-defaults (cdr write-extensions))))
     (setq settings (funcall remove-defaults settings))
-    (with-current-buffer pandoc--output-buffer
+    (with-help-window " *Pandoc Help*"
       (let ((print-length nil)
             (print-level nil)
             (print-circle nil))
-        (erase-buffer)
-        (pp settings (current-buffer))))
-    (display-buffer pandoc--output-buffer)))
+        (pp settings)))))
+
+(defun pandoc-view-log ()
+  "Display the log buffer in a temporary window."
+  (interactive)
+  (display-buffer pandoc--log-buffer))
 
 (defun pandoc-insert-@ ()
   "Insert a new labeled (@) list marker at point."
@@ -864,6 +867,7 @@ set. Without any prefix argument, the option is toggled."
     ["Run Pandoc" pandoc-run-pandoc :active t]
     ["Create PDF" pandoc-convert-to-pdf :active t]
     ["View Output Buffer" pandoc-view-output :active t]
+    ["View Log Buffer" pandoc-view-log :active t]
     ("Settings Files"
      ["Save File Settings" pandoc-save-settings-file :active t]
      ["Save Project File" pandoc-save-project-file :active t]
@@ -989,6 +993,7 @@ _r_: Run Pandoc               _I_: Input format
 _p_: Convert to pdf           _O_: Output format
 _V_: View output buffer       _s_: Settings files
 _S_: View current settings    _e_: Example lists
+_L_: View log buffer
 _o_: Options
 
 "
@@ -996,6 +1001,7 @@ _o_: Options
   ("p" pandoc-convert-to-pdf)
   ("V" pandoc-view-output)
   ("S" pandoc-view-settings)
+  ("L" pandoc-view-log)
   ("I" pandoc-input-format-hydra/body)
   ("O" pandoc-output-format-hydra/body)
   ("s" pandoc-settings-file-hydra/body)

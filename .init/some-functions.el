@@ -157,3 +157,9 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 				  (when (string-match-p "\\*git\\*" (buffer-name buf))
 				    (kill-buffer buf)))
 			      (buffer-list))))))
+
+(defun my-lcdoff ()
+  (interactive)
+  (interleave)
+  (when (string-equal system-type "gnu/linux")
+    (async-shell-command "sleep 1; xset dpms force off")))

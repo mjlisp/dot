@@ -13,9 +13,8 @@
   (set-fontset-font t ;; (frame-parameter nil 'font)
   		    charset
 		    (if (string-equal system-type "windows-nt")
-		    	(font-spec :name "Hiragino Sans GB W3")
-		      (font-spec :name "Hiragino Sans GB")
-		      )))
+		    	(font-spec :family "Hiragino Sans GB W3")
+		      (font-spec :name "Hiragino Sans GB"))))
 			;; 微软雅黑
 			;; 冬青黑体简体中文 W3
 			;; Hiragino Sans GB W3

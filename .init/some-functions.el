@@ -160,6 +160,5 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (defun my-lcdoff ()
   (interactive)
-  (interleave)
   (when (string-equal system-type "gnu/linux")
     (async-shell-command "sleep 1; xset dpms force off")))

@@ -11,12 +11,11 @@
 ;  cjk-misc gb18030 chinese-gbk chinese-gb2312
 (dolist (charset '(han cjk-misc chinese-gbk))
   (set-fontset-font t ;; (frame-parameter nil 'font)
-  		    charset "Hiragino Sans GB W3"
-		    ;; (if (string-equal system-type "windows-nt")
-		    ;; 	(font-spec :name "Hiragino Sans GB W3")
-		    ;;   (font-spec :name "Hiragino Sans GB")
-		    ;;   )
-		    ))
+  		    charset
+		    (if (string-equal system-type "windows-nt")
+		    	(font-spec :name "Hiragino Sans GB W3")
+		      (font-spec :name "Hiragino Sans GB")
+		      )))
 			;; 微软雅黑
 			;; 冬青黑体简体中文 W3
 			;; Hiragino Sans GB W3

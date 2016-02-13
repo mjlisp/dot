@@ -1,4 +1,4 @@
-;; Font Settings
+;; Font settings.
 
 ;; Setting English Font
 ;; (set-face-attribute
@@ -35,11 +35,10 @@
 (set-fontset-font t ?′ "Symbola")
 (set-fontset-font t ?″ "Symbola")
 
-(set-fontset-font "fontset-default" nil 
-                  (font-spec :name "Symbola"))
+;; (set-fontset-font "fontset-default" nil 
+;;                   (font-spec :name "Symbola"))
 
 (defface strike-through
   '((t :strike-through t))
     "Basic strike through face."
     :group 'basic-faces)
-

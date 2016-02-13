@@ -123,7 +123,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
       ;; (set-process-coding-system (start-process "ShadowSocks" "*ShadowSocks Server*" "node" "C:/Users/Kel/AppData/Roaming/npm/node_modules/shadowsocks/bin/sslocal" "-c" "C:/msys64/etc/shadowsocks/config.json") 'undecided-dos)
       )
     (when (string-equal system-type "gnu/linux")
-      (start-process "ShadowSocks" "*ShadowSocks Server*" "systemctl" "start" "shadowsocks@bandwagon"))))
+      (start-process "ShadowSocks" "*ShadowSocks Server*" "sudo" "systemctl" "start" "shadowsocks@bandwagon"))))
 
 ;; (ss)
 

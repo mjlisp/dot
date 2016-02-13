@@ -161,6 +161,9 @@
  '(visible-bell t)
  '(vlfi-batch-size 1048576))
 
+(prefer-coding-system 'utf-8-unix)
+(set-locale-environment "UTF-8")
+
 (unless (daemonp)
   (server-start))
 
@@ -185,17 +188,8 @@
 (when (fboundp 'auto-complete)
   (load "~/.emacs.d/.init/auto-complete-settings"))
 
-(when (or (display-graphic-p) (daemonp))
-  (when (and (require 'alpha) (featurep 'alpha))
-    (transparency-set-value 85))
-  ;; 字体设置
-  (load "~/.emacs.d/.init/font-settings")
-  (add-to-list 'default-frame-alist '(height . 35))
-  (add-to-list 'default-frame-alist '(width . 110)))
-
 ;; C语言编程
 (load "~/.emacs.d/.init/for-C-language")
-
 ;; (load "~/.emacs.d/.init/for-org-mode")
 
 (load-theme 'my-wheatgrass t)
@@ -207,9 +201,9 @@
 ;; (load "~/.emacs.d/paradox-token.el")
 
 (put 'upcase-region 'disabled nil)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(when (or (display-graphic-p) (daemonp))
+  (when (and (require 'alpha) (featurep 'alpha))
+    (transparency-set-value 85))
+  ;; 字体设置
+  (load "~/.emacs.d/.init/font-settings"))

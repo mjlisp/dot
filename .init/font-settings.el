@@ -3,6 +3,8 @@
 ;; Setting English Font
 ;; (set-face-attribute
 ;;  'default nil :family "Inconsolata" :height )
+(add-to-list 'default-frame-alist '(height . 35))
+(add-to-list 'default-frame-alist '(width . 110))
 (add-to-list 'default-frame-alist
              (if (string-equal system-type "windows-nt")
 		 '(font . "Inconsolata-18")
@@ -18,7 +20,7 @@
   		    charset
 		    (if (string-equal system-type "windows-nt")
 		        (font-spec :family "冬青黑体简体中文 W3")
-		      (font-spec :name "Hiragino Sans GB"))))
+		      (font-spec :family "Hiragino Sans GB"))))
 			;; 微软雅黑
 			;; 冬青黑体简体中文 W3
 			;; Hiragino Sans GB W3
@@ -35,8 +37,8 @@
 (set-fontset-font t ?′ "Symbola")
 (set-fontset-font t ?″ "Symbola")
 
-;; (set-fontset-font "fontset-default" nil 
-;;                   (font-spec :name "Symbola"))
+(set-fontset-font "fontset-default" nil 
+                  (font-spec :name "Symbola"))
 
 (defface strike-through
   '((t :strike-through t))

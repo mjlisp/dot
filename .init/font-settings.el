@@ -37,7 +37,7 @@
 (set-fontset-font t ?′ "Symbola")
 (set-fontset-font t ?″ "Symbola")
 
-(set-fontset-font "fontset-default" nil 
+(set-fontset-font "fontset-default" nil
                   (font-spec :name "Symbola"))
 
 (defface strike-through

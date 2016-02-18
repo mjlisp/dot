@@ -4,7 +4,7 @@
 ;; (set-face-attribute
 ;;  'default nil :family "Inconsolata" :height )
 (add-to-list 'default-frame-alist '(height . 35))
-(add-to-list 'default-frame-alist '(width . 110))
+(add-to-list 'default-frame-alist '(width . 130))
 (add-to-list 'default-frame-alist
              (if (string-equal system-type "windows-nt")
 		 '(font . "Inconsolata-18")

@@ -1,17 +1,12 @@
 ;; Font settings.
 
 ;; Setting English Font
-;; (set-face-attribute
-;;  'default nil :family "Inconsolata" :height )
 (add-to-list 'default-frame-alist '(height . 35))
 (add-to-list 'default-frame-alist '(width . 130))
 (add-to-list 'default-frame-alist
              (if (string-equal system-type "windows-nt")
 		 '(font . "Inconsolata-18")
 	       '(font . "Inconsolata-14")))
-
-;; (set-fontset-font t 'unicode-bmp "STIX" nil 'append)
-;; (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
 
 ;; Chinese Font
 ;  cjk-misc gb18030 chinese-gbk chinese-gb2312

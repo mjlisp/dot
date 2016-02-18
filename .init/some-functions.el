@@ -104,7 +104,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
     (when (string-equal system-type "gnu/linux")
       (start-process "ShadowSocks" "*ShadowSocks Server*" "sudo" "systemctl" "start" "shadowsocks@bandwagon"))))
 
-;; (ss)
+(ss)
 
 (defun my-sumatra-remove-unused-config ()
   (interactive)
@@ -114,9 +114,9 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 				     "/" (match-string 1) t t)))
       (unless (file-exists-p filename)
 	(previous-logical-line)
-        (if (version<= emacs-version "25.1")
-	    (beginning-of-sexp)
-	  (thing-at-point--beginning-of-sexp))
+        (when (version<= emacs-version "25")
+	  (defalias #'thing-at-point--beginning-of-sexp #'beginning-of-sexp))
+	(thing-at-point--beginning-of-sexp)
 	(kill-sexp)
 	(delete-blank-lines)))))
 

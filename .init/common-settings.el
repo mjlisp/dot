@@ -78,16 +78,5 @@
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
-;; Load the mode written by me.
-(add-to-list 'load-path "~/.emacs.d/local-mode")
-(autoload 'astyle "astyle-utils" nil t)
-;; (require 'astyle-utils)
-(autoload 'hexo-new "hexo-utils" nil t)
-(autoload 'hexo-deploy "hexo-utils" nil t)
-;; (require 'hexo-utils)
-(require 'SHELX-mode)
-(require 'emoji)
-(require 'bc-mode)
-
 ;; Open shell in the same window.
 (add-to-list 'display-buffer-alist '("*shell*" display-buffer-same-window))

@@ -1,5 +1,15 @@
 ;; Some Functions
 
+;; Load the mode written by me.
+(add-to-list 'load-path "~/.emacs.d/local-mode")
+(autoload 'astyle "astyle-utils" nil t)
+(require 'SHELX-mode)
+(require 'emoji)
+(require 'bc-mode)
+
+(add-to-list 'load-path "~/repo/hexo.el")
+(require 'hexo)
+
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end))
@@ -49,37 +59,6 @@
   (message "make-a-long-sentence completely."))
 
 (global-set-key (kbd "H-j") 'make-a-long-sentence)
-
-;; (defun fix-citation ((start end))
-;;   "Fix citation format."
-;;   (interactive (if (use-region-p) (list (region-beginning) (region-end))
-;; 		 (list (line-beginning-position) (line-end-position))))
-;;   (save-excursion
-;;     (save-restriction
-;;       (narrow-to-region start end)
-;;       (goto-char (point-min))
-;;       (while (re-search-forward "\\([,.]\\)\\([^[:blank:],.]\\)" nil t)
-;; 	(replace-match "\\1 \\2" nil nil))
-;;       (goto-char (point-min))
-;;       (while (re-search-forward "\\(\\.\\)[[:blank:]]+\\(,\\)" nil t)
-;; 	(replace-match "\\1\\2" nil nil))))
-;;   (message "Fix-citation completely."))
-
-;; (global-set-key (kbd "H-n") 'fix-citation)
-
-;; (defun dwim-make-a-long-sentence ()
-;;   "make a long sentence and also work on region"
-;;   (interactive)
-;;   (if (use-region-p)
-;;       (progn	; there is a text selection
-;; 	(save-restriction
-;; 	  (narrow-to-region (region-beginning) (region-end))
-;; 	  (goto-char (point-min))
-;; 	  (while (search-forward "\n" nil t) (replace-match "" nil t))))
-;;     (progn
-;;       (end-of-line)
-;;       (delete-char 1))))
-
 
 (defun bandwagon-shell ()
   (interactive)

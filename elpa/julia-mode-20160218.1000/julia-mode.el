@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2009-2014 Julia contributors
 ;; URL: https://github.com/JuliaLang/julia
-;; Package-Version: 20150912.800
+;; Package-Version: 20160218.1000
 ;; Version: 0.3
 ;; Keywords: languages
 
@@ -3203,7 +3203,7 @@ y2 = g(x)"))
   :type 'string
   :group 'julia)
 
-(defvar julia-prompt-regexp "julia>"
+(defvar julia-prompt-regexp "^\\w*> "
   "Regexp for matching `inferior-julia' prompt.")
 
 (defvar inferior-julia-mode-map

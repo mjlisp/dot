@@ -2,7 +2,7 @@
 
 ;; Setting English Font
 (add-to-list 'default-frame-alist '(height . 35))
-(add-to-list 'default-frame-alist '(width . 130))
+(add-to-list 'default-frame-alist '(width . 100))
 (add-to-list 'default-frame-alist
              (if (string-equal system-type "windows-nt")
 		 '(font . "Inconsolata-18")

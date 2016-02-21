@@ -6,6 +6,7 @@
 (require 'SHELX-mode)
 (require 'emoji)
 (require 'bc-mode)
+(require 'hexo-utils)
 
 (add-to-list 'load-path "~/repo/hexo.el")
 (require 'hexo)

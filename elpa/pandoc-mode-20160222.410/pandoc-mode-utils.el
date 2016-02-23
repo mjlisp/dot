@@ -71,7 +71,7 @@ in a synchronous subprocess."
 
 (defcustom pandoc-async-success-hook nil
   "List of functions to call when `pandoc' returns successfully.
-Note, this hook is only run when `pandoc-use-async' is set to t."
+This hook is only run when `pandoc-use-async' is set to t."
   :group 'pandoc
   :type 'hook)
 
@@ -396,13 +396,8 @@ be retrieved."
         (buffer-local-value var buffer)
       (cdr (assq option (buffer-local-value 'pandoc--local-settings buffer))))))
 
-;; TODO list options aren't set correctly.
 (defun pandoc--set (option value)
-  "Set the local value of OPTION to VALUE.
-If OPTION is 'variable, VALUE should be a cons of the
-form (variable-name . value), which is then added to the
-variables already stored, or just (variable-name), in which case
-the named variable is deleted from the list."
+  "Set the local value of OPTION to VALUE."
   (when (assq option pandoc--options) ; check if the option is licit
     (unless (assq option pandoc--local-settings) ; add the option if it's not there
       (push (list option) pandoc--local-settings)
@@ -425,11 +420,15 @@ the named variable is deleted from the list."
   "Set an alist OPTION.
 NEW-ELEM is a cons (<name> . <value>), which is added to the alist
 for OPTION in `pandoc--local-settings'.  If an element with <name>
-already exists, it is replaced, or removed if <value> is NIL."
+already exists, it is replaced, or removed if <value> is NIL.
+
+If NEW-ELEM is nil, OPTION is unset entirely."
   (let* ((value (cdr new-elem))
          (items (pandoc--get option))
          (item (assoc (car new-elem) items)))
     (cond
+     ((null new-elem)
+      (setcdr items nil))
      ((and item value) ; if <name> exists and we have a new value
       (setcdr item value)) ; replace the existing value
      ((and item (not value)) ; if <name> exists but we have no new value
@@ -439,10 +438,13 @@ already exists, it is replaced, or removed if <value> is NIL."
     (setcdr (assoc option pandoc--local-settings) items)))
 
 (defun pandoc--set-list-option (option value)
-  "Add VALUE to list option OPTION."
-  (let* ((values (pandoc--get option))
-         (new-values (cons value values)))
-    (setcdr (assoc option pandoc--local-settings) new-values)))
+  "Add VALUE to list option OPTION.
+If VALUE is nil, OPTION is unset entirely."
+  (let* ((values (pandoc--get option)))
+    (setcdr (assoc option pandoc--local-settings)
+            (if value
+                (cons value values)
+              nil)))) ; if VALUE was nil, we unset the option
 
 (defun pandoc--remove-from-list-option (option value)
   "Remove VALUE from the list of OPTION."

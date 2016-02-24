@@ -2000,7 +2000,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (22209 26982))
+;;;;;;  (22219 35367))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -2026,7 +2026,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (22197 36410))
+;;;;;;  "org" "org.el" (22219 35205))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -2655,7 +2655,7 @@ Return output file name.
 
 ;;;### (autoloads (org-html-publish-to-html org-html-export-to-html
 ;;;;;;  org-html-convert-region-to-html org-html-export-as-html org-html-htmlize-generate-css)
-;;;;;;  "ox-html" "ox-html.el" "be510b0f85b906342b6f60ca8ba364a9")
+;;;;;;  "ox-html" "ox-html.el" "8a71c624b1d1c388ab0adfe0baf74040")
 ;;; Generated autoloads from ox-html.el
 
 (put 'org-html-head-include-default-style 'safe-local-variable 'booleanp)

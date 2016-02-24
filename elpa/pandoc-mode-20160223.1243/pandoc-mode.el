@@ -1,11 +1,11 @@
 ;;; pandoc-mode.el --- Minor mode for interacting with Pandoc  -*- lexical-binding: t -*-
 
-;; Copyright (c) 2009-2015 Joost Kremers
+;; Copyright (c) 2009-2016 Joost Kremers
 
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 31 Oct 2009
-;; Version: 2.15
+;; Version: 2.16
 ;; Keywords: text, pandoc
 ;; Package-Requires: ((hydra "0.10.0") (dash "2.10.0"))
 
@@ -145,7 +145,7 @@
   (let ((map (make-sparse-keymap)))
     (define-key map "\C-c/" #'pandoc-main-hydra/body)
     map)
-  "Keymap for pandoc-mode")
+  "Keymap for pandoc-mode.")
 
 ;;;###autoload
 (define-minor-mode pandoc-mode
@@ -288,7 +288,9 @@ call to Pandoc."
 (defun pandoc--format-list-options (option values)
   "Create a list of cli options for OPTION from the values in VALUES."
   (mapcar (lambda (value)
-            (format "--%s=%s" option value))
+            (format "--%s=%s" option (if (eq (get option 'pandoc-list-type) 'file)
+                                         (pandoc--expand-absolute-path value)
+                                       value)))
           values))
 
 (defun pandoc--format-alist-options (option alist)
@@ -319,8 +321,9 @@ call to Pandoc."
   "Create a list of options in `pandoc--cli-options'."
   (mapcar (lambda (option)
             (let ((value (pandoc--get option)))
-              (when (and value (memq option pandoc--filepath-options))
-                (setq value (expand-file-name value)))
+              (when (and value
+                         (memq option pandoc--filepath-options))
+                (setq value (pandoc--expand-absolute-path value)))
               (cond
                ((eq value t) (format "--%s" option))
                ((or (numberp value)
@@ -366,13 +369,13 @@ with the @@-directives."
 
 (defun pandoc--process-lisp-directive (_ lisp)
   "Process @@lisp directives.
-The first argument _ is the output argument and is ignored.  LISP
+The first argument is the output argument and is ignored.  LISP
 is the argument of the @@lisp directive."
   (format "%s" (eval (car (read-from-string lisp)))))
 
 (defun pandoc--process-include-directive (_ include-file)
   "Process @@include directives.
-The first argument _ is the output argument and is ignored.
+The first argument is the output argument and is ignored.
 INCLUDE-FILE is the argument of the @@include directive."
   (with-temp-buffer
     (insert-file-contents include-file)
@@ -789,10 +792,10 @@ format)."
 
 (defun pandoc-set-output (prefix)
   "Set the output file.
-If called with the prefix argument C-u - (or M--), the output
-file is unset.  If called with any other prefix argument, the
-output file is created on the basis of the input file and the
-output format."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]', the output file is unset.  If called
+with any other prefix argument, the output file is created on the
+basis of the input file and the output format."
   (interactive "P")
   (pandoc--set 'output
          (cond
@@ -802,8 +805,9 @@ output format."
 
 (defun pandoc-set-data-dir (prefix)
   "Set the option `Data Directory'.
-If called with the prefix argument C-u - (or M--), the data
-directory is set to NIL, which means use $HOME/.pandoc."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), the data directory is set to NIL, which
+means use $HOME/.pandoc."
   (interactive "P")
   (pandoc--set 'data-dir
          (if (eq prefix '-)
@@ -812,9 +816,9 @@ directory is set to NIL, which means use $HOME/.pandoc."
 
 (defun pandoc-set-output-dir (prefix)
   "Set the option `Output Directory'.
-If called with the prefix argument C-u - (or M--), the output
-directory is set to NIL, which means use the directory of the
-input file."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), the output directory is set to NIL,
+which means use the directory of the input file."
   (interactive "P")
   (pandoc--set 'output-dir
          (if (eq prefix '-)
@@ -823,8 +827,8 @@ input file."
 
 (defun pandoc-set-extract-media (prefix)
   "Set the option `Extract media'.
-If called with the prefix argument C-u - (or M--), no media files
-are extracted."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), no media files are extracted."
   (interactive "P")
   (pandoc--set 'extract-media
          (if (eq prefix '-)
@@ -833,13 +837,13 @@ are extracted."
 
 (defun pandoc-set-master-file (prefix)
   "Set the master file.
-If called with the prefix argumen C-u - (or M--), the master file
-is set to nil, which means the current file is the master file."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), the master file is set to nil, which
+means the current file is the master file."
   (interactive "P")
-  (pandoc--set 'master-file
-         (if (eq prefix '-)
-             nil
-           (read-file-name "Master file: "))))
+  (pandoc--set 'master-file (cond
+                       ((eq prefix '-) nil)
+                       (t (pandoc--read-file-name "Master file: " default-directory (not prefix))))))
 
 (defun pandoc-set-this-file-as-master ()
   "Set the current file as master file.
@@ -852,9 +856,10 @@ file."
 
 (defun pandoc-toggle-interactive (prefix)
   "Toggle one of pandoc's binary options.
-If called with the prefix argument C-u - (or M--), the options is
-unset.  If called with any other prefix argument, the option is
-set.  Without any prefix argument, the option is toggled."
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), the options is unset.  If called with
+any other prefix argument, the option is set.  Without any prefix
+argument, the option is toggled."
   (interactive "P")
   (let* ((completion-ignore-case t)
          (option (cdr (assoc (completing-read (format "%s option: " (cond

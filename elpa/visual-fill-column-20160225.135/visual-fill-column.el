@@ -7,8 +7,8 @@
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 2015
-;; Version: 1.5
-;; Package-Version: 20160224.1525
+;; Version: 1.6
+;; Package-Version: 20160225.135
 ;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -123,7 +123,7 @@ This function unsets the window margins and calls
 
 By default, `split-window-sensibly' does not split a window
 vertically if it has wide margins, even if there is enough space
-for a vertical split. This function can be used as the value of
+for a vertical split.  This function can be used as the value of
 `split-window-preferred-function' to enable vertically splitting
 windows with wide margins."
   (let ((margins (window-margins window))

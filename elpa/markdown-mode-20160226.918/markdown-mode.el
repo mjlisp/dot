@@ -32,7 +32,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160225.2052
+;; Package-Version: 20160226.918
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -1603,7 +1603,7 @@ of (pos . property). pos is point if point contains non-nil PROP."
            (previous-single-property-change
             (point) prop nil (or lim (point-min))))))
     (when (and (not (get-text-property res prop))
-               (> res 1)
+               (> res (point-min))
                (get-text-property (1- res) prop))
       (cl-decf res))
     (when (and res (get-text-property res prop)) (cons res prop))))

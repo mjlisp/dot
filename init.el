@@ -161,9 +161,6 @@
  '(visible-bell t)
  '(vlfi-batch-size 1048576))
 
-(prefer-coding-system 'utf-8-unix)
-(set-locale-environment "zh_CN.UTF-8")
-
 (unless (daemonp)
   (server-start))
 

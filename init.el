@@ -164,6 +164,10 @@
 (unless (daemonp)
   (server-start))
 
+(prefer-coding-system 'utf-8-unix)
+(set-language-environment "UTF-8")
+(set-locale-environment "zh_CN.UTF-8")
+
 ;; 键绑定
 (load "~/.emacs.d/.init/my-key-bindings")
 

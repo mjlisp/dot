@@ -1,5 +1,7 @@
 ;; MS-Windows Settings.
 
+(set-locale-environment "zh_CN.UTF-8")
+
 (when (and (require 'cygwin-mount)
 	   (featurep 'cygwin-mount))
   (cygwin-mount-activate))

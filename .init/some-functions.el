@@ -8,9 +8,6 @@
 (require 'bc-mode)
 (require 'hexo-utils)
 
-(add-to-list 'load-path "~/repo/hexo.el")
-(require 'hexo)
-
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end))

@@ -7,8 +7,8 @@
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 2015
-;; Version: 1.6
-;; Package-Version: 20160228.902
+;; Version: 1.7
+;; Package-Version: 20160228.2355
 ;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -138,7 +138,7 @@ windows with wide margins."
 (defun visual-fill-column--adjust-window ()
   "Adjust the window margins and fringes."
   (set-window-fringes (selected-window) nil nil visual-fill-column-fringes-outside-margins)
-  (set-window-parameter nil 'split-window #'visual-fill-column--split-window)
+  (set-window-parameter nil 'split-window #'visual-fill-column-split-window)
   (visual-fill-column--set-margins))
 
 (defun visual-fill-column--window-max-text-width (&optional window)

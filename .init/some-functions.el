@@ -131,13 +131,12 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
     (async-shell-command "git add . && git commit -am \"Update.\" && git push" "*git*")
     (setq default-directory "~/repo/hexo-blog/source/")
     (async-shell-command "git add . && git commit -am \"Add posts.\" && git push" "*git*")
-    ;; (run-with-timer 1 nil
-    ;; 		    #'(lambda ()
-    ;; 			(mapc #'(lambda (buf)
-    ;; 				  (when (string-match-p "\\*git\\*" (buffer-name buf))
-    ;; 				    (kill-buffer buf)))
-    ;; 			      (buffer-list))))
-    ))
+    (run-with-timer 5 nil
+    		    #'(lambda ()
+    			(mapc #'(lambda (buf)
+    				  (when (string-match-p "\\*git\\*" (buffer-name buf))
+    				    (kill-buffer buf)))
+    			      (buffer-list))))))
 
 (defun my-lcdoff ()
   (interactive)

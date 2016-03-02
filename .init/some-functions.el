@@ -130,10 +130,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
     (async-shell-command "git add . && git commit -am \"Add posts.\" && git push" "*git*")
     (run-with-timer 5 nil
     		    #'(lambda ()
-    			(mapc #'(lambda (buf)
-    				  (when (string-match-p "\\*git\\*" (buffer-name buf))
-    				    (kill-buffer buf)))
-    			      (buffer-list))))))
+			(kill-matching-buffers "\\*git\\*")))))
 
 (defun my-lcdoff ()
   (interactive)

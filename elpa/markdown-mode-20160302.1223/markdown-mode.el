@@ -32,7 +32,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160226.1644
+;; Package-Version: 20160302.1223
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -1207,15 +1207,14 @@ Group 2 matches only the label, without the surrounding markup.
 Group 3 matches the closing square bracket.")
 
 (defconst markdown-regex-header
-  "^\\(?:\\(.+\\)\n\\(=+\\)\\|\\(.+\\)\n\\(-+\\)\\|\\(#+\\)[ \t]*\\(.+?\\)[ \t]*\\(#*\\)\\)$"
+  "^\\(?:\\(.+?\\)\n\\(?:\\(=+\\)\\|\\(-+\\)\\)\\|\\(#+\\)[ \t]*\\(.+?\\)[ \t]*\\(#*\\)\\)$"
   "Regexp identifying Markdown headings.
-Group 1 matches the text of a level-1 setext heading.
+Group 1 matches the text of a setext heading.
 Group 2 matches the underline of a level-1 setext heading.
-Group 3 matches the text of a level-2 setext heading.
-Group 4 matches the underline of a level-2 setext heading.
-Group 5 matches the opening hash marks of an atx heading.
-Group 6 matches the text, without surrounding whitespace, of an atx heading.
-Group 7 matches the closing hash marks of an atx heading.")
+Group 3 matches the underline of a level-2 setext heading.
+Group 4 matches the opening hash marks of an atx heading.
+Group 5 matches the text, without surrounding whitespace, of an atx heading.
+Group 6 matches the closing hash marks of an atx heading.")
 
 (defconst markdown-regex-header-1-atx
   "^\\(#\\)[ \t]*\\([^\\.].*?\\)[ \t]*\\(#*\\)$"
@@ -1506,7 +1505,7 @@ region to refontify."
          ((and (looking-at pre-regexp)
                (save-match-data (markdown-prev-line-blank-p)))
           (setq open (match-beginning 0))
-          (while (and (or (looking-at pre-regexp) (markdown-cur-line-blank-p))
+          (while (and (or (looking-at-p pre-regexp) (markdown-cur-line-blank-p))
                       (not (eobp)))
             (forward-line))
           (skip-syntax-backward "-")
@@ -1514,13 +1513,13 @@ region to refontify."
          ;; If current line has a list marker, update levels, move to end of block
          ((looking-at markdown-regex-list)
           (setq levels (markdown-update-list-levels
-                        (match-string 2) (markdown-cur-line-indent) levels))
+                        (match-string 2) (current-indentation) levels))
           (markdown-end-of-block-element))
          ;; If this is the end of the indentation level, adjust levels accordingly.
          ;; Only match end of indentation level if levels is not the empty list.
-         ((and (car levels) (looking-at close-regexp))
+         ((and (car levels) (looking-at-p close-regexp))
           (setq levels (markdown-update-list-levels
-                        nil (markdown-cur-line-indent) levels))
+                        nil (current-indentation) levels))
           (markdown-end-of-block-element))
          (t (markdown-end-of-block-element))))
 
@@ -1878,9 +1877,9 @@ start which was previously propertized."
        (match-beginning 0) (match-end 0) 'markdown-heading t)
       (put-text-property
        (match-beginning 0) (match-end 0)
-       (cond ((match-string-no-properties 1) 'markdown-heading-1-setext)
+       (cond ((match-string-no-properties 2) 'markdown-heading-1-setext)
              ((match-string-no-properties 3) 'markdown-heading-2-setext)
-             (t (let ((atx-level (length (match-string-no-properties 5))))
+             (t (let ((atx-level (length (match-string-no-properties 4))))
                   (cond ((= atx-level 1) 'markdown-heading-1-atx)
                         ((= atx-level 2) 'markdown-heading-2-atx)
                         ((= atx-level 3) 'markdown-heading-3-atx)
@@ -2233,26 +2232,26 @@ See `font-lock-syntactic-face-function' for details."
                                        (2 markdown-blockquote-face)))
    (cons 'markdown-match-heading-1-setext '((1 markdown-header-face-1)
                                             (2 markdown-header-rule-face)))
-   (cons 'markdown-match-heading-2-setext '((3 markdown-header-face-2)
-                                            (4 markdown-header-rule-face)))
-   (cons 'markdown-match-heading-6-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-6)
-                                         (7 markdown-header-delimiter-face)))
-   (cons 'markdown-match-heading-5-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-5)
-                                         (7 markdown-header-delimiter-face)))
-   (cons 'markdown-match-heading-4-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-4)
-                                         (7 markdown-header-delimiter-face)))
-   (cons 'markdown-match-heading-3-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-3)
-                                         (7 markdown-header-delimiter-face)))
-   (cons 'markdown-match-heading-2-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-2)
-                                         (7 markdown-header-delimiter-face)))
-   (cons 'markdown-match-heading-1-atx '((5 markdown-header-delimiter-face)
-                                         (6 markdown-header-face-1)
-                                         (7 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-2-setext '((1 markdown-header-face-2)
+                                            (3 markdown-header-rule-face)))
+   (cons 'markdown-match-heading-6-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-6)
+                                         (6 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-5-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-5)
+                                         (6 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-4-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-4)
+                                         (6 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-3-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-3)
+                                         (6 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-2-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-2)
+                                         (6 markdown-header-delimiter-face)))
+   (cons 'markdown-match-heading-1-atx '((4 markdown-header-delimiter-face)
+                                         (5 markdown-header-face-1)
+                                         (6 markdown-header-delimiter-face)))
    (cons 'markdown-match-multimarkdown-metadata '((1 markdown-metadata-key-face)
                                                   (2 markdown-markup-face)
                                                   (3 markdown-metadata-value-face)))
@@ -2396,7 +2395,7 @@ in XEmacs 21."
   "Return t if the current line is blank and nil otherwise."
   (save-excursion
     (beginning-of-line)
-    (re-search-forward "^\\s *$" (line-end-position) t)))
+    (looking-at-p "^\\s *$")))
 
 (defun markdown-prev-line-blank-p ()
   "Return t if the previous line is blank and nil otherwise.
@@ -2423,14 +2422,6 @@ If we are at the last line, then consider the next line to be blank."
       (goto-char (line-beginning-position))
       (if (re-search-forward "^\\s " (line-end-position) t) t))))
 
-(defun markdown-cur-line-indent ()
-  "Return the number of leading whitespace characters in the current line."
-  (save-match-data
-    (save-excursion
-      (goto-char (line-beginning-position))
-      (re-search-forward "^[ \t]+" (line-end-position) t)
-      (current-column))))
-
 (defun markdown-prev-line-indent ()
   "Return the number of leading whitespace characters in the previous line.
 Return 0 if the current line is the first line in the buffer."
@@ -2438,7 +2429,7 @@ Return 0 if the current line is the first line in the buffer."
     (if (= (line-beginning-position) (point-min))
         0
       (forward-line -1)
-      (markdown-cur-line-indent))))
+      (current-indentation))))
 
 (defun markdown-next-line-indent ()
   "Return the number of leading whitespace characters in the next line.
@@ -2447,7 +2438,7 @@ Return 0 if line is the last line in the buffer."
     (if (= (line-end-position) (point-max))
         0
       (forward-line 1)
-      (markdown-cur-line-indent))))
+      (current-indentation))))
 
 (defun markdown-cur-non-list-indent ()
   "Return beginning position of list item text (not including the list marker).
@@ -2468,10 +2459,10 @@ Return nil if the current line is not the beginning of a list item."
   "Determine if the current line begins a new baseline level."
   (save-excursion
     (beginning-of-line)
-    (or (looking-at markdown-regex-header)
-        (looking-at markdown-regex-hr)
+    (or (looking-at-p markdown-regex-header)
+        (looking-at-p markdown-regex-hr)
         (and (null (markdown-cur-non-list-indent))
-             (= (markdown-cur-line-indent) 0)
+             (= (current-indentation) 0)
              (markdown-prev-line-blank-p)))))
 
 (defun markdown-search-backward-baseline ()
@@ -2485,7 +2476,7 @@ Return nil if the current line is not the beginning of a list item."
         (cond
          ((markdown-new-baseline-p)
           (setq stop t))
-         ((looking-at markdown-regex-list)
+         ((looking-at-p markdown-regex-list)
           (setq stop nil))
          (t (setq stop t)))))))
 
@@ -2540,10 +2531,10 @@ immediately  after a list item, return nil."
          ;; Make sure this is not a header or hr
          ((markdown-new-baseline-p) (setq levels nil))
          ;; Make sure this is not a line from a pre block
-         ((looking-at pre-regexp))
+         ((looking-at-p pre-regexp))
          ;; If not, then update levels
          (t
-          (setq indent (markdown-cur-line-indent))
+          (setq indent (current-indentation))
           (setq levels (markdown-update-list-levels (match-string 2)
                                                     indent levels))))
         (end-of-line))
@@ -2556,11 +2547,11 @@ upon failure."
   (let (bounds indent prev)
     (setq prev (point))
     (forward-line -1)
-    (setq indent (markdown-cur-line-indent))
+    (setq indent (current-indentation))
     (while
         (cond
          ;; List item
-         ((and (looking-at markdown-regex-list)
+         ((and (looking-at-p markdown-regex-list)
                (setq bounds (markdown-cur-list-item-bounds)))
           (cond
            ;; Stop and return point at item of lesser or equal indentation
@@ -2583,13 +2574,13 @@ upon failure."
                (markdown-next-line-blank-p))
           (setq prev nil))
          ;; Stop at a header
-         ((looking-at markdown-regex-header) (setq prev nil))
+         ((looking-at-p markdown-regex-header) (setq prev nil))
          ;; Stop at a horizontal rule
-         ((looking-at markdown-regex-hr) (setq prev nil))
+         ((looking-at-p markdown-regex-hr) (setq prev nil))
          ;; Otherwise, continue.
          (t t))
       (forward-line -1)
-      (setq indent (markdown-cur-line-indent)))
+      (setq indent (current-indentation)))
     prev))
 
 (defun markdown-next-list-item (level)
@@ -2599,7 +2590,7 @@ upon failure."
   (let (bounds indent next)
     (setq next (point))
     (forward-line)
-    (setq indent (markdown-cur-line-indent))
+    (setq indent (current-indentation))
     (while
         (cond
          ;; Stop at end of the buffer.
@@ -2607,7 +2598,7 @@ upon failure."
          ;; Continue if the current line is blank
          ((markdown-cur-line-blank-p) t)
          ;; List item
-         ((and (looking-at markdown-regex-list)
+         ((and (looking-at-p markdown-regex-list)
                (setq bounds (markdown-cur-list-item-bounds)))
           (cond
            ;; Continue at item with greater indentation
@@ -2628,13 +2619,13 @@ upon failure."
                (markdown-prev-line-blank-p))
           (setq next nil))
          ;; Stop at a header
-         ((looking-at markdown-regex-header) (setq next nil))
+         ((looking-at-p markdown-regex-header) (setq next nil))
          ;; Stop at a horizontal rule
-         ((looking-at markdown-regex-hr) (setq next nil))
+         ((looking-at-p markdown-regex-hr) (setq next nil))
          ;; Otherwise, continue.
          (t t))
       (forward-line)
-      (setq indent (markdown-cur-line-indent)))
+      (setq indent (current-indentation)))
     next))
 
 (defun markdown-cur-list-item-end (level)
@@ -2642,7 +2633,7 @@ upon failure."
 If the point is not in a list item, do nothing."
   (let (indent)
     (forward-line)
-    (setq indent (markdown-cur-line-indent))
+    (setq indent (current-indentation))
     (while
         (cond
          ;; Stop at end of the buffer.
@@ -2657,15 +2648,15 @@ If the point is not in a list item, do nothing."
                (markdown-prev-line-blank-p))
           nil)
          ;; Stop at a new list item of the same or lesser indentation
-         ((looking-at markdown-regex-list) nil)
+         ((looking-at-p markdown-regex-list) nil)
          ;; Stop at a header
-         ((looking-at markdown-regex-header) nil)
+         ((looking-at-p markdown-regex-header) nil)
          ;; Stop at a horizontal rule
-         ((looking-at markdown-regex-hr) nil)
+         ((looking-at-p markdown-regex-hr) nil)
          ;; Otherwise, continue.
          (t t))
       (forward-line)
-      (setq indent (markdown-cur-line-indent)))
+      (setq indent (current-indentation)))
     ;; Don't skip over whitespace for empty list items (marker and
     ;; whitespace only), just move to end of whitespace.
     (if (looking-back (concat markdown-regex-list "\\s-*") nil)
@@ -2979,7 +2970,7 @@ analysis."
               (< (match-end 0) last))
     (forward-line))
   (beginning-of-line)
-  (cond ((looking-at markdown-regex-hr)
+  (cond ((looking-at-p markdown-regex-hr)
          (forward-line)
          t)
         (t nil)))
@@ -3091,7 +3082,7 @@ into a variable to allow for dynamic let-binding.")
 Return the point where it was originally."
   (save-excursion
     (unless (eolp) (insert "\n"))
-    (unless (or (eobp) (looking-at "\n\\s-*\n")) (insert "\n"))))
+    (unless (or (eobp) (looking-at-p "\n\\s-*\n")) (insert "\n"))))
 
 (defun markdown-wrap-or-insert (s1 s2 &optional thing beg end)
   "Insert the strings S1 and S2, wrapping around region or THING.
@@ -3342,7 +3333,7 @@ be used to populate the title attribute when converted to XHTML."
       (setq end (point)))
     (when (> (length title) 0)
       (insert " \"" title "\""))
-    (unless (looking-at "\n")
+    (unless (looking-at-p "\n")
       (insert "\n"))
     (goto-char end)
     (when url
@@ -3486,7 +3477,7 @@ header will be inserted."
       (markdown-remove-header)
       (setq text (delete-and-extract-region
                   (line-beginning-position) (line-end-position)))
-      (when (and setext (string-match "^[ \t]*$" text))
+      (when (and setext (string-match-p "^[ \t]*$" text))
         (setq text (read-string "Header text: "))))
     (setq text (markdown-compress-whitespace-string text)))
   ;; Insertion with given text
@@ -3537,8 +3528,8 @@ header text is determined."
                 (re-search-backward markdown-regex-header nil t))
         ;; level of current or previous header
         (setq level (markdown-outline-level))
-        ;; match groups 1 and 3 indicate setext headers
-        (setq setext (or setext (match-end 1) (match-end 3)))))
+        ;; match group 1 indicates a setext header
+        (setq setext (match-end 1))))
     ;; check prefix argument
     (cond
      ((and (equal arg '(4)) level (> level 1)) ;; C-u
@@ -3831,7 +3822,7 @@ automatically in order to have the correct markup."
         (goto-char b)
         ;; if we're on a blank line, insert the quotes here, otherwise
         ;; add a new line first
-        (unless (looking-at "\n")
+        (unless (looking-at-p "\n")
           (newline)
           (forward-line -1))
         (markdown-ensure-blank-line-before)
@@ -4010,10 +4001,10 @@ The return value is a list (ID START END).  If point is not on a
 footnote, NIL is returned."
   ;; first make sure we're at a footnote marker
   (if (or (looking-back (concat "\\[\\^" markdown-footnote-chars "*\\]?") (line-beginning-position))
-          (looking-at (concat "\\[?\\^" markdown-footnote-chars "*?\\]")))
+          (looking-at-p (concat "\\[?\\^" markdown-footnote-chars "*?\\]")))
       (save-excursion
         ;; move point between [ and ^:
-        (if (looking-at "\\[")
+        (if (looking-at-p "\\[")
             (forward-char 1)
           (skip-chars-backward "^["))
         (looking-at (concat "\\(\\^" markdown-footnote-chars "*?\\)\\]"))
@@ -4036,7 +4027,7 @@ NIL is returned instead."
                         (setq result (list (match-string 1) (point)))))
               (and (not (bobp))
                    (or (markdown-cur-line-blank-p)
-                       (>= (markdown-cur-line-indent) 4))))
+                       (>= (current-indentation) 4))))
         (forward-line -1))
       (when result
         ; Advance if there is a next line that is either blank or indented.
@@ -4239,7 +4230,7 @@ Otherwise, do normal delete by repeating
       (goto-char beg)
       (while (< (point) end)
         (back-to-indentation)
-        (unless (looking-at "[ \t]*$")
+        (unless (looking-at-p "[ \t]*$")
           (setq mincol (min mincol (current-column))))
         (forward-line 1)
         ))
@@ -4278,20 +4269,19 @@ Assumes match data is available for `markdown-regex-header-atx'.
 Checks that the number of trailing hash marks equals the number of leading
 hash marks, that there is only a single space before and after the text,
 and that there is no extraneous whitespace in the text."
-  (save-match-data
-    (or
-     ;; Number of starting and ending hash marks differs
-     (not (= (length (match-string 1)) (length (match-string 3))))
-     ;; When the header text is not empty...
-     (and (> (length (match-string 2)) 0)
-          ;; ...if there are extra leading, trailing, or interior spaces
-          (or (not (= (match-beginning 2) (1+ (match-end 1))))
-              (not (= (match-beginning 3) (1+ (match-end 2))))
-              (string-match "[ \t\n]\\{2\\}" (match-string 2))))
-     ;; When the header text is empty...
-     (and (= (length (match-string 2)) 0)
-          ;; ...if there are too many or too few spaces
-          (not (= (match-beginning 3) (+ (match-end 1) 2)))))))
+  (or
+   ;; Number of starting and ending hash marks differs
+   (not (= (length (match-string 1)) (length (match-string 3))))
+   ;; When the header text is not empty...
+   (and (> (length (match-string 2)) 0)
+        ;; ...if there are extra leading, trailing, or interior spaces
+        (or (not (= (match-beginning 2) (1+ (match-end 1))))
+            (not (= (match-beginning 3) (1+ (match-end 2))))
+            (string-match-p "[ \t\n]\\{2\\}" (match-string 2))))
+   ;; When the header text is empty...
+   (and (= (length (match-string 2)) 0)
+        ;; ...if there are too many or too few spaces
+        (not (= (match-beginning 3) (+ (match-end 1) 2))))))
 
 (defun markdown-complete-atx ()
   "Complete and normalize ATX headers.
@@ -4322,9 +4312,8 @@ Return nil if markup was complete and non-nil if markup was completed."
 Assumes match data is available for `markdown-regex-header-setext'.
 Checks that length of underline matches text and that there is no
 extraneous whitespace in the text."
-  (save-match-data
-    (or (not (= (length (match-string 1)) (length (match-string 2))))
-        (string-match "[ \t\n]\\{2\\}" (match-string 1)))))
+  (or (not (= (length (match-string 1)) (length (match-string 2))))
+      (string-match-p "[ \t\n]\\{2\\}" (match-string 1))))
 
 (defun markdown-complete-setext ()
   "Complete and normalize setext headers.
@@ -4699,15 +4688,17 @@ See `imenu-create-index-function' and `imenu--index-alist' for details."
       (while (re-search-forward markdown-regex-header (point-max) t)
         (unless (markdown-code-block-at-point)
           (cond
-           ((setq heading (match-string-no-properties 1))
+           ((match-string-no-properties 2) ;; level 1 setext
+            (setq heading (match-string-no-properties 1))
             (setq pos (match-beginning 1)
                   level 1))
-           ((setq heading (match-string-no-properties 3))
-            (setq pos (match-beginning 3)
+           ((match-string-no-properties 3) ;; level 2 setext
+            (setq heading (match-string-no-properties 1))
+            (setq pos (match-beginning 1)
                   level 2))
-           ((setq hashes (match-string-no-properties 5))
-            (setq heading (match-string-no-properties 6)
-                  pos (match-beginning 5)
+           ((setq hashes (match-string-no-properties 4))
+            (setq heading (match-string-no-properties 5)
+                  pos (match-beginning 4)
                   level (length hashes))))
           (let ((alist (list (cons heading pos))))
             (cond
@@ -4743,10 +4734,8 @@ See `imenu-create-index-function' and `imenu--index-alist' for details."
         (cond
          ((setq heading (match-string-no-properties 1))
           (setq pos (match-beginning 1)))
-         ((setq heading (match-string-no-properties 3))
-          (setq pos (match-beginning 3)))
-         ((setq heading (match-string-no-properties 6))
-          (setq pos (match-beginning 5))))
+         ((setq heading (match-string-no-properties 5))
+          (setq pos (match-beginning 4))))
         (or (> (length heading) 0)
             (setq heading empty-heading))
         (setq index (append index (list (cons heading pos)))))
@@ -5017,7 +5006,7 @@ increase the indentation by one level."
       (when bounds
         (cond ((save-excursion
                  (skip-chars-backward " \t")
-                 (looking-at markdown-regex-list))
+                 (looking-at-p markdown-regex-list))
                (beginning-of-line)
                (insert "\n")
                (forward-line -1))
@@ -5063,9 +5052,11 @@ increase the indentation by one level."
         (goto-char new-loc)
         (cond
          ;; Ordered list
-         ((string-match "[0-9]" marker)
+         ((string-match-p "[0-9]" marker)
           (if (= arg 16) ;; starting a new column indented one more level
               (insert (concat new-indent "1. "))
+            ;; Don't use previous match-data
+            (set-match-data nil)
             ;; travel up to the last item and pick the correct number.  If
             ;; the argument was nil, "new-indent = cur-indent" is the same,
             ;; so we don't need special treatment. Neat.
@@ -5079,14 +5070,14 @@ increase the indentation by one level."
                                  "1"))
                    (space-adjust (- (length old-prefix) (length new-prefix)))
                    (new-spacing (if (and (match-string 2)
-                                         (not (string-match "\t" old-spacing))
+                                         (not (string-match-p "\t" old-spacing))
                                          (< space-adjust 0)
                                          (> space-adjust (- 1 (length (match-string 2)))))
                                     (substring (match-string 2) 0 space-adjust)
                                   (or old-spacing ". "))))
               (insert (concat new-indent new-prefix new-spacing)))))
          ;; Unordered list
-         ((string-match "[\\*\\+-]" marker)
+         ((string-match-p "[\\*\\+-]" marker)
           (insert new-indent marker)))))))
 
 (defun markdown-move-list-item-up ()
@@ -5132,13 +5123,12 @@ Optionally, BOUNDS of the current list item may be provided if available."
   (interactive)
   (when (or bounds (setq bounds (markdown-cur-list-item-bounds)))
     (save-excursion
-      (save-match-data
-        (let ((end-marker (set-marker (make-marker) (nth 1 bounds))))
-          (goto-char (nth 0 bounds))
-          (while (< (point) end-marker)
-            (unless (markdown-cur-line-blank-p)
-              (insert (make-string markdown-list-indent-width ? )))
-            (forward-line)))))))
+      (let ((end-marker (set-marker (make-marker) (nth 1 bounds))))
+        (goto-char (nth 0 bounds))
+        (while (< (point) end-marker)
+          (unless (markdown-cur-line-blank-p)
+            (insert (make-string markdown-list-indent-width ? )))
+          (forward-line))))))
 
 (defun markdown-promote-list-item (&optional bounds)
   "Unindent (or promote) the current list item.
@@ -5291,9 +5281,9 @@ Stops at blank lines, list items, headers, and horizontal rules."
   (forward-line)
   (while (and (or (not (markdown-prev-line-blank-p))
                   (markdown-cur-line-blank-p))
-              (not (or (looking-at markdown-regex-list)
-                       (looking-at markdown-regex-header)
-                       (looking-at markdown-regex-hr)))
+              (not (or (looking-at-p markdown-regex-list)
+                       (looking-at-p markdown-regex-header)
+                       (looking-at-p markdown-regex-hr)))
               (not (eobp)))
     (forward-line)))
 
@@ -5574,9 +5564,9 @@ Calls `markdown-cycle' with argument t."
   "Return the depth to which a statement is nested in the outline."
   (cond
    ((markdown-code-block-at-point) 7)
-   ((match-end 1) 1)
+   ((match-end 2) 1)
    ((match-end 3) 2)
-   ((- (match-end 5) (match-beginning 5)))))
+   ((- (match-end 4) (match-beginning 4)))))
 
 (defun markdown-promote-subtree (&optional arg)
   "Promote the current subtree of ATX headings.
@@ -6326,7 +6316,7 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
    ;; List items
    ((looking-at markdown-regex-list)
     (match-string-no-properties 0))
-   ((looking-at markdown-regex-footnote-definition)
+   ((looking-at-p markdown-regex-footnote-definition)
     "    ") ; four spaces
    ;; No match
    (t nil)))
@@ -6338,7 +6328,7 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
     (when (< arg 0)
       (while (and (not (eobp))
                   (progn (move-to-left-margin) (not (eobp)))
-                  (looking-at paragraph-separate))
+                  (looking-at-p paragraph-separate))
         (forward-line 1))
       (if (looking-at markdown-regex-list)
           (forward-char (length (match-string 0)))

@@ -118,12 +118,12 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	(kill-sexp)
 	(delete-blank-lines)))))
 
+(setq lexical-binding t)
+
 (defun kill-buffer-when-done (process signal)
   (when (and (process-buffer process)
              (memq (process-status process) '(exit signal)))
     (kill-buffer (process-buffer process))))
-
-(setq lexical-binding t)
 
 (defun my-commit ()
   (interactive)
@@ -132,15 +132,15 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	   ("\\*blog\\*" display-buffer-no-window (nil))))
 	(async-shell-command-buffer 'new-buffer)
 	(default-directory)
-	(process))
+	(proc1))
     (setq default-directory "~/.emacs.d/")
     (async-shell-command "git add . && git commit -am \"Update.\" && git push" "*emacs.d*")
-    (setq process (get-buffer-process "*emacs.d*"))
-    (add-function :after (process-sentinel process) #'kill-buffer-when-done)
+    (add-function :after
+		  (process-sentinel (get-buffer-process "*emacs.d*")) #'kill-buffer-when-done)
     (setq default-directory "~/repo/hexo-blog/source/")
     (async-shell-command "git add . && git commit -am \"Add posts.\" && git push" "*blog*")
-    (setq process (get-buffer-process "*blog*"))
-    (add-function :after (process-sentinel process) #'kill-buffer-when-done)
+    (add-function :after
+		  (process-sentinel (get-buffer-process "*blog*")) #'kill-buffer-when-done)
     ))
 
 (defun my-lcdoff ()

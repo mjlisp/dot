@@ -1,4 +1,4 @@
-;;; Some Functions. -*- lexical-binding: t; -*-
+;;; Some Functions.
 
 ;; Load the mode written by me.
 (add-to-list 'load-path "~/.emacs.d/local-mode")
@@ -132,12 +132,10 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	(default-directory))
     (setq default-directory "~/.emacs.d/")
     (async-shell-command "git add . && git commit -am \"Update.\" && git push" "*emacs.d*")
-    (add-function :after
-		  (process-sentinel (get-buffer-process "*emacs.d*")) #'kill-buffer-when-done)
+    (set-process-sentinel (get-buffer-process "*emacs.d*") #'kill-buffer-when-done)
     (setq default-directory "~/repo/hexo-blog/source/")
     (async-shell-command "git add . && git commit -am \"Add posts.\" && git push" "*blog*")
-    (add-function :after
-		  (process-sentinel (get-buffer-process "*blog*")) #'kill-buffer-when-done)
+    (set-process-sentinel (get-buffer-process "*blog*") #'kill-buffer-when-done)
     ))
 
 (defun my-lcdoff ()

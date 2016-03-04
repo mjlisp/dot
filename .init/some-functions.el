@@ -121,6 +121,9 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 (defun kill-buffer-when-done (process signal)
   (when (and (process-buffer process)
              (memq (process-status process) '(exit signal)))
+    (message "%s: %s."
+	     (car (cdr (cdr (process-command process))))
+	     (substring signal 0 -1))
     (kill-buffer (process-buffer process))))
 
 (defun my-commit ()

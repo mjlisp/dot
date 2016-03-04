@@ -118,16 +118,18 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	(kill-sexp)
 	(delete-blank-lines)))))
 
-(defun my-kill-buffer-when-done (process signal)
+(defun kill-buffer-when-done (process signal)
   (when (and (process-buffer process)
              (memq (process-status process) '(exit signal)))
     (kill-buffer (process-buffer process))))
+
+(setq lexical-binding t)
 
 (defun my-commit ()
   (interactive)
   (let ((display-buffer-alist
 	 '(("\\*emacs\\.d\\*" display-buffer-no-window (nil))
-	   ("\\*emacsd\\*" display-buffer-no-window (nil))))
+	   ("\\*blog\\*" display-buffer-no-window (nil))))
 	(async-shell-command-buffer 'new-buffer)
 	(default-directory)
 	(process))

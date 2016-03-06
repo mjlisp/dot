@@ -2,7 +2,7 @@
 
 ;; Author: Ono Hiroko (kuanyui) <azazabc123@gmail.com>
 ;; Keywords: tools, hexo
-;; Package-Version: 20160305.242
+;; Package-Version: 20160305.802
 ;; Package-Requires: ((emacs "24.3"))
 ;; X-URL: https://github.com/kuanyui/hexo.el
 ;; Version: {{VERSION}}
@@ -400,8 +400,8 @@ KEY is a downcased symbol. <ex> 'status "
                           (hexo-find-root-dir default-directory) ;Try to find from pwd
                           (hexo-ask-for-root-dir))))
     (with-current-buffer hexo-buffer
-      (cd (setq hexo-root-dir --hexo-root)))
-    (hexo-mode)
+      (cd (setq hexo-root-dir --hexo-root))
+      (hexo-mode))
     (if win
         (select-window win)
       (switch-to-buffer hexo-buffer))

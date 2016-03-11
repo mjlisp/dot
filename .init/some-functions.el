@@ -143,8 +143,18 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (defun my-lcdoff ()
   (interactive)
-  (let ((display-buffer-alist
-	 '(("\\*lcdoff\\*" display-buffer-no-window (nil))))
-	(async-shell-command-buffer 'new-buffer))
   (when (string-equal system-type "gnu/linux")
-    (async-shell-command "sleep 1; xset dpms force off" "*lcdoff*"))))
+    (let ((display-buffer-alist
+	 '(("\\*lcdoff\\*" display-buffer-no-window (nil))))
+	  (async-shell-command-buffer 'new-buffer))
+      (async-shell-command "sleep 1; xset dpms force off" "*lcdoff*")
+      (set-process-sentinel (get-buffer-process "*lcdoff*") #'kill-buffer-when-done))))
+
+(defun my-keyrate ()
+  (interactive)
+  (when (string-equal system-type "windows-nt")
+    (let ((display-buffer-alist
+	   '(("\\*keyrate\\*" display-buffer-no-window (nil))))
+	  (async-shell-command-buffer 'new-buffer))
+      (async-shell-command "/f/diy/keyrate 200 12" "*keyrate*")
+      (set-process-sentinel (get-buffer-process "*keyrate*") #'kill-buffer-when-done))))

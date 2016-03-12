@@ -41,7 +41,6 @@
  '(global-semantic-show-parser-state-mode t)
  '(global-semantic-stickyfunc-mode nil)
  '(global-semanticdb-minor-mode t)
- '(global-visual-line-mode t)
  '(gnuplot-process-name "pgnuplot")
  '(gnuplot-program "pgnuplot")
  '(google-translate-default-source-language "en")

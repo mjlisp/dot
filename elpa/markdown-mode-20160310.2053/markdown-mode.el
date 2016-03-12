@@ -33,7 +33,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160303.751
+;; Package-Version: 20160310.2053
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -2806,7 +2806,7 @@ Return nil otherwise."
 (defun markdown-match-inline-generic (regex last)
   "Match inline REGEX from the point to LAST."
   (when (re-search-forward regex last t)
-    (let ((bounds (markdown-code-block-at-pos (match-beginning 0))))
+    (let ((bounds (markdown-code-block-at-pos (match-beginning 1))))
       (if (null bounds)
           ;; Not in a code block: keep match data and return t when in bounds
           (<= (match-end 0) last)

@@ -1,9 +1,5 @@
 ;; Some Common Settings
 
-(global-hl-line-mode)
-
-(global-visual-line-mode 1)
-
 (set-register ?e '(file . "~/.emacs.d/"))
 (set-register ?i '(file . "~/.emacs.d/.init/"))
 (set-register ?h '(file . "~/repo/hexo-blog/"))

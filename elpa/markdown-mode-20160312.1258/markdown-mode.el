@@ -33,7 +33,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160310.2053
+;; Package-Version: 20160312.1258
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -1911,13 +1911,15 @@ start which was previously propertized."
       (let ((open-beg (match-beginning 0)))
         (put-text-property open-beg (1+ open-beg)
                            'syntax-table (string-to-syntax "<"))
-        (markdown-syntax-propertize-comments (1+ open-beg) end)))
+        (markdown-syntax-propertize-comments
+         (min (1+ (match-end 0)) end (point-max)) end)))
      ;; Comment end
      ((and in-comment
            (re-search-forward markdown-regex-comment-end end t))
       (put-text-property (1- (match-end 0)) (match-end 0)
                          'syntax-table (string-to-syntax ">"))
-      (markdown-syntax-propertize-comments (match-end 0) end))
+      (markdown-syntax-propertize-comments
+       (min (1+ (match-end 0)) end (point-max)) end))
      ;; Nothing found
      (t nil))))
 
@@ -3358,8 +3360,7 @@ label is not defined, additionally prompt for the URL
 and (optional) title.  The reference definition is placed at the
 location determined by `markdown-reference-location'."
   (interactive)
-  (let* ((defined-labels (mapcar (lambda (x) (substring x 1 -1))
-                                 (markdown-get-defined-references)))
+  (let* ((defined-labels (markdown-get-defined-references))
          (switch (thing-at-point-looking-at markdown-regex-link-inline))
          (bounds (cond ((markdown-use-region-p)
                         (cons (region-beginning) (region-end)))

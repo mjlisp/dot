@@ -421,7 +421,83 @@
 )
 
 (define-skeleton php-imagecreatefromgif
-  "Inse                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  etq treshold (skeleton-read "Treshold: "))
+  "Insert an imagecreatefromgif."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromgif(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefromjpeg
+  "Insert an imagecreatefromjpeg."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromjpeg(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefrompng
+  "Insert an imagecreatefromjpeg."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromjpeg(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefromstring
+  "Insert an imagecreatefromstring."
+  ""
+  '(setq string (skeleton-read "String: "))
+  > "imagecreatefromstring(" string ");" \n
+)
+
+(define-skeleton php-imagecreatefromwbmp
+  "Insert an imagecreatefromwbmp."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromwbmp(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefromwebp
+  "Insert an imagecreatefromwebp."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromwebp(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefromxbm
+  "Insert an imagecreatefromxbm."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromxbm(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatefromxpm
+  "Insert an imagecreatefromxpm."
+  ""
+  '(setq filename (skeleton-read "Filename: "))
+  > "imagecreatefromxpm(" filename ");" \n
+)
+
+(define-skeleton php-imagecreatetruecolor
+  "Insert an imagecreatetruecolor."
+  ""
+  '(setq width (skeleton-read "Width: "))
+  '(setq heigth (skeleton-read "Heigth: "))
+  > "imagecreatetruecolor(" width ", " heigth ");" \n
+) 
+
+(define-skeleton php-imagecrop
+  "Insert an imagecrop."
+  ""
+  '(setq image (skeleton-read "Image: "))
+  '(setq rect (skeleton-read "Array Rect: "))
+  > "imagecrop(" image ", " rect " );" \n
+)
+
+(define-skeleton php-imagecropauto
+  "Insert an imagecropauto statement."
+  ""
+  '(setq image (skeleton-read "Image: "))
+  '(setq mode (skeleton-read "Mode: "))
+  '(setq treshold (skeleton-read "Treshold: "))
   '(setq color (skeleton-read "Color: "))
   > "imagecropauto(" image ", " mode ", " treshold ", " color " );" \n
 )

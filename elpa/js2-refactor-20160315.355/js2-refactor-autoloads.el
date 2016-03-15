@@ -1,9 +1,9 @@
 ;;; js2-refactor-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "js2-refactor" "js2-refactor.el" (22067 18074
+;;;### (autoloads nil "js2-refactor" "js2-refactor.el" (22248 10586
 ;;;;;;  0 0))
 ;;; Generated autoloads from js2-refactor.el
 
@@ -24,7 +24,7 @@ Add js2r keybindings using the modifier MODIFIER.
 
 ;;;***
 
-;;;### (autoloads nil "js2r-vars" "js2r-vars.el" (22067 18074 0 0))
+;;;### (autoloads nil "js2r-vars" "js2r-vars.el" (22248 10586 0 0))
 ;;; Generated autoloads from js2r-vars.el
 
 (autoload 'js2r-extract-var "js2r-vars" "\
@@ -37,7 +37,7 @@ Add js2r keybindings using the modifier MODIFIER.
 ;;;### (autoloads nil nil ("js2-refactor-pkg.el" "js2r-conditionals.el"
 ;;;;;;  "js2r-conveniences.el" "js2r-formatting.el" "js2r-functions.el"
 ;;;;;;  "js2r-helpers.el" "js2r-iife.el" "js2r-paredit.el" "js2r-wrapping.el")
-;;;;;;  (22067 18074 0 0))
+;;;;;;  (22248 10586 0 0))
 
 ;;;***
 

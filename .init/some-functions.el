@@ -128,33 +128,17 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 
 (defun my-commit ()
   (interactive)
-  (let ((display-buffer-alist
-	 '(("\\*emacs\\.d\\*" display-buffer-no-window (nil))
-	   ("\\*blog\\*" display-buffer-no-window (nil))))
-	(async-shell-command-buffer 'new-buffer)
-	(default-directory))
-    (setq default-directory "~/.emacs.d/")
-    (async-shell-command "git add . && git commit -am \"Update.\" && git push" "*emacs.d*")
-    (set-process-sentinel (get-buffer-process "*emacs.d*") #'kill-buffer-when-done)
-    (setq default-directory "~/repo/hexo-blog/source/")
-    (async-shell-command "git add . && git commit -am \"Add posts.\" && git push" "*blog*")
-    (set-process-sentinel (get-buffer-process "*blog*") #'kill-buffer-when-done)
-    ))
+  (call-process-shell-command
+   "cd ~/.emacs.d/; git add . && git commit -am \"Update.\" && git push" nil 0)
+  (call-process-shell-command
+   "~/repo/hexo-blog/source/; git add . && git commit -am \"Add posts.\" && git push" nil 0))
 
 (defun my-lcdoff ()
   (interactive)
   (when (string-equal system-type "gnu/linux")
-    (let ((display-buffer-alist
-	 '(("\\*lcdoff\\*" display-buffer-no-window (nil))))
-	  (async-shell-command-buffer 'new-buffer))
-      (async-shell-command "sleep 1; xset dpms force off" "*lcdoff*")
-      (set-process-sentinel (get-buffer-process "*lcdoff*") #'kill-buffer-when-done))))
+    (call-process-shell-command "sleep 1; xset dpms force off" nil 0)))
 
 (defun my-keyrate ()
   (interactive)
   (when (string-equal system-type "windows-nt")
-    (let ((display-buffer-alist
-	   '(("\\*keyrate\\*" display-buffer-no-window (nil))))
-	  (async-shell-command-buffer 'new-buffer))
-      (async-shell-command "/f/diy/keyrate 200 12" "*keyrate*")
-      (set-process-sentinel (get-buffer-process "*keyrate*") #'kill-buffer-when-done))))
+    (call-process-shell-command "/f/diy/keyrate 200 12" "*keyrate*" nil 0)))

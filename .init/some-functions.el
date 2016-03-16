@@ -133,4 +133,6 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 (defun my-keyrate ()
   (interactive)
   (when (string-equal system-type "windows-nt")
-    (call-process-shell-command "/f/diy/keyrate 200 12" nil 0)))
+    (if current-prefix-arg
+	(call-process-shell-command "/f/diy/keyrate" nil 0)
+      (call-process-shell-command "/f/diy/keyrate 200 12" nil 0))))

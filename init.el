@@ -19,6 +19,8 @@
  '(describe-char-unidata-list
    (quote
     (name old-name general-category canonical-combining-class decomposition decimal-digit-value digit-value numeric-value mirrored iso-10646-comment uppercase lowercase titlecase)))
+ '(dired-recursive-deletes (quote top))
+ '(dired-use-ls-dired t)
  '(disaster-cc "gcc")
  '(disaster-cflags "-march=corei7-avx -g3 -std=c11")
  '(disaster-cxxflags "-march=corei7-avx -g3 -std=c++1y")

@@ -1,6 +1,6 @@
 This is org, produced by makeinfo version 4.13 from org.texi.
 
-This manual is for Org version 8.3.4 (release_8.3.4-15-gdd9be3).
+This manual is for Org version 8.3.4 (release_8.3.4-20-g6f439a).
 
    Copyright (C) 2004-2016 Free Software Foundation, Inc.
 
@@ -26,7 +26,7 @@ File: org,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 Org Mode Manual
 ***************
 
-This manual is for Org version 8.3.4 (release_8.3.4-15-gdd9be3).
+This manual is for Org version 8.3.4 (release_8.3.4-20-g6f439a).
 
    Copyright (C) 2004-2016 Free Software Foundation, Inc.
 
@@ -13995,12 +13995,12 @@ to press `C-c C-c' or `C-c C-v e' with the point on a code block(2).
 This will call the `org-babel-execute-src-block' function to evaluate
 the block and insert its results into the Org mode buffer.
 
-   It is also possible to evaluate named code blocks from anywhere in
-an Org mode buffer or an Org mode table.  These named code blocks can
-be located in the current Org mode buffer or in the "Library of Babel"
-(*note Library of Babel::).  Named code blocks can be evaluated with a
-separate `#+CALL:' line or inline within a block of text.  In both
-cases the result is wrapped according to the value of
+   It is also possible to evaluate named code blocks from anywhere(3)
+in an Org mode buffer or an Org mode table.  These named code blocks
+can be located in the current Org mode buffer or in the "Library of
+Babel" (*note Library of Babel::).  Named code blocks can be evaluated
+with a separate `#+CALL:' line or inline within a block of text.  In
+both cases the result is wrapped according to the value of
 `org-babel-inline-result-wrap', which by default is `"=%s="' for markup
 that produces verbatim text.
 
@@ -14055,6 +14055,10 @@ evaluation security::.
 
    (2) The option `org-babel-no-eval-on-ctrl-c-ctrl-c' can be used to
 remove code evaluation from the `C-c C-c' key binding.
+
+   (3) Actually, the constructs call_<name>() and src_<lang>{} are not
+evaluated when they appear in a keyword line (i.e. lines starting with
+`#+KEYWORD:', *note In-buffer settings::).
 
 
 File: org,  Node: Library of Babel,  Next: Languages,  Prev: Evaluating code blocks,  Up: Working with source code
@@ -22101,115 +22105,116 @@ Node: Editing source code578258
 Node: Exporting code blocks580381
 Node: Extracting source code582882
 Node: Evaluating code blocks585117
-Ref: Evaluating code blocks-Footnote-1588551
-Ref: Evaluating code blocks-Footnote-2588848
-Node: Library of Babel588974
-Node: Languages589947
-Node: Header arguments592380
-Node: Using header arguments592865
-Node: System-wide header arguments593895
-Node: Language-specific header arguments594702
-Node: Header arguments in Org mode properties595211
-Ref: Header arguments in Org mode properties-Footnote-1596940
-Node: Language-specific header arguments in Org mode properties597212
-Node: Code block specific header arguments598228
-Node: Header arguments in function calls600074
-Node: Specific header arguments600823
-Node: var603597
-Node: results610388
-Node: file615241
-Node: file-desc616153
-Node: file-ext616623
-Node: output-dir617121
-Node: dir617659
-Node: exports620594
-Node: tangle621332
-Node: mkdirp622143
-Node: comments622476
-Node: padline623611
-Node: no-expand624143
-Node: session624782
-Node: noweb625817
-Node: noweb-ref627994
-Ref: noweb-ref-Footnote-1629460
-Node: noweb-sep629589
-Node: cache629883
-Node: sep631615
-Node: hlines632187
-Node: colnames633689
-Node: rownames634992
-Node: shebang636167
-Node: tangle-mode636570
-Node: eval637321
-Node: wrap638359
-Node: post638799
-Node: prologue640691
-Node: epilogue641263
-Node: Results of evaluation641518
-Node: Noweb reference syntax645286
-Node: Key bindings and useful functions646937
-Node: Batch execution649682
-Node: Miscellaneous650716
-Node: Completion651545
-Node: Easy templates653499
-Node: Speed keys654908
-Node: Code evaluation security655732
-Node: Customization658442
-Node: In-buffer settings659037
-Ref: In-buffer settings-Footnote-1668777
-Node: The very busy C-c C-c key668825
-Node: Clean view670809
-Ref: Clean view-Footnote-1674794
-Ref: Clean view-Footnote-2674855
-Ref: Clean view-Footnote-3675039
-Ref: Clean view-Footnote-4675100
-Ref: Clean view-Footnote-5675212
-Ref: Clean view-Footnote-6675267
-Node: TTY keys675392
-Node: Interaction677158
-Node: Cooperation677552
-Node: Conflicts681330
-Node: org-crypt686299
-Node: Hacking687610
-Node: Hooks688596
-Node: Add-on packages688996
-Node: Adding hyperlink types689550
-Node: Adding export back-ends693470
-Node: Context-sensitive commands694910
-Ref: Context-sensitive commands-Footnote-1696487
-Node: Tables in arbitrary syntax696621
-Node: Radio tables698033
-Node: A LaTeX example700620
-Ref: A LaTeX example-Footnote-1704612
-Ref: A LaTeX example-Footnote-2704769
-Node: Translator functions705204
-Node: Radio lists707635
-Node: Dynamic blocks708764
-Node: Special agenda views710962
-Ref: x-agenda-skip-entry-regexp714425
-Ref: Special agenda views-Footnote-1715228
-Ref: Special agenda views-Footnote-2715423
-Node: Speeding up your agendas715558
-Node: Extracting agenda information716661
-Node: Using the property API720739
-Node: Using the mapping API724109
-Node: MobileOrg728531
-Node: Setting up the staging area730225
-Ref: Setting up the staging area-Footnote-1731306
-Ref: Setting up the staging area-Footnote-2731607
-Node: Pushing to MobileOrg731869
-Ref: Pushing to MobileOrg-Footnote-1732869
-Ref: Pushing to MobileOrg-Footnote-2732956
-Ref: Pushing to MobileOrg-Footnote-3733372
-Node: Pulling from MobileOrg733443
-Ref: Pulling from MobileOrg-Footnote-1735864
-Ref: Pulling from MobileOrg-Footnote-2735924
-Node: History and acknowledgments736299
-Node: GNU Free Documentation License751454
-Node: Main Index776644
-Node: Key Index865745
-Node: Command and Function Index918334
-Node: Variable Index953359
+Ref: Evaluating code blocks-Footnote-1588554
+Ref: Evaluating code blocks-Footnote-2588851
+Ref: Evaluating code blocks-Footnote-3588977
+Node: Library of Babel589163
+Node: Languages590136
+Node: Header arguments592569
+Node: Using header arguments593054
+Node: System-wide header arguments594084
+Node: Language-specific header arguments594891
+Node: Header arguments in Org mode properties595400
+Ref: Header arguments in Org mode properties-Footnote-1597129
+Node: Language-specific header arguments in Org mode properties597401
+Node: Code block specific header arguments598417
+Node: Header arguments in function calls600263
+Node: Specific header arguments601012
+Node: var603786
+Node: results610577
+Node: file615430
+Node: file-desc616342
+Node: file-ext616812
+Node: output-dir617310
+Node: dir617848
+Node: exports620783
+Node: tangle621521
+Node: mkdirp622332
+Node: comments622665
+Node: padline623800
+Node: no-expand624332
+Node: session624971
+Node: noweb626006
+Node: noweb-ref628183
+Ref: noweb-ref-Footnote-1629649
+Node: noweb-sep629778
+Node: cache630072
+Node: sep631804
+Node: hlines632376
+Node: colnames633878
+Node: rownames635181
+Node: shebang636356
+Node: tangle-mode636759
+Node: eval637510
+Node: wrap638548
+Node: post638988
+Node: prologue640880
+Node: epilogue641452
+Node: Results of evaluation641707
+Node: Noweb reference syntax645475
+Node: Key bindings and useful functions647126
+Node: Batch execution649871
+Node: Miscellaneous650905
+Node: Completion651734
+Node: Easy templates653688
+Node: Speed keys655097
+Node: Code evaluation security655921
+Node: Customization658631
+Node: In-buffer settings659226
+Ref: In-buffer settings-Footnote-1668966
+Node: The very busy C-c C-c key669014
+Node: Clean view670998
+Ref: Clean view-Footnote-1674983
+Ref: Clean view-Footnote-2675044
+Ref: Clean view-Footnote-3675228
+Ref: Clean view-Footnote-4675289
+Ref: Clean view-Footnote-5675401
+Ref: Clean view-Footnote-6675456
+Node: TTY keys675581
+Node: Interaction677347
+Node: Cooperation677741
+Node: Conflicts681519
+Node: org-crypt686488
+Node: Hacking687799
+Node: Hooks688785
+Node: Add-on packages689185
+Node: Adding hyperlink types689739
+Node: Adding export back-ends693659
+Node: Context-sensitive commands695099
+Ref: Context-sensitive commands-Footnote-1696676
+Node: Tables in arbitrary syntax696810
+Node: Radio tables698222
+Node: A LaTeX example700809
+Ref: A LaTeX example-Footnote-1704801
+Ref: A LaTeX example-Footnote-2704958
+Node: Translator functions705393
+Node: Radio lists707824
+Node: Dynamic blocks708953
+Node: Special agenda views711151
+Ref: x-agenda-skip-entry-regexp714614
+Ref: Special agenda views-Footnote-1715417
+Ref: Special agenda views-Footnote-2715612
+Node: Speeding up your agendas715747
+Node: Extracting agenda information716850
+Node: Using the property API720928
+Node: Using the mapping API724298
+Node: MobileOrg728720
+Node: Setting up the staging area730414
+Ref: Setting up the staging area-Footnote-1731495
+Ref: Setting up the staging area-Footnote-2731796
+Node: Pushing to MobileOrg732058
+Ref: Pushing to MobileOrg-Footnote-1733058
+Ref: Pushing to MobileOrg-Footnote-2733145
+Ref: Pushing to MobileOrg-Footnote-3733561
+Node: Pulling from MobileOrg733632
+Ref: Pulling from MobileOrg-Footnote-1736053
+Ref: Pulling from MobileOrg-Footnote-2736113
+Node: History and acknowledgments736488
+Node: GNU Free Documentation License751643
+Node: Main Index776833
+Node: Key Index865934
+Node: Command and Function Index918523
+Node: Variable Index953548
 
 End Tag Table
 

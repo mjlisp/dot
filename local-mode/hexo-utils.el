@@ -60,7 +60,7 @@ the site. Otherwise, the directory is guessed from
 	      (setq default-directory (expand-file-name
 			    (concat old-dir "../../")))
 	      (start-process "hexo-deploy"
-			     "*Hexo*" "hexo" "d" "-g")
+			     "*Hexo Deploy Output*" "hexo" "d" "-g")
 	      (setq default-directory old-dir))
 	  (error "Hexo deploy failed. Wrong directory?"))))))
 

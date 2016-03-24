@@ -19,7 +19,7 @@
 (setq ess-directory-containing-R "C:")
 (setq explicit-bash-args (quote ("--noediting" "-i")))
 (setq shell-file-name "/bin/bash")
-(setenv "PATH" "C:\\msys64\\mingw64\\bin;C:\\msys64\\usr\\bin;C:\\msys64\\bin;C:\\Users\\Kel\\AppData\\Local\\Pandoc\\;C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\;E:\\msys\\opt\\Bin;E:\\autodock;C:\\Program Files\\7-zip;C:\\octave\\bin;C:\\Windows\\System32")
+(setenv "PATH" "C:\\msys64\\mingw64\\bin;C:\\msys64\\usr\\bin;C:\\msys64\\bin;C:\\Users\\Kel\\AppData\\Local\\Pandoc\\;C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\;E:\\msys\\opt\\Bin;E:\\autodock;C:\\Program Files\\7-zip;C:\\octave\\bin;C:\\nodejs;c:\\Users\\Kel\\AppData\\Roaming\\npm;C:\\Windows\\System32")
 (setenv "MSYSTEM" "MINGW64")
 (setq gnutls-trustfiles '("C:/msys64/usr/ssl/certs/ca-bundle.crt"))
 (setq langtool-language-tool-jar "C:/LanguageTool-3.1/languagetool-commandline.jar")

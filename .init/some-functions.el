@@ -6,7 +6,7 @@
 (require 'SHELX-mode)
 (require 'emoji)
 (require 'bc-mode)
-(require 'hexo-utils)
+;; (require 'hexo-utils)
 
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."

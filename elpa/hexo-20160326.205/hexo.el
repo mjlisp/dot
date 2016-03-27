@@ -2,7 +2,7 @@
 
 ;; Author: Ono Hiroko (kuanyui) <azazabc123@gmail.com>
 ;; Keywords: tools, hexo
-;; Package-Version: 20160305.802
+;; Package-Version: 20160326.205
 ;; Package-Requires: ((emacs "24.3"))
 ;; X-URL: https://github.com/kuanyui/hexo.el
 ;; Version: {{VERSION}}
@@ -140,7 +140,7 @@ Return ((FILE-PATH . BUFFER) ...)"
     (let ((lines (split-string (buffer-string) "\n" t)))
       (if (null n)
           lines
-        (cl-remove-if #'null (cl-subseq lines 0 (1- n)))))))
+        (remove-if #'null (cl-subseq lines 0 (1- n)))))))
 
 (defun hexo-get-file-head-lines-as-string (file-path &optional n)
   "Get first N lines of a file as a string."
@@ -441,8 +441,8 @@ KEY is a downcased symbol. <ex> 'status "
 (define-key hexo-mode-map (kbd "s s") 'hexo-server-stop)
 (define-key hexo-mode-map (kbd "s d") 'hexo-server-deploy)
 ;; Modes
-(define-key hexo-mode-map (kbd "h") 'hexo-command-help)
-(define-key hexo-mode-map (kbd "?") 'hexo-command-help)
+(define-key hexo-mode-map (kbd "h") 'hexo-command-quick-help)
+(define-key hexo-mode-map (kbd "?") 'hexo-command-quick-help)
 (define-key hexo-mode-map (kbd "Q") 'kill-buffer-and-window)
 
 (defun hexo-get-help-string ()

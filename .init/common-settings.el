@@ -69,6 +69,9 @@
 (when (fboundp 'rainbow-delimiters-mode)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
+(when (featurep 'nyan-mode)
+  (nyan-mode 1))
+
 (when (and (require 'auto-compile)
 	   (featurep 'auto-compile))
   (auto-compile-on-load-mode 1)

@@ -1255,7 +1255,7 @@ line directly before or after the table.
 ;;;;;;  org-table-begin org-table-align org-table-export org-table-import
 ;;;;;;  org-table-convert-region org-table-create org-table-create-or-convert-from-region
 ;;;;;;  org-table-create-with-table\.el) "org-table" "org-table.el"
-;;;;;;  "69133b6755f093c9a485af24640426b1")
+;;;;;;  "78c8482f6800eba041e8d28acab96787")
 ;;; Generated autoloads from org-table.el
 
 (autoload 'org-table-create-with-table\.el "org-table" "\
@@ -1646,20 +1646,14 @@ Recompute the current line if marked for it, and if we haven't just done it.
 (autoload 'org-table-eval-formula "org-table" "\
 Replace the table field value at the cursor by the result of a calculation.
 
-This function makes use of Dave Gillespie's Calc package, in my view the
-most exciting program ever written for GNU Emacs.  So you need to have Calc
-installed in order to use this function.
-
 In a table, this command replaces the value in the current field with the
 result of a formula.  It also installs the formula as the \"current\" column
 formula, by storing it in a special line below the table.  When called
-with a `C-u' prefix, the current field must be a named field, and the
-formula is installed as valid in only this specific field.
+with a `\\[universal-argument]' prefix the formula is installed as a field formula.
 
-When called with two `C-u' prefixes, insert the active equation
-for the field back into the current field, so that it can be
-edited there.  This is useful in order to use \\[org-table-show-reference]
-to check the referenced fields.
+When called with a `\\[universal-argument] \\[universal-argument]' prefix, insert the active equation for the field
+back into the current field, so that it can be edited there.  This is useful
+in order to use \\<org-table-fedit-map>`\\[org-table-show-reference]' to check the referenced fields.
 
 When called, the command first prompts for a formula, which is read in
 the minibuffer.  Previously entered formulas are available through the
@@ -1668,7 +1662,7 @@ These stored formulas are adapted correctly when moving, inserting, or
 deleting columns with the corresponding commands.
 
 The formula can be any algebraic expression understood by the Calc package.
-For details, see the Org-mode manual.
+For details, see the Org mode manual.
 
 This function can also be called from Lisp programs and offers
 additional arguments: EQUATION can be the formula to apply.  If this
@@ -1678,15 +1672,19 @@ SUPPRESS-CONST suppresses the interpretation of constants in the
 formula, assuming that this has been done already outside the function.
 SUPPRESS-STORE means the formula should not be stored, either because
 it is already stored, or because it is a modified equation that should
-not overwrite the stored one.
+not overwrite the stored one.  SUPPRESS-ANALYSIS prevents any call to
+`org-table-analyze'.
 
 \(fn &optional ARG EQUATION SUPPRESS-ALIGN SUPPRESS-CONST SUPPRESS-STORE SUPPRESS-ANALYSIS)" t nil)
 
 (autoload 'org-table-recalculate "org-table" "\
 Recalculate the current table line by applying all stored formulas.
+
 With prefix arg ALL, do this for all lines in the table.
-With the prefix argument ALL is `(16)' (a double \\[universal-prefix] \\[universal-prefix] prefix), or if
-it is the symbol `iterate', recompute the table until it no longer changes.
+
+When called with a `\\[universal-argument] \\[universal-argument]' prefix, or if ALL is the symbol `iterate',
+recompute the table until it no longer changes.
+
 If NOALIGN is not nil, do not re-align the table after the computations
 are done.  This is typically used internally to save time, if it is
 known that the table will be realigned a little later anyway.
@@ -2000,7 +1998,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (22255 32724))
+;;;;;;  (22264 47701))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\

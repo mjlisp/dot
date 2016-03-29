@@ -33,7 +33,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160326.635
+;; Package-Version: 20160328.2148
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -1471,11 +1471,15 @@ Function is called repeatedly until it returns nil. For details, see
   (save-match-data
     (save-excursion
       (let* ((new-start (progn (goto-char start)
+                               (skip-chars-forward "\n")
                                (if (re-search-backward "\n\n" nil t)
-                                   (match-end 0) (point-min))))
+                                   (min start (match-end 0))
+                                 (point-min))))
              (new-end (progn (goto-char end)
+                             (skip-chars-backward "\n")
                              (if (re-search-forward "\n\n" nil t)
-                                 (match-beginning 0) (point-max))))
+                                 (max end (match-beginning 0))
+                               (point-max))))
              (code-match (markdown-code-block-at-pos new-start))
              (new-start (or (and code-match (cl-first code-match)) new-start))
              (code-match (markdown-code-block-at-pos end))
@@ -4170,12 +4174,19 @@ these cases, indent to the default position.
 Positions are calculated by `markdown-calc-indents'."
   (interactive)
   (let ((positions (markdown-calc-indents))
+        (cursor-pos (current-column))
+        (_ (back-to-indentation))
         (cur-pos (current-column)))
     (if (not (equal this-command 'markdown-cycle))
         (indent-line-to (car positions))
       (setq positions (sort (delete-dups positions) '<))
-      (indent-line-to
-       (markdown-indent-find-next-position cur-pos positions)))))
+      (let* ((next-pos (markdown-indent-find-next-position cur-pos positions))
+             (new-cursor-pos
+              (if (< cur-pos next-pos)
+                  (+ cursor-pos (- next-pos cur-pos))
+                (- cursor-pos cur-pos))))
+        (indent-line-to next-pos)
+        (move-to-column new-cursor-pos)))))
 
 (defun markdown-calc-indents ()
   "Return a list of indentation columns to cycle through.

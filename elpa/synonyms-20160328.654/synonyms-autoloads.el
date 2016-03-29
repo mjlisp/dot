@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "synonyms" "synonyms.el" (22150 29838 0 0))
+;;;### (autoloads nil "synonyms" "synonyms.el" (22265 51685 0 0))
 ;;; Generated autoloads from synonyms.el
 
 (let ((loads (get 'Synonyms 'custom-loads))) (if (member '"synonyms" loads) nil (put 'Synonyms 'custom-loads (cons '"synonyms" loads))))

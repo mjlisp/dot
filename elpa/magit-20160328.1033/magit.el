@@ -927,14 +927,14 @@ reference, but it is not checked out."
           (branches (magit-list-local-branch-names)))
       (dolist (line (magit-git-lines "branch" "-vv"
                                      (cadr magit-refresh-args)))
-        (string-match magit-refs-branch-line-re line)
-        (magit-bind-match-strings
-            (branch hash message upstream ahead behind gone) line
-          (when (string-match-p "(HEAD detached" branch)
-            (setq branch nil))
-          (magit-insert-branch
-           branch magit-refs-local-branch-format current branches
-           'magit-branch-local hash message upstream ahead behind gone))))
+        (when (string-match magit-refs-branch-line-re line)
+          (magit-bind-match-strings
+              (branch hash message upstream ahead behind gone) line
+            (when (string-match-p "(HEAD detached" branch)
+              (setq branch nil))
+            (magit-insert-branch
+             branch magit-refs-local-branch-format current branches
+             'magit-branch-local hash message upstream ahead behind gone)))))
     (insert ?\n)))
 
 (defun magit-insert-remote-branches ()
@@ -2852,10 +2852,11 @@ Git, and Emacs in the echo area."
                               (package-desc-version (cadr it)))))))))))
     (if (stringp magit-version)
         (when (called-interactively-p 'any)
-          (message "Magit %s, Git %s, Emacs %s"
+          (message "Magit %s, Git %s, Emacs %s, %s"
                    (or magit-version "(unknown)")
                    (or (magit-git-version t) "(unknown)")
-                   emacs-version))
+                   emacs-version
+                   system-type))
       (setq debug (reverse debug))
       (setq magit-version 'error)
       (when magit-version

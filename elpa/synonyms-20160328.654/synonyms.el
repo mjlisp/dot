@@ -7,11 +7,11 @@
 ;; Copyright (C) 2005-2016, Drew Adams, all rights reserved.
 ;; Created: Tue Dec 20 14:39:26 2005
 ;; Version: 0
-;; Package-Version: 20151231.1608
+;; Package-Version: 20160328.654
 ;; Package-Requires: ()
-;; Last-Updated: Thu Dec 31 16:14:10 2015 (-0800)
+;; Last-Updated: Mon Mar 28 07:00:40 2016 (-0700)
 ;;           By: dradams
-;;     Update #: 2549
+;;     Update #: 2550
 ;; URL: http://www.emacswiki.org/synonyms.el
 ;; Doc URL: http://www.emacswiki.org/ThesauriAndSynonyms
 ;; Keywords: text, dictionary, thesaurus, spelling, apropos, help
@@ -34,7 +34,7 @@
 ;;  To use library Synonyms, you will need the Moby Thesaurus II file,
 ;;  `mthesaur.txt', available here:
 ;;
-;;    ftp://ibiblio.org/pub/docs/books/gutenberg/etext02/mthes10.zip
+;;    https://archive.org/details/mobythesauruslis03202gut
 ;;
 ;;  Put this in your initialization file (~/.emacs):
 ;;

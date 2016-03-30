@@ -3,12 +3,12 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "git-commit" "git-commit.el" (22188 58396 0
+;;;### (autoloads nil "git-commit" "git-commit.el" (22267 36912 0
 ;;;;;;  0))
 ;;; Generated autoloads from git-commit.el
 
 (defvar global-git-commit-mode t "\
-Non-nil if Global-Git-Commit mode is enabled.
+Non-nil if Global Git-Commit mode is enabled.
 See the command `global-git-commit-mode' for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')

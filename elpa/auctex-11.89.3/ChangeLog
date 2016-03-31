@@ -1,3 +1,185 @@
+2016-03-30  Tassilo Horn  <tsdh@gnu.org>
+
+	Release GNU AUCTeX 11.89.3
+
+	* Version 11.89.3 released.
+
+	foo
+
+2016-03-30  Tassilo Horn  <tsdh@gnu.org>
+
+	Merge branch 'master' into elpa
+
+2016-03-30  Mosè Giordano  <mose@gnu.org>
+
+	Restore compatibility with XEmacs
+
+	* tex-buf.el (TeX-format-filter): Use `memq' in place of `memql'.  This
+	 one is not available in XEmacs.
+
+2016-03-29  Mosè Giordano  <mose@gnu.org>
+
+	Fix previous commit
+
+2016-03-29  Mosè Giordano  <mose@gnu.org>
+
+	New function TeX-error-report-has-errors-p
+
+	* tex-buf.el (TeX-error-report-has-errors-p): New function.
+	(TeX-error-report-switches): Update docstring.
+	(TeX-LaTeX-sentinel, TeX-command-sequence-sentinel): Use
+	`TeX-error-report-has-errors-p'.
+	* tex-bar.el (TeX-bar-TeX-button-alist, TeX-bar-LaTeX-button-alist):
+	 Ditto.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Add more path connector types.
+
+	* style/tikz.el (TeX-TikZ-path-connector-function-map): New.
+	 (TeX-TikZ-draw-arg-function-map): Use
+	 `TeX-TikZ-path-connector-function-map'.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Rename 'text' to 'label' to be consistent with TikZ terminology.
+
+	* style/tikz.el (TeX-TikZ-arg-label): Rename from `TeX-TikZ-arg-text'
+	 and prompt for a 'Label' rather than 'Text'.
+	 (TeX-TikZ-arg-node): Use new function name.
+	 (TeX-TikZ-node-arg): Likewise.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Ignore case when prompting for argument types.
+
+	* style/tikz.el (TeX-TikZ-get-arg-type): Let-bind
+	 `completion-ignore-case' to t when prompting the user.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Apply suggestions from checkdoc.
+
+	* style/tikz.el (TeX-TikZ-point-function-map): Make documentation
+	 consistent with checkdoc.
+	 (TeX-TikZ-draw-arg-function-map): Likewise.
+	 (TeX-TikZ-draw-arg): Likewise and rename parameter to '_ignored'.
+	 (TeX-TikZ-coordinate-arg): Likewise.
+	 (TeX-TikZ-node-arg): Likewise.
+
+2016-03-29  Mosè Giordano  <mose@gnu.org>
+
+	Fill environment content onley when auto-fill-mode is active
+
+	* latex.el (LaTeX-insert-environment): Fill only when
+	 `auto-fill-function' is non-nil, that means auto-fill-mode is active.
+	 Reported by Florian Lindner.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Add 'Named Point' point type with completion.
+
+	* style/tikz.el (TeX-TikZ-point-name-regexp): New.
+	 (TeX-TikZ-find-named-points): New.
+	 (TeX-TikZ-arg-named-point): New.
+	 (TeX-TikZ-point-function-map): Add 'Named Point' element that maps to
+	 `TeX-TikZ-arg-named-point'.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Add prompting for TikZ's \node macro.
+
+	* style/tikz.el (TeX-TikZ-node-arg): New.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Add prompting for \coordinate macro.
+
+	* style/tikz.el (TeX-TikZ-point-function-map): New.
+	 (TeX-TikZ-draw-arg-function-map): Use `TeX-TikZ-point-function-map'.
+	 (TeX-TikZ-coordinate-arg): New.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: Extract the prompting of the next arg from TeX-TikZ-macro-arg.
+
+	* style/tikz.el (TeX-TikZ-single-macro-arg): New.
+	 (TeX-TikZ-macro-arg): Use `TeX-TikZ-single-macro-arg' for prompting
+	 the user and calling the appropriate function.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: allow arg type prompt to be specified.
+
+	* style/tikz.el (TeX-TikZ-get-arg-type): Add a new optional argument,
+	 prompt, and show that to the user when non-nil, instead of the
+	 default.
+
+2016-03-29  Matthew Leach  <matthew@mattleach.net>
+
+	TikZ: split out the prompts to TeX-TikZ-arg-node & TeX-TikZ-macro-arg.
+
+	* style/tikz.el (TeX-TikZ-arg-options): New.
+	 (TeX-TikZ-arg-name): New.
+	 (TeX-TikZ-arg-text): New.
+	 (TeX-TikZ-arg-node): Use new TikZ arg functions for prompting the
+	 user.
+	 (TeX-TikZ-macro-arg): Use `TeX-TikZ-arg-options' when prompting for
+	 the options.
+
+2016-03-29  Arash Esbati  <esbati@gmx.de>
+
+	Add fontification support
+
+	* style/environ.el ("environ"): Add fontification support.
+
+2016-03-29  Arash Esbati  <esbati@gmx.de>
+
+	Fix a misplaced closing parenthesis
+
+	* style/splitidx.el (LaTeX-splitidx-auto-cleanup): Fix a misplaced 
+	closing parenthesis.
+
+2016-03-29  Arash Esbati  <esbati@gmx.de>
+
+	Fix the name of argument in function body
+
+	* style/currvita.el (LaTeX-currvita-env-with-label): Fix the name of
+	argument in the body of function.
+
+2016-03-29  Arash Esbati  <esbati@gmx.de>
+
+	Delete redundant code
+
+	* style/enumitem.el (LaTeX-arg-SetLabelAlign)
+	(LaTeX-arg-SetEnumitemKey, LaTeX-arg-SetEnumitemValue): Delete redundant
+	code which is part of the function
+	`LaTeX-enumitem-update-key-val-options'.
+	(LaTeX-enumitem-env-with-opts): Fix the name of argument in the body of
+	function.
+
+2016-03-28  Mosè Giordano  <mose@gnu.org>
+
+	Better control for presence of errors
+
+	* tex-buf.el (TeX-LaTeX-sentinel): Use `TeX-error-report-switches'
+	 instead of `TeX-error-list'.
+
+2016-03-27  Tassilo Horn  <tsdh@gnu.org>
+
+	Call TeX-after-compilation-finished-functions on warnings
+
+	* tex-buf.el (TeX-LaTeX-sentinel): Skip calling 
+	TeX-after-compilation-finished-functions only if there are real errors.
+
+2016-03-27  Matthew Leach  <matthew@mattleach.net>
+
+	Add the beginnings of TikZ support.
+
+	* style/tikz.el: New
+	* doc/changes.texi: Document TikZ style.
+	* Makefile.in: Add TikZ style to the build.
+
 2016-03-26  Tassilo Horn  <tsdh@gnu.org>
 
 	Better ChangeLog generation

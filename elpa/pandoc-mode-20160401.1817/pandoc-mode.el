@@ -5,7 +5,7 @@
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 31 Oct 2009
-;; Version: 2.16
+;; Version: 2.17
 ;; Keywords: text, pandoc
 ;; Package-Requires: ((hydra "0.10.0") (dash "2.10.0"))
 
@@ -837,6 +837,13 @@ If called with the PREFIX argument `\\[universal-argument] -' (or
              nil
            (read-directory-name "Extract media files to directory: " nil nil t))))
 
+(defun pandoc-set-file-scope (prefix)
+  "Set the option `File scope'.
+If called with the PREFIX argument `\\[universal-argument] -' (or
+`\\[negative-argument]'), document scope is used."
+  (interactive "P")
+  (pandoc--set 'file-scope (if (eq prefix '-) nil t)))
+
 (defun pandoc-set-master-file (prefix)
   "Set the master file.
 If called with the PREFIX argument `\\[universal-argument] -' (or
@@ -962,6 +969,11 @@ argument, the option is toggled."
        :style radio :selected (null (pandoc--get 'extract-media))]
       ["Extract Media Files" pandoc-set-extract-media :active t
        :style radio :selected (pandoc--get 'extract-media)])
+     ("Scope"
+      ["Document Scope" (pandoc--set 'file-scope nil) :active t
+       :style radio :selected (null (pandoc--get 'file-scope))]
+      ["File Scope" pandoc-set-file-scope :active t
+       :style radio :selected (pandoc--get 'file-scope)])
      ("Master File"
       ["No Master File" (pandoc-set-master-file '-) :active t :style radio :selected (null (pandoc--get 'master-file))]
       ["Use This File As Master File" pandoc-set-this-file-as-master :active t :style radio :selected (equal (pandoc--get 'master-file) (buffer-file-name))]
@@ -1131,6 +1143,7 @@ _o_: Output file           [%s(pandoc--pp-option 'output)]
 _O_: Output directory      [%s(pandoc--pp-option 'output-dir)]
 _d_: Data directory        [%s(pandoc--pp-option 'data-dir)]
 _e_: Extract media files   [%s(pandoc--pp-option 'extract-media)]
+_f_: File Scope            [%s(pandoc--pp-option 'file-scope)]
 _m_: Master file           [%s(pandoc--pp-option 'master-file)]
 _M_: Use current file as master file
 
@@ -1139,6 +1152,7 @@ _M_: Use current file as master file
   ("O" pandoc-set-output-dir)
   ("d" pandoc-set-data-dir)
   ("e" pandoc-set-extract-media)
+  ("f" pandoc-set-file-scope)
   ("m" pandoc-set-master-file)
   ("M" pandoc-set-this-file-as-master)
   ("q" nil "Quit")
@@ -1373,12 +1387,12 @@ _M_: Use current file as master file
 (defun pandoc-faces-load ()
   "Load pandoc-faces."
   (font-lock-add-keywords nil pandoc-faces-keywords)
-  (font-lock-fontify-buffer))
+  (font-lock-flush))
 
 (defun pandoc-faces-unload ()
   "Unload pandoc-faces."
   (font-lock-remove-keywords nil pandoc-faces-keywords)
-  (font-lock-fontify-buffer))
+  (font-lock-flush))
 
 (provide 'pandoc-mode)
 

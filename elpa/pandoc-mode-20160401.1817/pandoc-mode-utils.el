@@ -5,7 +5,7 @@
 ;; Author: Joost Kremers <joostkremers@fastmail.fm>
 ;; Maintainer: Joost Kremers <joostkremers@fastmail.fm>
 ;; Created: 31 Oct 2009
-;; Version: 2.16
+;; Version: 2.17
 ;; Keywords: text, pandoc
 ;; Package-Requires: ((hydra "0.10.0") (dash "2.10.0"))
 
@@ -316,7 +316,7 @@ For relative paths, the file's working directory is used as base
 directory.  Two options are preset, others are added by
 `define-pandoc-file-option'.")
 
-(defvar pandoc--switches nil
+(defvar pandoc--switches '(("Use File Scope" . file-scope))
   "List of binary options.
 These are set by `define-pandoc-switch'.")
 
@@ -338,6 +338,7 @@ These are set by `define-pandoc-alist-option'.")
     (output)
     (data-dir)
     (extract-media)
+    (file-scope)
     (output-dir)
     (master-file))                      ; the last two are not actually pandoc options
   "Pandoc option alist.

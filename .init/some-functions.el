@@ -136,3 +136,18 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
     (if current-prefix-arg
 	(call-process-shell-command "/f/diy/keyrate" nil 0)
       (call-process-shell-command "/f/diy/keyrate 200 12" nil 0))))
+
+(defun md-to-clipboard ()
+    (interactive)
+  (when (string-equal system-type "windows-nt")
+    (shell-command-on-region
+     (if (use-region-p)
+	 (region-beginning) (point-min))
+     (if (use-region-p)
+	 (region-end) (point-max))
+     "pandoc -f markdown -o Z:/TEMP/tmp.docx --data-dir=C:/msys64/home/Kel/ --reference-docx=times.docx")
+    (w32-shell-execute "open" "~/.emacs.d/.bin/docx-to-clipboard.vbs")))
+
+(global-set-key (kbd "C-z w") 'md-to-clipboard)
+(global-set-key (kbd "C-z M-w") 'md-to-clipboard)
+

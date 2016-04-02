@@ -112,8 +112,9 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 				     "/" (match-string 1) t t)))
       (unless (file-exists-p filename)
 	(previous-logical-line)
-        (eval-when (version< emacs-version "25.0")
-	  (defalias #'thing-at-point--beginning-of-sexp #'beginning-of-sexp))
+	(eval-and-compile
+	  (when (version< emacs-version "25.0")
+	    (defalias 'thing-at-point--beginning-of-sexp 'beginning-of-sexp)))
 	(thing-at-point--beginning-of-sexp)
 	(kill-sexp)
 	(delete-blank-lines)))))

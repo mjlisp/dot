@@ -1637,58 +1637,7 @@ begin with the subcommand, "git" is assumed.
 ‘! S’     (‘magit-shell-command’)
 
      This command reads a shell command from the user and executes it in
-     ‘default-directory’.  With a prefix argument the command is
-     executed in the top-level directory of the current repository
-     instead.
-
-   These suffix commands start external gui tools.
-
-‘! k’     (‘magit-run-gitk’)
-
-     This command runs ‘gitk’ in the current repository.
-
-‘! a’     (‘magit-run-gitk-all’)
-
-     This command runs ‘gitk --all’ in the current repository.
-
-‘! b’     (‘magit-run-gitk-branches’)
-
-     This command runs ‘gitk --branches’ in the current repository.
-
-‘! g’     (‘magit-run-git-gui’)
-
-     This command runs ‘git gui’ in the current repository.
-
-
-File: magit.info,  Node: Git executable,  Next: Global Git arguments,  Prev: Running Git manually,  Up: Running Git
-
-4.5.3 Git executable
---------------------
-
-Except on MS Windows, Magit defaults to running Git without specifying
-the path to the git executable.  Instead the first executable found by
-Emacs on ‘exec-path’ is used (whose value in turn is set based on the
-value of the environment variable ‘$PATH’ when Emacs was started).
-
-   This has the advantage that it continues to work even when using
-Tramp to connect to a remote machine on which the executable is found in
-a different place.  The downside is that if you have multiple versions
-of Git installed, then you might end up using another version than the
-one you think you are using.
-
-‘M-x magit-version’     (‘magit-version’)
-
-     Shows the currently used versions of Magit, Git, and Emacs in the
-     echo area.  Non-interactively this just returns the Magit version.
-
-   When the ‘system-type’ is ‘windows-nt’, then ‘magit-git-executable’
-is set to an absolute path when Magit is first loaded.  This is
-necessary because Git on that platform comes with several wrapper
-scripts for the actual git binary, which are also placed on ‘$PATH’, and
-using one of these wrappers instead of the binary would degrade
-performance horribly.
-
-   If Magit doesn’t find the correct executable then you *can* work
+     ‘default-directory’.  With a prefix argument the co                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  nd the correct executable then you *can* work
 around that by setting ‘magit-git-executable’ to an absolute path.  But
 note that doing so is a kludge.  It is better to make sure the order in
 the environment variable ‘$PATH’ is correct, and that Emacs is started

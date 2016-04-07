@@ -146,7 +146,7 @@ output in temp buffer `*BC Output*'.  With prefix, insert the output."
 	 (region-beginning) (point-min))
      (if (use-region-p)
 	 (region-end) (point-max))
-     "pandoc -f markdown -o Z:/TEMP/tmp.docx --data-dir=C:/msys64/home/Kel/ --reference-docx=times.docx")
+     "pandoc -f markdown -o Z:/TEMP/tmp.docx --data-dir=C:/msys64/home/Kel/ --reference-docx=C:/msys64/home/Kel/times.docx")
     (w32-shell-execute "open" "~/.emacs.d/.bin/docx-to-clipboard.vbs")))
 
 (global-set-key (kbd "C-z w") 'md-to-clipboard)

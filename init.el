@@ -10,6 +10,7 @@
  '(TeX-engine (quote xetex))
  '(TeX-queue-command nil)
  '(ac-auto-show-menu 0.1)
+ '(async-shell-command-buffer (quote new-buffer))
  '(c-echo-syntactic-information-p t)
  '(column-number-mode t)
  '(custom-safe-themes

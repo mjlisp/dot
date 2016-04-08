@@ -211,6 +211,9 @@ the body or the head."
   "Default `format'-style specifier for _a_  syntax in docstrings.
 When nil, you can specify your own at each location like this: _ 5a_.")
 
+(defcustom hydra-doc-format-spec "%s"
+  "Default `format'-style specifier for ?a?  syntax in docstrings.")
+
 (make-obsolete-variable
  'hydra-key-format-spec
  "Since the docstrings are aligned by hand anyway, this isn't very useful."
@@ -590,10 +593,10 @@ HEAD's binding is returned as a string wrapped with [] or {}."
     ("⌦" . "<deletechar>")
     ("⏎" . "RET")))
 
-(defconst hydra-width-spec-regex " ?-?[0-9]*s?"
+(defconst hydra-width-spec-regex " ?-?[0-9]*?"
   "Regex for the width spec in keys and %` quoted sexps.")
 
-(defvar hydra-key-regex "\\[\\|]\\|[-[:alnum:] ~.,;:/|?<>={}*+#%@!&^↑'`()\"]+?"
+(defvar hydra-key-regex "\\[\\|]\\|[-[:alnum:] ~.,;:/|?<>={}*+#%@!&^↑↓←→⌫⌦⏎'`()\"]+?"
   "Regex for the key quoted in the docstring.")
 
 (defun hydra--format (_name body docstring heads)
@@ -610,8 +613,7 @@ The expressions can be auto-expanded according to NAME."
     (while (setq start
                  (string-match
                   (format
-                   "\\(?:%%\\(%s\\)\\(`[a-z-A-Z/0-9]+\\|(\\)\\)\\|\\(?:[_?]\\(%s\\)\\(%s\\)[_?]\\)"
-                   hydra-width-spec-regex
+                   "\\(?:%%\\( ?-?[0-9]*s?\\)\\(`[a-z-A-Z/0-9]+\\|(\\)\\)\\|\\(?:[_?]\\(%s\\)\\(%s\\)[_?]\\)"
                    hydra-width-spec-regex
                    hydra-key-regex)
                   docstring start))
@@ -624,9 +626,10 @@ The expressions can be auto-expanded according to NAME."
                      (setq docstring
                            (replace-match
                             (or
-                             hydra-key-format-spec
+                             hydra-doc-format-spec
                              (concat "%" (match-string 3 docstring) "s"))
                             t nil docstring)))
+                 (setq start (match-end 0))
                  (warn "Unrecognized key: ?%s?" key))))
             ((eq ?_ (aref (match-string 0 docstring) 0))
              (let* ((key (match-string 4 docstring))
@@ -650,6 +653,7 @@ The expressions can be auto-expanded according to NAME."
                              hydra-key-format-spec
                              (concat "%" (match-string 3 docstring) "s"))
                             t nil docstring)))
+                 (setq start (match-end 0))
                  (warn "Unrecognized key: _%s_" key))))
 
             (t

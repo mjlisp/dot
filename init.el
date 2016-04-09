@@ -26,6 +26,11 @@
  '(disaster-cflags "-march=corei7-avx -g3 -std=c11")
  '(disaster-cxxflags "-march=corei7-avx -g3 -std=c++1y")
  '(disaster-objdump "objdump -d -M intel-mnemonic -Sl --no-show-raw-insn")
+ '(display-buffer-alist
+   (quote
+    (("*shell*" display-buffer-same-window)
+     ("^*Async Shell Command*" display-buffer-no-window
+      (nil)))))
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(echo-keystrokes 0.1)

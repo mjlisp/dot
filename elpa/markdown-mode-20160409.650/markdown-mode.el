@@ -33,7 +33,7 @@
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
 ;; Created: May 24, 2007
 ;; Version: 2.1
-;; Package-Version: 20160404.923
+;; Package-Version: 20160409.650
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
@@ -2862,6 +2862,11 @@ Return nil otherwise."
     (when (markdown-match-inline-generic regex last)
       (let ((begin (match-beginning 1)) (end (match-end 1)))
         (cond
+         ((markdown-range-property-any
+           begin begin 'face (list markdown-url-face))
+          ;; Italics shouldn't begin inside a URL due to an underscore
+          (goto-char (min (1+ (match-end 0)) last))
+          (markdown-match-italic last))
          ((markdown-range-property-any
            begin end 'face (list markdown-inline-code-face
                                  markdown-bold-face

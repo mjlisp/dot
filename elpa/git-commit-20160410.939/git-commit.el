@@ -13,7 +13,7 @@
 
 ;; Package-Requires: ((emacs "24.4") (dash "20151021.113") (with-editor "20160223.115"))
 ;; Keywords: git tools vc
-;; Package-Version: 20160406.905
+;; Package-Version: 20160410.939
 ;; Homepage: https://github.com/magit/magit
 
 ;; This file is not part of GNU Emacs.
@@ -511,6 +511,9 @@ With a numeric prefix ARG, go forward ARG comments."
         (str (buffer-substring-no-properties (point-min) (point-max))))
     (with-temp-buffer
       (insert str)
+      (goto-char (point-min))
+      (when (re-search-forward (concat flush " -+ >8 -+$") nil t)
+        (delete-region (point-at-bol) (point-max)))
       (goto-char (point-min))
       (flush-lines flush)
       (goto-char (point-max))

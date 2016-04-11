@@ -1998,7 +1998,7 @@ using three `C-u' prefix arguments.
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (22273 62677))
+;;;;;;  (22283 12118))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -2024,7 +2024,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (22268 45354))
+;;;;;;  "org" "org.el" (22283 12114))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -2761,7 +2761,7 @@ Return output file name.
 
 ;;;### (autoloads (org-icalendar-combine-agenda-files org-icalendar-export-agenda-files
 ;;;;;;  org-icalendar-export-to-ics) "ox-icalendar" "ox-icalendar.el"
-;;;;;;  "0420c450f1da4a87e24a8afbc23f75f3")
+;;;;;;  "1b39db5795af4356d4b383ec0219ddf8")
 ;;; Generated autoloads from ox-icalendar.el
 
 (autoload 'org-icalendar-export-to-ics "ox-icalendar" "\
@@ -3200,7 +3200,7 @@ the project.
 ;;;***
 
 ;;;### (autoloads (org-texinfo-convert-region-to-texinfo org-texinfo-publish-to-texinfo)
-;;;;;;  "ox-texinfo" "ox-texinfo.el" "78e9355de19d5650647109cc50825a58")
+;;;;;;  "ox-texinfo" "ox-texinfo.el" "08ecda1fb3c8057babfe32ad3477300c")
 ;;; Generated autoloads from ox-texinfo.el
 
 (autoload 'org-texinfo-publish-to-texinfo "ox-texinfo" "\

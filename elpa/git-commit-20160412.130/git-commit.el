@@ -13,7 +13,7 @@
 
 ;; Package-Requires: ((emacs "24.4") (dash "20151021.113") (with-editor "20160223.115"))
 ;; Keywords: git tools vc
-;; Package-Version: 20160410.939
+;; Package-Version: 20160412.130
 ;; Homepage: https://github.com/magit/magit
 
 ;; This file is not part of GNU Emacs.
@@ -651,6 +651,7 @@ With a numeric prefix ARG, go forward ARG comments."
   (save-excursion
     (goto-char (point-min))
     (when (re-search-forward "^diff --git" nil t)
+      (beginning-of-line)
       (let ((buffer (current-buffer)))
         (insert
          (with-temp-buffer
@@ -660,15 +661,17 @@ With a numeric prefix ARG, go forward ARG comments."
                 (delete-region (point) (point-max)))))
            (diff-mode)
            (let (font-lock-verbose font-lock-support-mode)
-             (if (fboundp 'font-lock-flush)
-                 (font-lock-flush)
+             (if (fboundp 'font-lock-ensure)
+                 (font-lock-ensure)
                (with-no-warnings
                  (font-lock-fontify-buffer))))
            (let (next (pos (point-min)))
              (while (setq next (next-single-property-change pos 'face))
                (put-text-property pos next 'font-lock-face
                                   (get-text-property pos 'face))
-               (setq pos next)))
+               (setq pos next))
+             (put-text-property pos (point-max) 'font-lock-face
+                                (get-text-property pos 'face)))
            (buffer-string)))))))
 
 ;;; git-commit.el ends soon

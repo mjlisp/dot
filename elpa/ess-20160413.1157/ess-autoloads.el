@@ -60,7 +60,7 @@ to R, put them in the variable `inferior-R-args'." t)
 (autoload 'S "ess-site" "Call 'S'." t)
 
 
-;;;### (autoloads nil nil ("ess-pkg.el") (22285 40683 0 0))
+;;;### (autoloads nil nil ("ess-pkg.el") (22286 58144 0 0))
 
 ;;;***
  ; Local variables section
